@@ -1,0 +1,26 @@
+const dotenv = require('dotenv')
+dotenv.config();
+
+const express = require('express');
+const app = express()
+
+
+app
+    .use (express.json())
+    .use (express.urlencoded({extended: true}))
+    .use ('/', express.static('static'))
+
+    .set ('view engine', 'ejs')
+    .set ('views', 'views')
+
+    .get ('/', home)
+
+    .listen(2000)
+
+    function home (req, res) {
+        res.render('index.ejs');
+    }
+
+
+
+

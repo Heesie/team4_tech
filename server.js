@@ -15,6 +15,7 @@ app
 
     .get ('/', home)
     .get ('/login', login)
+    .get ('/createAccount', createAccount)
 
     .listen(2000)
 
@@ -24,6 +25,10 @@ app
 
     function login (req, res) {
         res.render('login.ejs');
+    }
+
+    function createAccount (req, res) {
+        res.render('createAccount.ejs');
     }
 
 

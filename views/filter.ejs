@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/static/styles/style.css">
+    <script src="filter.js"></script>
+</head>
+<body>
+    <header>
+      <h1>Test</h1>
+    </header>
+    <main>
+      <aside>
+        <input type="radio" name="filter" value="all" id="filter-all" checked>
+        <label for="filter-all">all</label>
+        <input type="radio" name="filter" value="italiaans" id="filter-italiaans">
+        <label for="filter-italiaans">Italiaans</label>
+        <input type="radio" name="filter" value="mexicaans" id="filter-mexicaans">
+        <label for="filter-mexicaans">Mexicaans</label>
+        <input type="radio" name="filter" value="japans" id="filter-japans">
+        <label for="filter-japans">Japans</label>
+      </aside>
+      
+      <ul class="all">
+        <li class="italiaans">
+          <h2>Italiaans</h2>
+          <p>Pizza</p>
+          <img src="/static/images/pizza.svg" alt="">
+        </li>
+        
+        <li class="mexicaans">
+          <h2>Mexicaans</h2>
+          <p>Taco's</p>
+          <img src="/static/images/taco.svg" alt="Taco's"/> 
+        </li>
+        
+        <li class="japans">
+          <h2>Japans</h2>
+          <p>Sushi</p>
+          <img src="/static/images/sushi.svg" alt="Sushi"/>
+        </li>
+        <li class="italiaans">
+          <h2>Italiaans</h2>
+          <p>Pasta</p>
+          <img src="/static/images/pasta.svg" alt="Pasta"/>
+        </li>
+        
+        <li class="mexicaans">
+          <h2>Mexicaans</h2>
+          <p>Burrito's</p>
+          <img src="/static/images/burrito.svg" alt="Burritos"/> 
+        </li>
+        
+        <li class="japans">
+          <h2>Japans</h2>
+          <p>Noodles</p>
+          <img src="/static/images/noodles.svg" alt="Noodles"/>
+        </li>
+      </ul>
+    </main>
+
+
+    <script>
+const optionAll = document.querySelector("#filter-all");
+const optionItaliaans = document.querySelector("#filter-italiaans");
+const optionMexicaans = document.querySelector("#filter-mexicaans");
+const optionJapans = document.querySelector("#filter-japans");
+
+
+optionAll.addEventListener("change", filterList);
+optionItaliaans.addEventListener("change", filterList);
+optionMexicaans.addEventListener("change", filterList);
+optionJapans  .addEventListener("change", filterList);
+
+
+function filterList(event){
+
+  let deLijst = document.querySelector("ul");
+  let nieuweFilter = event.target.value;
+  deLijst.className = "";
+  deLijst.classList.add(nieuweFilter);
+}
+    </script>
+</body>
+</html>

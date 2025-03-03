@@ -14,11 +14,16 @@ app
     .set ('views', 'views')
 
     .get ('/', home)
+    .get ('/login', login)
 
     .listen(2000)
 
     function home (req, res) {
         res.render('index.ejs');
+    }
+
+    function login (req, res) {
+        res.render('login.ejs');
     }
 
 

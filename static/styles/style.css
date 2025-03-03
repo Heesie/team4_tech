@@ -66,3 +66,28 @@ button:nth-of-type(1):active{
     transform: scale(1.1);
     transition: transform 0.5s ease, fill 0.5s ease;
 }
+
+
+
+header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+header img {
+    margin-left: 3rem;
+}
+
+header nav ul {
+    display: flex;
+    flex-direction: row;
+
+    margin-right: 3rem;
+    list-style-type: none;
+}
+
+header nav ul li {
+    margin: 0 2rem;
+}

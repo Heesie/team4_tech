@@ -1,6 +1,5 @@
 body {
     font-family: Verdana, Geneva, Tahoma, sans-serif;
-    background-color: #ffc2c2;
     color: #333;
     line-height: 1.6;
     padding: 20px;
@@ -13,11 +12,6 @@ body {
   
   h1 + p {
     font-weight: bold;
-  }
-  
-  p {
-    margin: 10px 0;
-    color: beige;
   }
   
   ul {
@@ -47,3 +41,46 @@ body {
   ul.japans li:not(.japans) {
     display: none;
   }
+
+
+  /* filter functie ^^ */ 
+
+
+.finder {
+    padding: 0 15px; 
+}
+
+form {
+    width: 100%;
+}
+
+* {
+  box-sizing: border-box; /* Zorgt ervoor dat padding en borders binnen de opgegeven breedte vallen */
+}
+
+input{
+    width: 100%; 
+    padding: 10px;
+    margin-bottom: 10px; 
+    padding: 20px ;
+    border: none;
+    background-color: #c8c8c8;
+    color: white;
+    margin-top: 1em;
+    border-radius: 1em;
+}
+
+button {
+    width: 100%;
+    padding: 10px;
+    background-color: #444;
+    color: white;
+    border: none;
+    border-radius: 5px;
+}
+
+p {
+    text-align: start;
+    margin-top: 10px;
+}
+

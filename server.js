@@ -5,6 +5,10 @@ const express = require('express');
 const app = express()
 
 
+const apiKey = process.env.API_KEY;
+
+
+
 app
     .use (express.json())
     .use (express.urlencoded({extended: true}))

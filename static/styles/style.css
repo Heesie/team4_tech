@@ -16,7 +16,7 @@ body {
   }
   
   p {
-    margin: 10px 0;
+    margin: 11px 0;
     color: beige;
   }
   
@@ -47,3 +47,5 @@ body {
   ul.japans li:not(.japans) {
     display: none;
   }
+
+  

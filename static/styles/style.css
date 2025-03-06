@@ -77,12 +77,6 @@ p {
 
 
 
-
-
-
-
-
-
 .filter-begin ul {
   display: flex;
   flex-wrap: wrap;
@@ -109,3 +103,47 @@ padding: 15px 20px;
 .filter-begin button {
 margin-top: 1em;
 }
+=======
+  h1 {
+    color: #444;
+    margin-bottom: 10px;
+  }
+  
+  h1 + p {
+    font-weight: bold;
+  }
+  
+  p {
+    margin: 11px 0;
+    color: beige;
+  }
+  
+  ul {
+    list-style: none;
+    padding: 0;
+    max-width: max-content;
+  }
+  
+  li {
+    background: rgb(255, 117, 117);
+    margin: 5px 0;
+    padding: 10px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  li img {
+    width: auto;
+    height: 3em;
+    border-radius: 5px;
+  }
+  
+  ul.italiaans li:not(.italiaans),
+  ul.mexicaans li:not(.mexicaans),
+  ul.japans li:not(.japans) {
+    display: none;
+  }
+
+  

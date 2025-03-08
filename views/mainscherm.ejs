@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recepten</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #ccc;
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        main {
+            padding: 20px;
+        }
+        .search-bar input {
+            width: 100%;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+        .filterbuttons {
+            list-style-type: none;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            padding: 0;
+        }
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+        .dropdown button {
+            background-color: aqua;
+            color: black;
+            padding: 10px 15px;
+            border: none;
+            cursor: pointer;
+        }
+        .dropdown .content {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            min-width: 150px;
+            box-shadow: 2px 2px 5px black;
+            background-color: white;
+            z-index: 100;
+            padding: 0;
+        }
+        .dropdown .content li {
+            list-style-type: none;
+        }
+        .dropdown .content a {
+            display: block;
+            text-decoration: none;
+            padding: 10px;
+            color: black;
+            background-color: white;
+            transition: background 0.3s;
+        }
+        .dropdown .content a:hover {
+            background-color: lightgray;
+        }
+        
+        /* Gebruik :focus-within om menu te openen bij klikken */
+        .dropdown:focus-within .content {
+            display: block;
+        }
+
+        .recept-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+        .recept {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            position: relative;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+ 
+        .recept h3 {
+            margin-top: 10px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+        .recept p {
+            font-size: 14px;
+            color: #555;
+            margin-top: 5px;
+        }
+        .recept button {
+            background-color: darkgreen;
+            color: white;
+            border: none;
+            padding: 10px;
+            margin-top: 10px;
+            width: 100%;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .recept button:hover {
+            background-color: orange;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <button>&#9776;</button>
+        <h1>Logo</h1>
+        <button>&#128100;</button>
+    </header>
+    
+    <main>
+        <div class="search-bar">
+            <input type="text" placeholder="Search">
+        </div>
+        
+        <ul class="filterbuttons">
+            <li>
+                <div class="dropdown" tabindex="0">
+                    <button>Keuken</button>
+                    <ul class="content">
+                        <li><a href="#">Italiaans</a></li>
+                        <li><a href="#">Spaans</a></li>
+                        <li><a href="#">Mexicaans</a></li>
+                        <li><a href="#">Aziatisch</a></li>
+                    </ul>
+                </div>
+            </li>
+            <li>
+                <div class="dropdown" tabindex="0">
+                    <button>Dieet</button>
+                    <ul class="content">
+                        <li><a href="#">Glutenvrij</a></li>
+                        <li><a href="#">Lactosevrij</a></li>
+                        <li><a href="#">Vegetarisch</a></li>
+                        <li><a href="#">Veganistisch</a></li>
+                    </ul>
+                </div>
+            </li>
+            <li>
+                <div class="dropdown" tabindex="0">
+                    <button>Bereidingstijd</button>
+                    <ul class="content">
+                        <li><a href="#">Ongeveer 15 min</a></li>
+                        <li><a href="#">Ongeveer 20 min</a></li>
+                        <li><a href="#">Ongeveer 30 min</a></li>
+                        <li><a href="#">Ongeveer 60 min</a></li>
+                    </ul>
+                </div>
+            </li>
+            <li>
+                <div class="dropdown" tabindex="0">
+                    <button>Meer</button>
+                    <ul class="content">
+                        <li><a href="#">Optie 1</a></li>
+                        <li><a href="#">Optie 2</a></li>
+                        <li><a href="#">Optie 3</a></li>
+                        <li><a href="#">Optie 4</a></li>
+                    </ul>
+                </div>
+            </li>
+        </ul>
+        
+        <h2>Recepten:</h2>
+        
+        <section class="recept-grid">
+            <div class="recept">
+                <h3>Pasta</h3>
+                <p>beschrijving</p>
+                <button>Bekijk Recept</button>
+            </div>
+
+            <div class="recept">
+                <h3>Pizza</h3>
+                <p>beschrijving</p>
+                <button>Bekijk Recept</button>
+            </div>
+
+            <div class="recept">
+                <h3>Sushi</h3>
+                <p>beschrijving</p>
+                <button>Bekijk Recept</button>
+            </div>
+
+            <div class="recept">
+                <h3>Wok</h3>
+                <p>beschrijving</p>
+                <button>Bekijk Recept</button>
+            </div>
+
+            <div class="recept">
+                <h3>iets</h3>
+                <p>beschrijving</p>
+                <button>Bekijk Recept</button>
+            </div>
+
+            <div class="recept">
+                <h3>Iets2</h3>
+                <p>beschrijving</p>
+                <button>Bekijk Recept</button>
+            </div>
+        </section>
+    </main>
+</body>
+</html>

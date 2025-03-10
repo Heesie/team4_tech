@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1e pagina recept finder</title>
+    <link rel="stylesheet" href="styles/style.css">
+</head>
+<body>
+    <header>
+<h1>Voor het inloggen leren we je graag beter kennen</h1>
+<p>Zo krijg je recepten die perfect bij jou passen</p>
+    </header>
+    <main>
+<h2>Allergieën</h2>
+<section class="filter-begin">
+  <h2>Filter op bepaalde categorieën</h2>
+  <div class="filter-container">
+    <input type="checkbox" id="vis" name="filter" value="vis">
+    <label for="vis">
+        <img src="/static/images/fish-cooked.svg" alt="Vis">
+    </label>
+
+    <input type="checkbox" id="beans" name="filter" value="beans">
+    <label for="beans">
+        <img src="/static/images/beans.svg" alt="beans"> 
+    </label>
+
+    <input type="checkbox" id="milk" name="filter" value="milk">
+    <label for="milk">
+        <img src="/static/images/milk.svg" alt="milk"> 
+    </label>
+
+    <input type="checkbox" id="glutenvrij" name="filter" value="glutenvrij">
+    <label for="glutenvrij">
+        <img src="/static/images/gluten.svg" alt="Glutenvrij">
+    </label>
+
+    <input type="checkbox" id="nut free" name="filter" value="nut free">
+    <label for="nut free">
+        <img src="/static/images/nut-free.svg" alt="nut free">
+    </label>
+
+    <input type="checkbox" id="halal" name="schalen" value="schalen">
+    <label for="schalen">
+        <img src="/static/images/lobster.svg" alt="schalen"> 
+    </label>
+</div>
+  <button id="filter-submit">Toon recepten</button>
+</section>
+    </main>
+
+    <script src="server.js"></script>
+
+</script>
+</body>
+</html>

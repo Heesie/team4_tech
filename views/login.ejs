@@ -7,10 +7,22 @@
     <link rel="stylesheet" href="/styles/style.css" type="text/css">
 </head>
 <body>
-    <%- include('../views/header'); %>
+    <!-- <%- include('../views/header'); %> -->
 
     <main class="mainLogin">
         <h1>LOGIN</h1>
+
+        <form action="#" method="post">
+            <fieldset>
+                <legend>Inloggen</legend>
+
+                <input type="email" id="email" name="email" placeholder="E-mailadres" required>
+
+                <input type="password" id="password" name="password" placeholder="Wachtwoord" required>
+            </fieldset>
+
+            <input type="submit" value="Login">
+        </form>
 
     </main>
     

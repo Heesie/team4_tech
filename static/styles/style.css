@@ -186,13 +186,13 @@ padding: 20px;
 
 
 
-button {
-    display: block;
-    margin:0 0 20px auto;
-    background: transparent;
-    font-size: 30px;
-    border-radius: 100%;
-    width:40px;
+.pop-up button {
+  display: block;
+  margin:0 0 20px auto;
+  background: transparent;
+  font-size: 30px;
+  border-radius: 100%;
+  width:40px;
 height: 40px;
 border: none;
 outline: none;

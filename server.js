@@ -17,6 +17,8 @@ app
     .get ('/', home)
     .get ('/login', login)
     .get ('/createAccount', createAccount)
+    .get ('/allergie', allergie)
+    
 
 
     .get ('/mainscherm', mainscherm)
@@ -51,6 +53,9 @@ console.log("de server draait op host 2000")
         res.render('pop-up.ejs');
     }
 
+    function allergie (req, res) {
+        res.render('allergie');
+    }
 
 
 

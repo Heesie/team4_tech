@@ -25,6 +25,7 @@ app
     .get ('/mainscherm', mainscherm)
     .get ('/koelkast', koelkast)
     .get ('/pop-up', popup )
+    .get ('/uploading', uploading )
 
     .listen(2000)
 
@@ -53,9 +54,21 @@ console.log("de server draait op host 2000")
     function popup (req, res) {
         res.render('pop-up.ejs');
     }
+    
+    function uploading (req, res) {
+        res.render('uploading.ejs');
+    }
 
 
-/* gedeelte pop up */
+
+
+/* gedeelte hier beneden de uploading */
+
+const multer  = require('multer')
+const upload = multer({ dest: './public/data/uploads/' })
+app.post('/stats', upload.single('uploaded_file'), function (req, res) {
+   console.log(req.file, req.body)
+});
 
 
 

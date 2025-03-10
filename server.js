@@ -47,19 +47,7 @@ console.log("de server draait op host 2000")
     }
 
 
-
 /* gedeelte pop up */
-
-window.addEventListener("load", function() {
-    setTimeout(function() {
-        document.querySelector(".pop-up").classList.add("show");
-    },);  
-});
-
-document.getElementById("close").addEventListener("click", function() {
-    document.querySelector(".pop-up").classList.remove("show");
-});
-
 
 
 

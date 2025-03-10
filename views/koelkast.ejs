@@ -13,14 +13,20 @@
     </header>
     <main>
         <section class="koelkast-list">
-        <label for="">  1. <input type="text"></label>
-        <label for="">  2. <input type="text"></label>
-        <label for="">  3. <input type="text"></label>
-     </section>
+            <label>1. <input type="text" class="ingredient-input"></label>
+            <label>2. <input type="text" class="ingredient-input"></label>
+            <label>3. <input type="text" class="ingredient-input"></label>
+        </section>
+        <ul id="suggestions" class="suggestions-list"></ul>
     </main>
 
     <style>
-
+body{
+    background-color: rgb(24, 24, 24);
+}
+h1{
+    color: white;
+}
 .koelkast-list
 {
     display: flex;
@@ -42,5 +48,8 @@
 
 
     </style>
+
+
+
 </body>
 </html>

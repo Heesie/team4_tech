@@ -20,12 +20,11 @@ app
     .get ('/', home)
     .get ('/login', login)
     .get ('/createAccount', createAccount)
-
-mainschermn
     .get ('/mainscherm', mainscherm)
     .get ('/koelkast', koelkast)
     .get ('/pop-up', popup )
-main
+    .get ('/recept', uitgelichtreceptscherm )
+
    
     .listen(2000)
 
@@ -42,7 +41,6 @@ console.log("de server draait op host 2000")
         res.render('recept-finder.ejs');
     }
 
- mainschermn
     function mainscherm (req, res) {
         res.render('mainscherm.ejs');
     }
@@ -55,10 +53,12 @@ console.log("de server draait op host 2000")
         res.render('pop-up.ejs');
     }
 
+    function uitgelichtreceptscherm (req, res) {
+        res.render('uitgelichtreceptscherm.ejs');
+    }
 
 /* gedeelte pop up */
 
 
- main
 
     

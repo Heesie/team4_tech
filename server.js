@@ -1,4 +1,5 @@
 const dotenv = require('dotenv')
+
 dotenv.config();
 
 const express = require('express');
@@ -106,5 +107,13 @@ async function fetchAllEndpoints() {
 
 fetchAllEndpoints();
 
-
     
+const multer  = require('multer')
+const upload = multer({ dest: './public/static/uploads/' })
+app.post('/stats', upload.single('uploaded_file'), function (req, res) {
+   console.log(req.file, req.body)
+});
+
+
+
+/* gedeelte van de begin scherm */

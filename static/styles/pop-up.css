@@ -1,0 +1,105 @@
+*, 
+*::before, 
+*:after {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+
+
+
+
+body {
+background-color: rgb(170, 191, 255);
+font-family: sans-serif;
+padding: 20px;
+}
+
+.pop-up {
+    display: none; 
+    background-color: white;
+    width: 420px;
+    height: 420px;
+    padding: 30px 40px;
+    position: absolute;
+    transform: translate(-50%, 50%); 
+    left: 50%;
+    top: 50%;
+    border-radius: 1em;
+    text-align: center;
+    opacity: 0;
+    transition: transform 0.5s ease-out, opacity 0.5s ease-out;
+}
+
+.pop-up.show {
+    display: block;
+    opacity: 1;
+    transform: translate(-50%, -50%);
+}
+
+
+
+button {
+    display: block;
+    margin:0 0 20px auto;
+    background: transparent;
+    font-size: 30px;
+    border-radius: 100%;
+    width:40px;
+height: 40px;
+border: none;
+outline: none;
+cursor: pointer;
+background-color: rgb(117, 117, 117);
+color: white;
+} 
+
+
+
+
+.pop-up p {
+ font-size: 14px;
+ margin: 20px 0;
+ line-height: 20px;
+}
+
+.pop-up a{
+    position: relative; 
+    top: 100px; 
+    background-color: rgb(121, 121, 121);
+    padding: 10px 20px;
+    text-decoration: none;
+    color: white;
+    display: block;
+    width: 150px;
+    margin: 10px auto;
+    text-align: center;
+    border-radius: 2em;
+}
+
+
+
+
+/* koelkast functie */
+
+
+.koelkast-list
+{
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+
+}
+
+.koelkast-list input {
+    border-radius: 1em;
+    padding: 15px 50px;
+    border: none;
+}
+
+.koelkast-list {
+    margin-top: 5em;
+}
+
+

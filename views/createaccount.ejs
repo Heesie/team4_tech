@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+<style>
+    
+    body {
+    font-family: Arial, Arial, Helvetica, sans-serif;
+    background-color: #ffffff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    font-size: 1em;
+    }
+
+    .mainLogin {
+    width: 100%;
+    max-width: 25em;
+    background-color: #ffffff;
+    padding: 1.25em;
+    border-radius: 0.5em;
+    box-shadow: 0 0 0.625em #000000;
+    }
+
+    </style>
+</head>
+<body>
+    <!-- <%- include('../views/header'); %> -->
+
+    <main class="mainCreateAccount">
+        <!-- <h1>Registreren</h1> -->
+
+        <form action="#" method="post">
+            <fieldset>
+                <legend>Registreren</legend>
+
+                <label for="firstname">Voornaam</label>
+                <input type="text" id="firstname" name="firstname" placeholder="Voornaam..." required/>
+      
+                <label for="surname">Achternaam</label>
+                <input type="text" id="surname" name="surname" placeholder="Achternaam..." required/>
+                
+                <label for="email">E-mailadres</label>
+                <input type="email" id="email" name="email" placeholder="E-mailadres" required>
+
+                <label for="password">Wachtwoord</label>
+                <input type="password" id="password" name="password" placeholder="Wachtwoord..." required>
+            </fieldset>
+
+            <label>
+                <input type="checkbox" name="voorwaarden" id="voorwaarden" required>
+                Ik ga akkoord met de algemene voorwaarden en het privacybeleid van (onze naam)
+            </label>
+
+            <input type="submit" value="Registreer">
+        </form>
+
+        <p>Nog geen account? <a href="/login">Registreer hier</a></p>
+
+    </main>
+    
+    <%- include('../views/footer'); %>
+</body>
+</html>

@@ -43,7 +43,7 @@ console.log("de server draait op host 2000")
     }
 
     function popup (req, res) {
-        res.render('popup.ejs');
+        res.render('pop-up.ejs');
     }
 
 

@@ -47,12 +47,6 @@ form {
     border-radius: 10px;
 }
 
-p {
-    text-align: start;
-    margin-top: 10px;
-}
-
-
 .line-with-text {
   display: flex;
   align-items: center;

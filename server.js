@@ -5,7 +5,10 @@ dotenv.config();
 const express = require('express');
 const app = express();
 
+
+
 app
+
     .use(express.json())
     .use(express.urlencoded({ extended: true }))
     .use('/', express.static('static'))
@@ -19,6 +22,7 @@ app
     .get('/pop-up', popup)
     .get('/apitest', apiTest)
     .get('/allergie', allergie)
+    .get('/kookniveau', kookniveau)
     .get('/fetch-recipes', fetchRecipes) // Nieuwe route voor API-aanroepen
     .listen(2000, () => console.log("De server draait op host 2000"));
 
@@ -62,6 +66,10 @@ function popup(req, res) {
 
 function allergie(req, res) {
     res.render('allergie.ejs');
+}
+
+function kookniveau(req, res) {
+    res.render('kookniveau.ejs');
 }
 
 async function apiTest(req, res) {

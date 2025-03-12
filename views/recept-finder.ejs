@@ -14,20 +14,21 @@
 <section class="finder">
     <form>
         <h2> Wat wil je vandaag eten? </h2>
-        <input type="text" value="Typ hier je antwoord">
+    
+        <input type="text">
     </form>
     <button> Zoeken</button>
     <p> Uitgebreid zoeken</p>
 </section>
-
-
 <div class="line-with-text">
     <span class="text">Of</span>
 </div>
-
-
-
-
+<div class="pop-up">
+  <button id="close"> X</button>
+  <h2> Welkom bij de Recepten zoeker!</h2>
+  <p>De app om je kookkunsten te delen, recepten te vinden met je eigen ingrediënten en punten te scoren!</p>
+  <a href="#">Volgende</a>
+</div>
 <section class="filter-begin">
   <h2>Filter op bepaalde categorieën</h2>
   <div class="filter-container">
@@ -59,59 +60,134 @@
 
     <script src="server.js"></script>
 
-    <style>
+
+</body>
+
+ <!-- css van de recept finder page -->
+<style>
+/*  gedeelte hier is de pop up  */
+div .pop-up {
+background-color: rgb(170, 191, 255);
+font-family: sans-serif;
+padding: 20px;
+}
+
+.pop-up h2 {
+  font-size: 20px;
+}
+
+.pop-up {
+    display: none; 
+    background-color: white;
+    width: 300px;
+    height: 400px;
+    padding: 30px 40px;
+    position: absolute;
+    transform: translate(-50%, 50%); 
+    left: 50%;
+    top: 50%;
+    border-radius: 1em;
+    text-align: center;
+    opacity: 0;
+    transition: transform 0.5s ease-out, opacity 0.5s ease-out;
+}
+
+.pop-up.show {
+    display: block;
+    opacity: 1;
+    transform: translate(-50%, -50%);
+}
+
+
+
+.pop-up button {
+  display: block;
+  margin:0 0 20px auto;
+  background: transparent;
+  font-size: 30px;
+  border-radius: 100%;
+  width:40px;
+height: 40px;
+border: none;
+outline: none;
+cursor: pointer;
+background-color: rgb(117, 117, 117);
+color: white;
+} 
+
+
+
+
+.pop-up p {
+ font-size: 14px;
+ margin: 20px 0;
+ line-height: 20px;
+}
+
+.pop-up a{
+    position: relative; 
+top: 10px;
+    background-color: rgb(121, 121, 121);
+    padding: 10px 20px;
+    text-decoration: none;
+    color: white;
+    display: block;
+    width: 150px;
+    margin: 10px auto;
+    text-align: center;
+    border-radius: 2em;
+}  
+  /*  gedeelte hier is de pop up  */
+  
+  /* Gedeelte hier is algemeen van de pagina */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  color: #333;
+  line-height: 1.6;
+  padding: 20px;
+}
 
 .finder {
-    padding: 0 15px; 
+  padding: 0 15px;
 }
 
-form {
-    width: 100%;
+.finder input {
+  width: 100%;
+  padding: 20px;
+  margin: 10px 0 1em;
+  border: none;
+  background-color: #c8c8c8;
+  color: white;
+  border-radius: 1em;
 }
 
-
-
-.finder input{
-    width: 100%; 
-    padding: 10px;
-    margin-bottom: 10px; 
-    padding: 20px ;
-    border: none;
-    background-color: #c8c8c8;
-    color: white;
-    margin-top: 1em;
-    border-radius: 1em;
+button {
+  width: 100%;
+  padding: 15px;
+  background-color: #444;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
 }
-
- button {
-    width: 100%;
-    padding: 15px;
-    background-color: #444;
-    color: white;
-    border: none;
-    border-radius: 10px;
-}
-
-p {
-    text-align: start;
-    margin-top: 10px;
-}
-
 
 .line-with-text {
   display: flex;
   align-items: center;
   justify-content: center;
   text-align: center;
-  margin-top: 4em;
-  margin-bottom: 4em;
+  margin: 4em 0;
 }
 
 .line-with-text::before,
 .line-with-text::after {
   content: "";
   flex: 1;
-  border-top: 1px solid #9d9d9d; 
+  border-top: 1px solid #9d9d9d;
 }
 
 .text {
@@ -120,107 +196,120 @@ p {
   color: #ff0000;
 }
 
+
 .filter-container input[type="checkbox"] {
-    display: none; /* Verbergt de standaard checkbox */
+  display: none;
 }
 
 .filter-container label {
-    display: inline-block;
-    padding: 10px 20px;
-    background-color: #bebebe;
-    color: white;
-    border-radius: 10px;
-    cursor: pointer;
-    margin: 5px;
-    text-align: center;
-    transition: background-color 0.3s;
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #bebebe;
+  color: white;
+  border-radius: 10px;
+  cursor: pointer;
+  margin: 5px;
+  text-align: center;
+  transition: background-color 0.3s;
 }
 
-.filter-container label:hover {
-    background-color: #ff0000;
-}
-
+.filter-container label:hover,
 .filter-container input[type="checkbox"]:checked + label {
-    background-color: #ff0000;
+  background-color: #ff0000;
 }
-
 
 .filter-begin ul {
   display: flex;
   flex-wrap: wrap;
   list-style: none;
   justify-content: space-between;
-margin: 0;
-padding: 0;
+  margin: 0;
+  padding: 0;
 }
 
-
 .filter-begin li {
-padding: 15px 20px;
+  padding: 15px 20px;
   background-color: #bebebe;
   color: white;
-  border: none;
   border-radius: 10px;
   margin-top: 1em;
   cursor: pointer;
 }
-.filter-begin li:hover{
+
+.filter-begin li:hover {
   background-color: #ff0000;
 }
 
-.filter-begin button {
-margin-top: 1em;
-}
-  h1 {
-    color: #444;
-    margin-bottom: 10px;
-  }
-  
-  h1 + p {
-    font-weight: bold;
-  }
-  
-  p {
-    margin: 11px 0;
-    color: beige;
-  }
-  
-  ul {
-    list-style: none;
-    padding: 0;
-    max-width: max-content;
-  }
-  
-  li {
-    background: rgb(255, 117, 117);
-    margin: 5px 0;
-    padding: 10px;
-    border-radius: 8px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-  
-  li img {
-    width: auto;
-    height: 3em;
-    border-radius: 5px;
-  }
-  
-  ul.italiaans li:not(.italiaans),
-  ul.mexicaans li:not(.mexicaans),
-  ul.japans li:not(.japans) {
-    display: none;
-  }
-</style>
 
+h1 {
+  color: #444;
+  margin-bottom: 10px;
+}
+
+h1 + p {
+  font-weight: bold;
+}
+
+p {
+  margin: 11px 0;
+  color: rgb(0, 0, 0);
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+  max-width: max-content;
+}
+
+li {
+  background: rgb(255, 117, 117);
+  margin: 5px 0;
+  padding: 10px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+li img {
+  width: auto;
+  height: 3em;
+  border-radius: 5px;
+}
+
+
+ul.italiaans li:not(.italiaans),
+ul.mexicaans li:not(.mexicaans),
+ul.japans li:not(.japans) {
+  display: none;
+}
+
+</style>
+ <!-- css van de recept finder page -->
 <script>
-document.getElementById("filter-submit").addEventListener("click", () => {
+  // Gedeelte hier onder is van de filter lijst met categorien
+  document.getElementById("filter-submit").addEventListener("click", () => {
     const selectedFilters = Array.from(document.querySelectorAll("input[name='filter']:checked"))
         .map(input => input.value);
     console.log("Geselecteerde filters zijn:", selectedFilters);
    
 });
+
+// gedeelte hier onder is van de pop up
+window.addEventListener("load", function() {
+    setTimeout(function() {
+        document.querySelector(".pop-up").classList.add("show");
+    },2000);  
+});
+
+document.getElementById("close").addEventListener("click", function() {
+    document.querySelector(".pop-up").classList.remove("show");
+});
+
+
+
 </script>
-</body>
+
+
+
 </html>

@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>1e pagina recept finder</title>
-    <link rel="stylesheet" href="styles/style.css">
 </head>
 <body>
     <header>
@@ -14,44 +13,109 @@
     <main>
 <h2>Allergieën</h2>
 <section class="filter-begin">
-  <h2>Filter op bepaalde categorieën</h2>
+  <h3>Filter op bepaalde categorieën</h3>
   <div class="filter-container">
     <input type="checkbox" id="vis" name="filter" value="vis">
     <label for="vis">
-        <img src="/static/images/fish-cooked.svg" alt="Vis">
+        <img src="/images/fish-cooked.svg" alt="Vis">
     </label>
 
     <input type="checkbox" id="beans" name="filter" value="beans">
     <label for="beans">
-        <img src="/static/images/beans.svg" alt="beans"> 
+        <img src="/images/beans.svg" alt="beans"> 
     </label>
 
     <input type="checkbox" id="milk" name="filter" value="milk">
     <label for="milk">
-        <img src="/static/images/milk.svg" alt="milk"> 
+        <img src="/images/milk.svg" alt="milk"> 
     </label>
 
     <input type="checkbox" id="glutenvrij" name="filter" value="glutenvrij">
     <label for="glutenvrij">
-        <img src="/static/images/gluten.svg" alt="Glutenvrij">
+        <img src="/images/gluten.svg" alt="Glutenvrij">
     </label>
 
     <input type="checkbox" id="nut free" name="filter" value="nut free">
     <label for="nut free">
-        <img src="/static/images/nut-free.svg" alt="nut free">
+        <img src="/images/nut-free.svg" alt="nut free">
     </label>
 
     <input type="checkbox" id="halal" name="schalen" value="schalen">
     <label for="schalen">
-        <img src="/static/images/lobster.svg" alt="schalen"> 
+        <img src="/images/lobster.svg" alt="schalen"> 
     </label>
 </div>
-  <button id="filter-submit">Toon recepten</button>
+
 </section>
+<h3>Dieet wensen</h3>
+<div class="filter-container">
+    <input type="checkbox" id="vis" name="filter" value="vis">
+    <label for="vis">Vis</label>
+
+    <input type="checkbox" id="vlees" name="filter" value="vlees">
+    <label for="vlees">Vlees</label>
+
+    <input type="checkbox" id="italiaans" name="filter" value="italiaans">
+    <label for="italiaans">Italiaans</label>
+
+    <input type="checkbox" id="glutenvrij" name="filter" value="glutenvrij">
+    <label for="glutenvrij">Glutenvrij</label>
+
+    <input type="checkbox" id="vegetarisch" name="filter" value="vegetarisch">
+    <label for="vegetarisch">Vegetarisch</label>
+
+    <input type="checkbox" id="halal" name="filter" value="halal">
+    <label for="halal">Halal</label>
+
+    <input type="checkbox" id="veganistisch" name="filter" value="veganistisch">
+    <label for="veganistisch">Veganistisch</label>
+
+</div>
     </main>
+<style>
+    label img{
+        width: 50px;
+    }
+    body {
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  color: #333;
+  line-height: 1.6;
+  padding: 20px;
+}
 
-    <script src="server.js"></script>
 
-</script>
+.filter-container input[type="checkbox"] {
+  display: none;
+}
+
+.filter-container label {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #bebebe;
+  border-radius: 10em;
+  cursor: pointer;
+  margin: 5px;
+  transition: background-color 0.3s;
+}
+
+.filter-container label:hover,
+.filter-container input[type="checkbox"]:checked + label {
+  background-color: #ff0000;
+}
+
+.filter-begin ul {
+  display: flex;
+  flex-wrap: wrap;
+  list-style: none;
+  justify-content: space-between;
+  margin: 0;
+  padding: 0;
+}
+
+
+
+</style>
+
+<script src="server.js"></script>
 </body>
 </html>

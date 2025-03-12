@@ -122,8 +122,10 @@
             </label>
 
             <input type="submit" value="Registreer">
-            <% if (typeof errorMessage !== 'undefined') { %>
-                <p class="error"><%= errorMessage %></p>
+            <% if (errorMessage) { %>
+                <div class="error">
+                    <%= errorMessage %>
+                </div>
             <% } %>
         </form>
 

@@ -4,6 +4,7 @@ dotenv.config();
 
 const express = require('express');
 const xss = require('xss')
+const validator = require('validator');
 const app = express();
 
 // BodyParser instellen om formuliergegevens te verwerken
@@ -18,8 +19,8 @@ app
     .set('view engine', 'ejs')
     .set('views', 'views')
     .get('/', home)
-    .get('/login', login)
     .get('/createAccount', createAccount)
+    .get('/login', login)
     .get('/mainscherm', mainscherm)
     .get('/koelkast', koelkast)
     .get('/pop-up', popup)
@@ -42,12 +43,12 @@ const client = new MongoClient(uri, {
     }
 })
 
-function login(req, res) {
-    res.render('login.ejs');
+function createAccount(req, res) {
+    res.render('createAccount', { errorMessage: '' });
 }
 
-function createAccount(req, res) {
-    res.render('createAccount.ejs');
+function login(req, res) {
+    res.render('login', { errorMessage: '' });
 }
 
 // Endpoint om (registratie)formuliergegevens te verwerken
@@ -61,9 +62,24 @@ app.post('/createAccount', (req, res) => {
     passwordConfirm = xss(passwordConfirm);
     voorwaarden = xss(voorwaarden);
 
-    // Controleer of de wachtwoorden overeenkomen
+    // Lege array om foutmeldingen op te slaan
+    const errors = [];
+
+    if (!validator.isEmail(email)) {
+        errors.push('Ongeldig e-mailadres');
+    }
+
+    if (!validator.isLength(password, { min: 8 })) {
+        errors.push('Wachtwoord moet minimaal 8 tekens lang zijn');
+    }
+
     if (password !== passwordConfirm) {
-        return res.render('createAccount', { errorMessage: 'Wachtwoorden komen niet overeen' });
+        errors.push('Wachtwoorden komen niet overeen');
+    }
+
+    // Als er fouten zijn, geef ze terug aan de gebruiker
+    if (errors.length > 0) {
+        return res.render('createAccount', { errorMessage: errors.join(', ') });
     }
 
     console.log('Veilige gegevens ontvangen: ', { fullname, email, password });
@@ -78,6 +94,20 @@ app.post('/login', (req, res) => {
     // Sanitizeer de invoer om XSS-aanvallen te voorkomen
     email = xss(email);  
     password = xss(password);
+
+    const errors = [];
+
+    if (!validator.isEmail(email)) {
+        errors.push('Ongeldig e-mailadres');
+    }
+
+    if (!password || password.length === 0) {
+        errors.push('Wachtwoord mag niet leeg zijn');
+    }
+
+    if (errors.length > 0) {
+        return res.render('login', { errorMessage: errors.join(', ') });
+    }
 });
 
 function home(req, res) {

@@ -4,85 +4,39 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kook niveau</title>
-    <link rel="stylesheet" href="styles/style.css">
+    <link rel="stylesheet" href="/styles/style.css">
 </head>
 <body>
  <header>
 <h1>
     Selecteer uw kook niveau
 </h1>
-<img src="/images/cooking.png" alt="">
+<section class="image-cooking">
+<img src="images/cooking.svg" alt="">
+</section>
  </header>
 <main>
-
-<section class="keuzen-niveau">
-<label>
-    <button> Beginner 
-        <p>Kan nog net een tosti maken </p>
-    </button>
-</label>
-
-<label>
-    <button> Gemiddeld 
-        <p>Ik kook voor mijn huisgenoten </p>
-    </button>
-</label>
-
-<label>
-    <button> Pro chef 
-        <p>Over een jaar heb ik mijn eigen restaurant</p>
-    </button>
-</label>
-</section>
-
+    <section class="keuzen-niveau">
+        <button class="beginner">
+            Beginner
+            <p>Kan nog net een tosti maken</p>
+        </button>
+    
+        <button class="gemiddeld">
+            Gemiddeld
+            <p>Ik kook voor mijn huisgenoten</p>
+        </button>
+    
+        <button class="pro-chef">
+            Pro chef
+            <p>Over een jaar heb ik mijn eigen restaurant</p>
+        </button>
+    </section>
+    
+    <section class="done">
+          <button class="doorgaan"> Doorgaan
+        </button>
+    </section>
 </main>
-<footer>
-</footer>
-
-
-    <style>
-
-
-
-
-
-body {
-  font-family: Verdana, Geneva, Tahoma, sans-serif;
-  color: #333;
-  line-height: 1.6;
-  padding: 20px;
-}
-
-.keuzen-niveau {
-    padding: 20px;
-}
-
-.keuzen-niveau label {
-    display: block; 
-    margin-bottom: 10px; 
-}
-
-.keuzen-niveau button {
-    display: block; 
-    background-color: #b5b5b5; 
-    padding: 10px;
-    width: 100%; 
-    text-align: center; 
-    font-size: 16px; 
-    border: none;
-    border-radius: 20px;
-
-}
-
-.keuzen-niveau p {
-    font-size: 14px; 
-    margin: 5px 0 0;
-    color: #555; 
-}
-
-
-
-
-    </style>
 </body>
 </html>

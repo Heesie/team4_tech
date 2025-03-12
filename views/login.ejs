@@ -3,14 +3,109 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
-    <link rel="stylesheet" href="/styles/style.css" type="text/css">
+    <title>Inloggen</title>
+    <style>
+        *, *::after, *::before {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background-color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            padding: 1.5em;
+            font-size: 1em;
+        }
+    
+        .mainLogIn {
+            width: 100%;
+            max-width: 30em;
+            background-color: #fff;
+            padding: 1.2em;
+            border-radius: 0.5em;
+        }
+    
+        h1 {
+            text-align: center;
+            font-size: 1.5em;
+            margin-bottom: 1.25em;
+        }
+    
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+    
+        label {
+            font-size: 1em;
+            margin-bottom: 0.8em;
+        }
+    
+        input {
+            background-color: #f2f2f2;
+            padding: 1em;
+            margin-bottom: 1.5em;
+            border: none;
+            border-radius: 0.5em;
+            font-size: 1em;
+        }
+    
+        input[type="submit"] {
+            padding: 1em;
+            background-color: dimgray;
+            color: #fff;
+            cursor: pointer;
+        }
+    
+        input[type="submit"]:hover {
+            background-color: gray;
+        }
+    
+        p {
+            text-align: center;
+            font-size: 0.875em;
+            margin-top: 1.5em;
+        }
+    
+        a {
+            color: black;
+            text-decoration: none;
+        }
+    
+        a:hover {
+            text-decoration: underline;
+        }
+
+        .error {
+            color: red;
+            text-align: center;
+            margin-top: 0.6em;
+        }
+        </style>
 </head>
 <body>
-    <%- include('../views/header'); %>
+    
+    <main class="mainLogIn">
+        <h1>Inloggen</h1>
 
-    <main class="mainLogin">
-        <h1>LOGIN</h1>
+        <form id="loginForm">
+            <label for="email">E-mailadres</label>
+            <input type="email" id="email" name="email" placeholder="E-mailadres..." required>
+
+            <label for="password">Wachtwoord</label>
+            <input type="password" id="password" name="password" placeholder="Wachtwoord..." required>
+
+            <input type="submit" value="Log in">
+            <input type="submit" value="Log in">
+            <p class="error" id="errorMessage"></p>
+
+            <p>Nog geen account? <a href="/createAccount">Registreer hier</a></p>
+        </form>
 
     </main>
     

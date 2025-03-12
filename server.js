@@ -3,9 +3,13 @@ const dotenv = require('dotenv');
 dotenv.config();
 
 const express = require('express');
+const xss = require('xss')
 const app = express();
 
-
+// BodyParser instellen om formuliergegevens te verwerken
+const bodyParser = require('body-parser');
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 
 app
     .use(express.json())
@@ -45,6 +49,36 @@ function login(req, res) {
 function createAccount(req, res) {
     res.render('createAccount.ejs');
 }
+
+// Endpoint om (registratie)formuliergegevens te verwerken
+app.post('/createAccount', (req, res) => {
+    let { fullname, email, password, passwordConfirm, voorwaarden } = req.body;
+
+    // Sanitizeer de invoer om XSS-aanvallen te voorkomen
+    fullname = xss(fullname);
+    email = xss(email);
+    password = xss(password);
+    passwordConfirm = xss(passwordConfirm);
+    voorwaarden = xss(voorwaarden);
+
+    // Controleer of de wachtwoorden overeenkomen
+    if (password !== passwordConfirm) {
+        return res.render('createAccount', { errorMessage: 'Wachtwoorden komen niet overeen' });
+    }
+
+    console.log('Veilige gegevens ontvangen: ', { fullname, email, password });
+
+    res.send('Registratie succesvol!');
+});
+
+// Endpoint om (inlog)formuliergegevens te verwerken
+app.post('/login', (req, res) => {
+    let { email, password } = req.body;
+
+    // Sanitizeer de invoer om XSS-aanvallen te voorkomen
+    email = xss(email);  
+    password = xss(password);
+});
 
 function home(req, res) {
     res.render('recept-finder.ejs');

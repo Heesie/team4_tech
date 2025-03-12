@@ -80,6 +80,12 @@
         a:hover {
             text-decoration: underline;
         }
+
+        .error {
+            color: red;
+            text-align: center;
+            margin-top: 0.6em;
+        }
         </style>
 </head>
 <body>
@@ -87,14 +93,16 @@
     <main class="mainLogIn">
         <h1>Inloggen</h1>
 
-        <form action="#" method="post">
-                <label for="email">E-mailadres</label>
-                <input type="email" id="email" name="email" placeholder="E-mailadres" required>
+        <form id="loginForm">
+            <label for="email">E-mailadres</label>
+            <input type="email" id="email" name="email" placeholder="E-mailadres..." required>
 
-                <label for="password">Wachtwoord</label>
-                <input type="password" id="password" name="password" placeholder="Wachtwoord" required>
+            <label for="password">Wachtwoord</label>
+            <input type="password" id="password" name="password" placeholder="Wachtwoord..." required>
 
             <input type="submit" value="Log in">
+            <input type="submit" value="Log in">
+            <p class="error" id="errorMessage"></p>
 
             <p>Nog geen account? <a href="/createAccount">Registreer hier</a></p>
         </form>

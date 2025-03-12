@@ -90,6 +90,12 @@
     a:hover {
         text-decoration: underline;
     }
+
+    .error {
+        color: red;
+        text-align: center;
+        margin-top: 0.6em;
+    }
     </style>
 </head>
 <body>
@@ -97,12 +103,9 @@
     <main class="mainCreateAccount">
         <h1>Registreren</h1>
 
-        <form action="#" method="post">
-                <label for="firstname">Voornaam</label>
-                <input type="text" id="firstname" name="firstname" placeholder="Voornaam..." required/>
-      
-                <label for="surname">Achternaam</label>
-                <input type="text" id="surname" name="surname" placeholder="Achternaam..." required/>
+        <form id="registerForm">      
+                <label for="fullname">Volledige naam</label>
+                <input type="text" id="fullname" name="fullname" placeholder="Volledige naam..." required/>
                 
                 <label for="email">E-mailadres</label>
                 <input type="email" id="email" name="email" placeholder="E-mailadres..." required>
@@ -110,12 +113,16 @@
                 <label for="password">Wachtwoord</label>
                 <input type="password" id="password" name="password" placeholder="Wachtwoord..." required>
 
-            <label class="checkbox">
+                <label for="passwordConfirm">Wachtwoord</label>
+                <input type="password" id="passwordConfirm" name="passwordConfirm" placeholder="Bevestig wachtwoord..." required>
+
+                <label class="checkbox">
                 <input type="checkbox" name="voorwaarden" id="voorwaarden" required>
                 Ik ga akkoord met de algemene voorwaarden en het privacybeleid van (onze naam)
             </label>
 
             <input type="submit" value="Registreer">
+            <p class="error" id="errorMessage"></p>
         </form>
 
         <p>Heb je al een account? <a href="/login">Log in</a></p>

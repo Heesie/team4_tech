@@ -10,6 +10,7 @@
     "node-fetch": "^3.3.2",
     "require": "^0.4.4",
     "session": "^0.1.0",
+    "validator": "^13.12.0",
     "xss": "^1.0.15"
   }
 }

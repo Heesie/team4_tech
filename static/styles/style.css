@@ -1,0 +1,317 @@
+
+ /*********************/
+  /* CUSTOM PROPERTIES */
+  /*********************/
+  :root {
+
+    --color-background-base:#d2d2d2;
+    --color-font:black;
+    --button-background:#007bff;
+
+  }
+
+/* basis  */
+body {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    color: #333;
+    padding: 30px 30px;
+  }
+
+  header{
+    text-align: center;
+}
+
+/* basis */
+  /* kook niveau */
+
+body {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    color: #333;
+    padding: 30px 30px;
+  }
+  
+
+
+.image-cooking{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+.keuzen-niveau {
+    margin-top: 2em;
+}
+.keuzen-niveau button {
+    margin-bottom: 15px;
+    padding: 15px 20px;
+    width: 100%;
+    border-radius: 20px;
+    border: none;
+    font-size: 20px;
+    transition: background-color 0.3s ease;
+    cursor: pointer;
+}
+
+
+  .keuzen-niveau p {
+      font-size: 14px; 
+      margin: 10px 0 0;
+      color: #555; 
+  }
+
+  .keuzen-niveau .beginner{
+    background-color: rgb(218, 255, 218);
+  }
+  .keuzen-niveau .beginner:hover{
+    background-color: rgb(82, 225, 82);
+  }
+  .keuzen-niveau .gemiddeld{
+    background-color: rgb(255, 236, 169);
+  }
+  .keuzen-niveau .gemiddeld:hover{
+    background-color: rgb(255, 162, 23);
+  }
+
+  .keuzen-niveau .pro-chef{
+    background-color: rgb(255, 169, 169);
+  }
+  .keuzen-niveau .pro-chef:hover{
+    background-color: rgb(254, 59, 59);
+  }
+
+  .done button{
+    margin-bottom: 20px;
+    padding: 15px 20px;
+    width: 100%;
+    border-radius: 20px;
+    border: none;
+    font-size: 20px;
+    transition: background-color 0.3s ease;
+    cursor: pointer;
+  }
+
+  .done button:hover{
+    background-color: #333;
+    color: white;
+  }
+
+
+    /* kook niveau */
+
+    /* recept finder begin pagina */
+
+    .finder {
+        max-width: 500px; 
+        margin: 0 auto; 
+    }
+    .finder h2{
+        font-size: 20px;
+        margin-right: 5em;
+        margin-top: 2em;
+    }
+
+    .finder a{
+        text-decoration: none;
+        color: #333;
+        display: inline-block;
+    margin-top: 10px;   
+
+    }
+
+.finder input{
+    background-color: #d7d7d7;
+    display: block; 
+    width: 100%; 
+    padding: 15px;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    box-sizing: border-box; 
+}
+
+    
+    .finder button {
+        display: block; 
+        width: 100%; 
+        padding: 15px;
+        background-color: #444;
+        color: white;
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+        box-sizing: border-box; 
+    }
+    
+    button {
+        margin-top: 10px; 
+    }
+    
+.filter-begin {
+    margin-top: 10em;
+
+}
+    .filter-begin h2{
+        font-size: 20px;
+        margin-right: 5em;
+        margin-top: 2em;
+    }
+
+
+    .filter-categorie input[type="checkbox"] {
+        display: none;
+      }
+
+      .filter-categorie {
+        display: flex;
+        flex-direction: row;
+        gap: 10px; 
+        flex-wrap: wrap;
+        color: white;
+        border-radius: 10px;
+    }
+    
+    .filter-categorie label {
+        background-color: #98ccff;
+        padding: 10px 20px; 
+        border-radius: 5px; 
+        color: white; 
+    }
+    
+    
+.filter-begin button {
+    display: inline-block;
+        padding: 10px 40px;
+        background-color: #bebebe;
+        color: white;
+        border-radius: 10px;
+        cursor: pointer;
+        margin-top: 20px;
+    
+    text-align: center;
+        border: none;
+    
+}
+
+    /* recept finder begin pagina */
+
+    /* pop - up */
+    div .pop-up {
+        background-color: rgb(170, 191, 255);
+        font-family: sans-serif;
+        padding: 20px;
+        }
+        
+        .pop-up h2 {
+          font-size: 25px;
+          color: red;
+        }
+
+        .pop-up p {
+            font-size: 14px;
+            margin: 20px 0;
+            line-height: 20px;
+            color: rgb(255, 148, 148);
+           }
+        
+        .pop-up {
+            display: none; 
+            background-color: rgb(255, 219, 219);
+            width: 250px;
+            height: 350px;
+            padding: 30px 40px;
+            position: absolute;
+            transform: translate(-50%, 50%); 
+            left: 50%;
+            top: 50%;
+            border-radius: 1em;
+            text-align: center;
+            opacity: 0;
+            transition: transform 0.5s ease-out, opacity 0.5s ease-out;
+        }
+        
+        .pop-up.show {
+            display: block;
+            opacity: 1;
+            transform: translate(-50%, -50%);
+        }
+        
+        
+        
+        .pop-up button {
+          display: block;
+          margin:0 0 20px auto;
+          background: transparent;
+          font-size: 30px;
+          border-radius: 100%;
+          width:40px;
+        height: 40px;
+        border: none;
+        outline: none;
+        cursor: pointer;
+        background-color: rgb(117, 117, 117);
+        color: white;
+        } 
+        
+        
+        
+        
+    
+        
+        .pop-up a{
+            position: relative; 
+        top: 40px;
+            background-color: rgb(121, 121, 121);
+            padding: 10px 20px;
+            text-decoration: none;
+            color: white;
+            display: block;
+            width: 150px;
+            margin: 10px auto;
+            text-align: center;
+            border-radius: 2em;
+        }  
+
+
+
+
+    /* pop - up */
+
+
+    /* koelkast functie */
+
+
+
+     /* koelkast functie */
+
+     .koelkast-list {
+        display: flex;
+        flex-direction: column;
+        gap: 15px; 
+        margin-top: 3em;
+
+    }
+    
+    .koelkast-list label {
+        display: flex;
+        align-items: center;
+        font-size: 18px;
+        font-weight: bold;
+        color: #333;
+    }
+    
+    .ingredient-input {
+        flex: 1;
+        padding: 10px;
+        border: none;
+        border-radius: 5px;
+        background-color: #c5e1ff;
+        font-size: 16px;
+        transition: 0.3s ease-in-out;
+    }
+    
+
+ /* koelkast functie */
+
+
+ 

@@ -93,7 +93,7 @@
     <main class="mainLogIn">
         <h1>Inloggen</h1>
 
-        <form id="loginForm">
+        <form action="/login" method="POST">
             <label for="email">E-mailadres</label>
             <input type="email" id="email" name="email" placeholder="E-mailadres..." required>
 
@@ -101,8 +101,9 @@
             <input type="password" id="password" name="password" placeholder="Wachtwoord..." required>
 
             <input type="submit" value="Log in">
-            <input type="submit" value="Log in">
-            <p class="error" id="errorMessage"></p>
+            <% if (typeof errorMessage !== 'undefined') { %>
+                <p class="error"><%= errorMessage %></p>
+            <% } %>
 
             <p>Nog geen account? <a href="/createAccount">Registreer hier</a></p>
         </form>

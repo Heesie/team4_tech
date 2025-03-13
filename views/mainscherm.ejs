@@ -11,13 +11,7 @@
             margin: 0;
             padding: 0;
         }
-        header {
-            background-color: #ccc;
-            padding: 15px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
+  
         main {
             padding: 20px;
         }
@@ -130,9 +124,7 @@
 </head>
 <body>
     <header>
-        <button>&#9776;</button>
-        <h1>Logo</h1>
-        <button>&#128100;</button>
+        <%- include('header') %>
     </header>
     
     <main>
@@ -213,5 +205,8 @@
             <% } %>
         </section>
     </main>
+    <footer>
+        <%- include('footer') %>
+    </footer>
 </body>
 </html>

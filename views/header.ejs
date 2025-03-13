@@ -1,13 +1,42 @@
-<header>
-    <a href="/"><img src="" alt="Logo"></a>
 
-    
-    <nav>
-        <ul>
-            <li><a href="#">Bla</a></li>
-            <li><a href="#">Bla</a></li>
-            <li><a href="/login">Log in</a></li>
-            <li><a href="/createAccount">Create account</a></li>
-        </ul>
-    </nav>
-</header>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/styles/basis.css">
+    <script src="/server.js"></script>
+</head>
+<body>
+    <header>
+        <section class="boven-paneel">
+            <ul>
+                <li><button id="menu-btn"> <img src="/images/menu.svg" alt=""> </button></li>
+                <li> <img src="/images/burrito.svg" alt=""></li>
+                <li> <img src="/images/account.svg" alt=""></li>
+            </ul>
+        </section>
+        <section class="navbar">
+            <div>
+                <ul>
+                    <li>Home</li>
+                    <li>Contact</li>
+                    <li>Gerechten</li>
+                    <li>Koelkast functie</li>
+                </ul>
+            </div>
+        </section>
+    </header>
+<main></main>
+
+
+<script>
+    document.getElementById('menu-btn').addEventListener('click', function() {
+    var navbar = document.querySelector('.navbar');
+    navbar.style.display = navbar.style.display === 'block' ? 'none' : 'block';
+});
+
+</script>
+</body>
+</html>

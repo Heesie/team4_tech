@@ -314,4 +314,95 @@ body {
  /* koelkast functie */
 
 
- 
+ /* Allergie pagina */
+  label img{
+    width: 50px;
+}
+
+
+
+
+.filter-allergie {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.filter-allergie input {
+  display: none; 
+}
+
+.filter-allergie label {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background-color: #f5f5f5;
+
+}
+
+.filter-allergie label img {
+  width: 40px;
+  height: 40px;
+}
+
+/* Actieve status bij selectie */
+.filter-allergie input:checked + label {
+  background-color: #888;
+}
+
+
+.filter-allergie input[type="checkbox"] {
+display: none;
+}
+.filter-start{
+  margin-top: 5em;
+}
+
+
+
+  .filter-start h2{
+      font-size: 20px;
+      margin-right: 5em;
+      margin-top: 2em;
+  }
+
+
+  .filter-categorie input[type="checkbox"] {
+      display: none;
+    }
+
+    .filter-categorie {
+      display: flex;
+      flex-direction: row;
+      gap: 10px; 
+      flex-wrap: wrap;
+      color: white;
+      border-radius: 10px;
+  }
+  
+  .filter-categorie label {
+      background-color: #98ccff;
+      padding: 10px 20px; 
+      border-radius: 5px; 
+      color: white; 
+  }
+  
+  
+.filter-start button {
+  display: inline-block;
+      padding: 10px 40px;
+      background-color: #bebebe;
+      color: white;
+      border-radius: 10px;
+      cursor: pointer;
+      margin-top: 20px;
+  
+  text-align: center;
+      border: none;
+}
+
+ /* Allergie pagina */

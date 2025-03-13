@@ -7,10 +7,12 @@ const xss = require('xss')
 const validator = require('validator');
 const app = express();
 
+
 // BodyParser instellen om formuliergegevens te verwerken
 const bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+app.use(express.static("static"));
 
 app
     .use(express.json())
@@ -228,5 +230,6 @@ async function fetchRecipes(req, res) {
     // Toon de opgehaalde gegevens in de response
     res.json(allData.Receptenlijst); // Geef de verzamelde data als JSON terug
 }
+
 
 

@@ -50,9 +50,19 @@ function home(req, res) {
     res.render('recept-finder.ejs');
 }
 
-function mainscherm(req, res) {
-    res.render('mainscherm.ejs');
+async function mainscherm(req, res) {
+    try {
+        // Roep fetchRecipes aan om recepten op te halen
+        const response = await fetchRecipes(req, res);
+        
+        // Render de pagina en geef de recepten door
+        res.render('mainscherm.ejs', { recipes: response });
+    } catch (error) {
+        console.error('Fout bij ophalen van recepten:', error);
+        res.render('mainscherm.ejs', { recipes: [] }); // Lege array als er een fout is
+    }
 }
+
 
 function koelkast(req, res) {
     res.render('koelkast.ejs');
@@ -162,8 +172,39 @@ async function fetchRecipes(req, res) {
     }
 
     // Toon de opgehaalde gegevens in de response
-    res.json(allData.Receptenlijst); // Geef de verzamelde data als JSON terug
+    return allData.Receptenlijst;
+ // Geef de verzamelde data als JSON terug
 }
 
 
 
+// Fetch API data
+async function test(req, res) {
+    const url = 'https://tasty.p.rapidapi.com/recipes/list?from=0&size=20';
+    const options = {
+        method: 'GET',
+        headers: {
+            'x-rapidapi-key': API_KEY,
+            'x-rapidapi-host': API_HOST
+        }
+    };
+ 
+    try {
+        const response = await fetch(url, options);
+        const result = await response.json(); // Gebruik .json() voor de JSON-respons
+        
+        // Filter de benodigde data (naam en afbeelding)
+        const recipes = result.results.map(recipe => ({
+            name: recipe.name,
+            image: recipe.thumbnail_url,
+            description: recipe.description || "",
+        }));
+        
+        
+        // Stuur de gefilterde data naar de EJS template
+        res.render('index.ejs', { recipes });
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Er ging iets mis!');
+    }
+}

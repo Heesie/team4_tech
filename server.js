@@ -116,9 +116,21 @@ function home(req, res) {
     res.render('recept-finder.ejs');
 }
 
-function mainscherm(req, res) {
-    res.render('mainscherm.ejs');
+async function mainscherm(req, res) {
+    try {
+        // API-aanroep om recepten op te halen
+        const data = await fetchFromTasty('recipes/list', { from: 0, size: 20, tags: 'under_30_minutes' });
+
+        // Controleer of er resultaten zijn en stuur ze door naar de template
+        const recipes = data?.results || []; // Zorgt ervoor dat het geen 'undefined' is
+
+        res.render('mainscherm.ejs', { recipes });
+    } catch (error) {
+        console.error('Fout bij ophalen van recepten:', error);
+        res.render('mainscherm.ejs', { recipes: [] }); // Stuur een lege array bij een fout
+    }
 }
+
 
 function koelkast(req, res) {
     res.render('koelkast.ejs');

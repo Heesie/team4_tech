@@ -49,6 +49,8 @@ function createAccount(req, res) {
     res.render('createAccount', { errorMessage: '' });
 }
 
+// hallo
+
 function login(req, res) {
     res.render('login', { errorMessage: '' });
 }

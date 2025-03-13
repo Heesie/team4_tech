@@ -138,12 +138,10 @@ main {
         border-radius: 10px;
         cursor: pointer;
         box-sizing: border-box; 
+        margin-top: 10px;
     }
     
-    button {
-        margin-top: 10px; 
-    }
-    
+
 .filter-begin {
     margin-top: 10em;
 

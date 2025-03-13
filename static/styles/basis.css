@@ -54,15 +54,15 @@ body {
 /* button  */
 
 .navbar {
-    display: none; /* Verbergen op kleine schermen */
+    display: none;
 }
 
 @media (min-width: 768px) {
     .navbar {
-        display: block; /* Laat de navbar zien op grotere schermen */
+        display: block; 
+        
     }
-
-    /* Verberg de pasta knop op grotere schermen */
+    
     #menu-btn {
         display: none;
     }
@@ -73,7 +73,6 @@ body {
 
 /* hier onder is het footer gedeelte */
 
-/* Stijl voor de footer */
 footer {
     background-color: #f1f1f1;
     padding: 10px;
@@ -81,9 +80,4 @@ footer {
     font-size: 14px;
    }
 
-/* Footer links en social media */
-.footer-bottom {
-    font-size: 12px;
-    color: #666;
 
-}

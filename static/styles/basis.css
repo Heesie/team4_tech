@@ -1,0 +1,89 @@
+
+body {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    color: #333;
+  }
+
+
+.boven-paneel img {
+    width: 30px;
+}
+
+
+.boven-paneel li {
+ list-style: none;
+ margin: 0;
+ padding: 0;
+}
+
+
+.boven-paneel ul{
+    display: flex;
+    justify-content: space-between;
+    margin: 0;
+    padding: 0;
+}
+
+.boven-paneel button {
+    border: none;
+    background: none;
+}
+
+.boven-paneel {
+    background-color: #eff4ed;
+    padding: 1em;
+}
+
+.navbar ul {
+    display: flex;
+    justify-content: space-around;
+    margin: 0;
+    padding: 0;
+    margin-top: 1em;
+} 
+
+
+.navbar li {
+    display: flex;
+    justify-content: space-around;
+    margin: 0;
+    padding: 0;
+}
+
+
+/* button  */
+
+.navbar {
+    display: none; /* Verbergen op kleine schermen */
+}
+
+@media (min-width: 768px) {
+    .navbar {
+        display: block; /* Laat de navbar zien op grotere schermen */
+    }
+
+    /* Verberg de pasta knop op grotere schermen */
+    #menu-btn {
+        display: none;
+    }
+}
+
+
+
+
+/* hier onder is het footer gedeelte */
+
+/* Stijl voor de footer */
+footer {
+    background-color: #f1f1f1;
+    padding: 10px;
+    text-align: center;
+    font-size: 14px;
+   }
+
+/* Footer links en social media */
+.footer-bottom {
+    font-size: 12px;
+    color: #666;
+
+}

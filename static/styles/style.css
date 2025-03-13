@@ -14,8 +14,11 @@
 body {
     font-family: Verdana, Geneva, Tahoma, sans-serif;
     color: #333;
-    padding: 30px 30px;
+
   }
+main {
+  padding: 0px 30px;
+}
 
   header{
     text-align: center;
@@ -24,12 +27,6 @@ body {
 /* basis */
   /* kook niveau */
 
-body {
-    font-family: Verdana, Geneva, Tahoma, sans-serif;
-    color: #333;
-    padding: 30px 30px;
-  }
-  
 
 
 .image-cooking{

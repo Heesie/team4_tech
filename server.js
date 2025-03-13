@@ -7,7 +7,6 @@ const xss = require('xss')
 const validator = require('validator');
 const app = express();
 
-
 // BodyParser instellen om formuliergegevens te verwerken
 const bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -30,6 +29,8 @@ app
     .get('/allergie', allergie)
     .get('/kookniveau', kookniveau)
     .get('/fetch-recipes', fetchRecipes) 
+    .get('/header', header) 
+    .get('/footer', footer) 
     .listen(2000, () => console.log("De server draait op host 2000"));
 
     // Use MongoDB
@@ -52,6 +53,8 @@ function createAccount(req, res) {
 function login(req, res) {
     res.render('login', { errorMessage: '' });
 }
+
+
 
 // Endpoint om (registratie)formuliergegevens te verwerken
 app.post('/createAccount', (req, res) => {
@@ -140,7 +143,13 @@ function popup(req, res) {
     res.render('pop-up.ejs');
 }
 
+function header(req, res) {
+    res.render('header.ejs');
+}
 
+function footer(req, res) {
+    res.render('footer.ejs');
+}
 function allergie(req, res) {
     res.render('allergie.ejs');
 }
@@ -245,5 +254,4 @@ async function fetchRecipes(req, res) {
 
 
 
-//  gedeelte met het zoeken eerste pagina. 
 

@@ -13,12 +13,11 @@
     <main>
 
         <section class="finder">
-            <form>
-                <h2>Wat wil je vandaag eten?</h2>
-                <input type="text" placeholder="Zoek op ingredienten, recepten">
-                <button type="submit">Zoeken</button>
-            </form>
-            <a href="#">Uitgebreid zoeken</a>
+          <form action="/search" method="GET">
+            <h2>Wat wil je vandaag eten?</h2>
+            <input type="text" name="query" placeholder="Zoek op ingrediënten, recepten">
+            <button type="submit">Zoeken</button>
+        </form>
         </section>
         
 

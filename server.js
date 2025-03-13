@@ -26,7 +26,6 @@ app
     .get('/mainscherm', mainscherm)
     .get('/koelkast', koelkast)
     .get('/pop-up', popup)
-    .get('/apitest', apiTest)
     .get('/allergie', allergie)
     .get('/kookniveau', kookniveau)
     .get('/fetch-recipes', fetchRecipes) // Nieuwe route voor API-aanroepen
@@ -118,19 +117,23 @@ function home(req, res) {
 
 async function mainscherm(req, res) {
     try {
-        // API-aanroep om recepten op te halen
+        // Haal recepten op
         const data = await fetchFromTasty('recipes/list', { from: 0, size: 20, tags: 'under_30_minutes' });
 
-        // Controleer of er resultaten zijn en stuur ze door naar de template
-        const recipes = data?.results || []; // Zorgt ervoor dat het geen 'undefined' is
+        // Controleer of er resultaten zijn
+        const recipes = data?.results.map(recipe => ({
+            id: recipe.id,
+            name: recipe.name,
+            description: recipe.description || 'Geen beschrijving beschikbaar',
+            imageUrl: recipe.thumbnail_url || '/images/default-recipe.jpg' // Standaard afbeelding als geen beschikbaar is
+        })) || [];
 
         res.render('mainscherm.ejs', { recipes });
     } catch (error) {
         console.error('Fout bij ophalen van recepten:', error);
-        res.render('mainscherm.ejs', { recipes: [] }); // Stuur een lege array bij een fout
+        res.render('mainscherm.ejs', { recipes: [] });
     }
 }
-
 
 function koelkast(req, res) {
     res.render('koelkast.ejs');
@@ -149,29 +152,6 @@ function kookniveau(req, res) {
     res.render('kookniveau.ejs');
 }
 
-async function apiTest(req, res) {
-
-    const API_KEY = process.env.API_KEY;
-const API_HOST = process.env.API_HOST;
-
-    const url = 'https://tasty.p.rapidapi.com/recipes/list?from=0&size=1&tags=under_30_minutes';
-const options = {
-  method: 'GET',
-  headers: {
-    'x-rapidapi-key': API_KEY,
-    'x-rapidapi-host': API_HOST
-  }
-};
-
-try {
-	const response = await fetch(url, options);
-	const result = await response.json();
-	console.log(result.results[0]['canonical_id']);
-	console.log(result.results[0]['name']);
-} catch (error) {
-	console.error(error);
-}
-}
 
 // API-aanroepen gedeelte
 

@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,37 +5,58 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="/styles/basis.css">
-    <script src="/server.js"></script>
 </head>
 <body>
     <header>
-        <section class="boven-paneel">
+        <div class="nav-placeholder"></div>
+        <div class="logo"><img src="images/pizza.svg" alt=""></div>
+        
+        <nav class="desktop-nav">
             <ul>
-                <li><button id="menu-btn"> <img src="/images/menu.svg" alt=""> </button></li>
-                <li> <img src="/images/burrito.svg" alt=""></li>
-                <li> <img src="/images/account.svg" alt=""></li>
+                <li><a href="#">Home</a></li>
+                <li><a href="#">Zoek recepten</a></li>
+                <li><a href="#">Account</a></li>
+                <li><a href="#">Contact</a></li>
             </ul>
-        </section>
-        <section class="navbar">
-            <div>
-                <ul>
-                    <li>Home</li>
-                    <li>Contact</li>
-                    <li>Gerechten</li>
-                    <li>Koelkast functie</li>
-                </ul>
-            </div>
-        </section>
+        </nav>
+        
+        <button class="hamburger-menu" aria-label="Menu">
+            <img src="images/menu.svg" alt="">
+        </button>
     </header>
-<main></main>
+    
+    <nav class="mobile-nav">
+        <button class="close-menu" aria-label="Sluit menu"><img src="images/taco.svg" alt="">
+        </button> 
+        <ul>
+            <li><a href="#">Home</a></li>
+            <li><a href="#">Over ons</a></li>
+            <li><a href="#">Diensten</a></li>
+            <li><a href="#">Contact</a></li>
+        </ul>
+    </nav>
 
 
-<script>
-    document.getElementById('menu-btn').addEventListener('click', function() {
-    var navbar = document.querySelector('.navbar');
-    navbar.style.display = navbar.style.display === 'block' ? 'none' : 'block';
-});
+    <script>
+                /* header uitklap menu */
+const closeBtn = document.querySelector(".mobile-nav button");
+const openBtn = document.querySelector(".hamburger-menu");
+const nav = document.querySelector(".mobile-nav");
 
-</script>
+console.log(nav);
+
+openBtn.addEventListener("click", openMenu);
+closeBtn?.addEventListener("click", closeMenu);
+
+function openMenu() {
+    nav.classList.add("active");
+}
+
+function closeMenu() {
+    nav.classList.remove("active");
+}
+
+/* header uitklap menu */
+    </script>
 </body>
 </html>

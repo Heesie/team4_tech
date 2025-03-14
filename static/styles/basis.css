@@ -1,83 +1,175 @@
+* {
+    box-sizing: border-box;
+}
 
 body {
-    font-family: Verdana, Geneva, Tahoma, sans-serif;
-    color: #333;
-  }
-
-
-.boven-paneel img {
-    width: 30px;
+    font-family: Arial, sans-serif;
+    position: relative;
 }
 
 
-.boven-paneel li {
- list-style: none;
- margin: 0;
- padding: 0;
-}
-
-
-.boven-paneel ul{
+/* header stukje voor desktop */
+header {
+    padding: 1rem;
     display: flex;
     justify-content: space-between;
-    margin: 0;
-    padding: 0;
-}
-
-.boven-paneel button {
-    border: none;
-    background: none;
-}
-
-.boven-paneel {
+    align-items: center;
+    position: relative;
     background-color: #eff4ed;
-    padding: 1em;
 }
 
-.navbar ul {
-    display: flex;
-    justify-content: space-around;
-    margin: 0;
-    padding: 0;
-    margin-top: 1em;
-} 
-
-
-.navbar li {
-    display: flex;
-    justify-content: space-around;
-    margin: 0;
-    padding: 0;
+.logo img {
+    width: 40px;
 }
 
 
-/* button  */
+nav.desktop-nav ul {
+    display: flex;
+    list-style: none;
+}
 
-.navbar {
+nav.desktop-nav ul li {
+    margin-right: 2em;
+    font-size: 20px;
+}
+
+nav.desktop-nav ul li a {
+  color: #afc8a1;
+    text-decoration: none;
+    position: relative;
+    transition: color 0.9 ease;
+    }
+
+nav.desktop-nav ul li a:hover {
+    color: #ffac92; 
+  }
+  
+
+
+  nav.desktop-nav ul li a:after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    bottom: -5px;
+    width: 0;
+    height: 3px;
+    background: #ffac92;
+    transition: width 0.3s ease, left 0.3s ease;
+      }
+
+
+    nav.desktop-nav ul li a:hover::after{
+        width: 100%;
+        left: 0;
+    }
+
+
+
+.hamburger-menu {
     display: none;
+    cursor: pointer;
+    background: none;
+    border: none;
+    padding: 0.5rem;
+    margin-left: auto; 
 }
 
-@media (min-width: 768px) {
-    .navbar {
-        display: block; 
-        
+.hamburger-menu img {
+    width: 24px;
+    height: 24px;
+}
+
+
+
+/* header stukje voor desktop */
+
+
+/* header voor mobile met uitklap functie  */
+
+.mobile-nav {
+    position: absolute;
+    top: 100%; 
+    right: 0;
+    width: 40%;
+    background-color: #afc8a1;
+    max-height: 0px;
+    overflow: hidden;
+    transition: max-height 1s ease;
+border-radius: 5px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.mobile-nav.active {
+    max-height: 1000px;
+}
+
+.mobile-nav ul {
+    list-style: none;
+    padding: 1rem;
+    margin-left: 10px;
+    margin-top: 2em;
+}
+
+.mobile-nav ul li {
+    margin-bottom: 1rem;
+}
+
+.mobile-nav ul li a {
+    color: white;
+    text-decoration: none;
+    font-size: 1.2rem;
+    display: block;
+    padding: 10px;
+    transition: all 0.3s ease-in-out;
+}
+
+.mobile-nav ul li a:hover {
+color: #ffac92;
+transform: scale(1.05);
+}
+
+.nav-placeholder {
+    visibility: hidden;
+    width: 50%; 
+}
+
+/* media querie voor scherm  */
+
+
+@media screen and (max-width: 950px) {
+    nav.desktop-nav {
+        display: none;
+    }
+
+    .hamburger-menu {
+        display: block;
     }
     
-    #menu-btn {
+    .nav-placeholder {
         display: none;
     }
 }
 
+/* media querie voor scherm  */
+
+/* header voor mobile met uitklap functie  */
 
 
 
-/* hier onder is het footer gedeelte */
+/* Button close image*/
+.close-menu {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1.5rem;
+    cursor: pointer;
+}
 
-footer {
-    background-color: #f1f1f1;
-    padding: 10px;
-    text-align: center;
-    font-size: 14px;
-   }
+.close-menu img{
+    width: 30px;
+}
 
-
+/* Button close image*/

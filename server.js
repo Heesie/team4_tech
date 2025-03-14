@@ -6,6 +6,7 @@ const express = require('express');
 const xss = require('xss')
 const validator = require('validator');
 const app = express();
+app.use(express.static('public'));
 
 // BodyParser instellen om formuliergegevens te verwerken
 const bodyParser = require('body-parser');

@@ -6,7 +6,7 @@ const bcrypt = require('bcryptjs');
 const xss = require('xss')
 const validator = require('validator');
 const app = express();
-
+app.use(express.static('public'));
 
 // BodyParser instellen om formuliergegevens te verwerken
 const bodyParser = require('body-parser');
@@ -26,10 +26,11 @@ app
     .get('/mainscherm', mainscherm)
     .get('/koelkast', koelkast)
     .get('/pop-up', popup)
-    .get('/apitest', apiTest)
     .get('/allergie', allergie)
     .get('/kookniveau', kookniveau)
-    .get('/fetch-recipes', fetchRecipes) // Nieuwe route voor API-aanroepen
+    .get('/fetch-recipes', fetchRecipes) 
+    .get('/header', header) 
+    .get('/footer', footer) 
     .listen(2000, () => console.log("De server draait op host 2000"));
 
 // Verbind met MongoDB database
@@ -62,6 +63,8 @@ function createAccount(req, res) {
 function login(req, res) {
     res.render('login', { errorMessage: '' });
 }
+
+
 
 // Endpoint om (registratie)formuliergegevens te verwerken
 app.post('/createAccount', async (req, res) => {
@@ -172,19 +175,23 @@ function home(req, res) {
 
 async function mainscherm(req, res) {
     try {
-        // API-aanroep om recepten op te halen
+        // Haal recepten op
         const data = await fetchFromTasty('recipes/list', { from: 0, size: 20, tags: 'under_30_minutes' });
 
-        // Controleer of er resultaten zijn en stuur ze door naar de template
-        const recipes = data?.results || []; // Zorgt ervoor dat het geen 'undefined' is
+        // Controleer of er resultaten zijn
+        const recipes = data?.results.map(recipe => ({
+            id: recipe.id,
+            name: recipe.name,
+            description: recipe.description || 'Geen beschrijving beschikbaar',
+            imageUrl: recipe.thumbnail_url || '/images/default-recipe.jpg' // Standaard afbeelding als geen beschikbaar is
+        })) || [];
 
         res.render('mainscherm.ejs', { recipes });
     } catch (error) {
         console.error('Fout bij ophalen van recepten:', error);
-        res.render('mainscherm.ejs', { recipes: [] }); // Stuur een lege array bij een fout
+        res.render('mainscherm.ejs', { recipes: [] });
     }
 }
-
 
 function koelkast(req, res) {
     res.render('koelkast.ejs');
@@ -194,7 +201,13 @@ function popup(req, res) {
     res.render('pop-up.ejs');
 }
 
+function header(req, res) {
+    res.render('header.ejs');
+}
 
+function footer(req, res) {
+    res.render('footer.ejs');
+}
 function allergie(req, res) {
     res.render('allergie.ejs');
 }
@@ -203,29 +216,6 @@ function kookniveau(req, res) {
     res.render('kookniveau.ejs');
 }
 
-async function apiTest(req, res) {
-
-    const API_KEY = process.env.API_KEY;
-const API_HOST = process.env.API_HOST;
-
-    const url = 'https://tasty.p.rapidapi.com/recipes/list?from=0&size=1&tags=under_30_minutes';
-const options = {
-  method: 'GET',
-  headers: {
-    'x-rapidapi-key': API_KEY,
-    'x-rapidapi-host': API_HOST
-  }
-};
-
-try {
-	const response = await fetch(url, options);
-	const result = await response.json();
-	console.log(result.results[0]['canonical_id']);
-	console.log(result.results[0]['name']);
-} catch (error) {
-	console.error(error);
-}
-}
 
 // API-aanroepen gedeelte
 
@@ -298,12 +288,12 @@ async function fetchRecipes(req, res) {
 }
 
 // 404-foutafhandelingsmiddleware
-app.use((req, res, next) => {
+app.use((req, res) => {
     res.status(404).send("Pagina niet gevonden");
 });
 
 // 500-foutafhandelingsmiddleware
-app.use((err, req, res, next) => {
+app.use((err, req, res) => {
     console.error(err.stack);
     res.status(500).send("Er is een serverfout opgetreden!");
 });

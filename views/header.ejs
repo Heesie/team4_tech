@@ -1,13 +1,62 @@
-<header>
-    <a href="/"><img src="" alt="Logo"></a>
-
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/styles/basis.css">
+</head>
+<body>
+    <header>
+        <div class="nav-placeholder"></div>
+        <div class="logo"><img src="images/pizza.svg" alt=""></div>
+        
+        <nav class="desktop-nav">
+            <ul>
+                <li><a href="#">Home</a></li>
+                <li><a href="#">Zoek recepten</a></li>
+                <li><a href="#">Account</a></li>
+                <li><a href="#">Contact</a></li>
+            </ul>
+        </nav>
+        
+        <button class="hamburger-menu" aria-label="Menu">
+            <img src="images/menu.svg" alt="">
+        </button>
+    </header>
     
-    <nav>
+    <nav class="mobile-nav">
+        <button class="close-menu" aria-label="Sluit menu"><img src="images/taco.svg" alt="">
+        </button> 
         <ul>
-            <li><a href="#">Bla</a></li>
-            <li><a href="#">Bla</a></li>
-            <li><a href="/login">Log in</a></li>
-            <li><a href="/createAccount">Create account</a></li>
+            <li><a href="#">Home</a></li>
+            <li><a href="#">Over ons</a></li>
+            <li><a href="#">Diensten</a></li>
+            <li><a href="#">Contact</a></li>
         </ul>
     </nav>
-</header>
+
+
+    <script>
+                /* header uitklap menu */
+const closeBtn = document.querySelector(".mobile-nav button");
+const openBtn = document.querySelector(".hamburger-menu");
+const nav = document.querySelector(".mobile-nav");
+
+console.log(nav);
+
+openBtn.addEventListener("click", openMenu);
+closeBtn?.addEventListener("click", closeMenu);
+
+function openMenu() {
+    nav.classList.add("active");
+}
+
+function closeMenu() {
+    nav.classList.remove("active");
+}
+
+/* header uitklap menu */
+    </script>
+</body>
+</html>

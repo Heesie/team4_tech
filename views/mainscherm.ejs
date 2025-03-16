@@ -11,13 +11,7 @@
             margin: 0;
             padding: 0;
         }
-        header {
-            background-color: #ccc;
-            padding: 15px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
+  
         main {
             padding: 20px;
         }
@@ -35,6 +29,56 @@
             border-radius: 5px;
             cursor: pointer;
         }
+
+        .filterbuttons {
+            list-style-type: none;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            padding: 0;
+        }
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+        .dropdown button {
+            background-color: aqua;
+            color: black;
+            padding: 10px 15px;
+            border: none;
+            cursor: pointer;
+        }
+        .dropdown .content {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            min-width: 150px;
+            box-shadow: 2px 2px 5px black;
+            background-color: white;
+            z-index: 100;
+            padding: 0;
+        }
+        .dropdown .content li {
+            list-style-type: none;
+        }
+        .dropdown .content a {
+            display: block;
+            text-decoration: none;
+            padding: 10px;
+            color: black;
+            background-color: white;
+            transition: background 0.3s;
+        }
+        .dropdown .content a:hover {
+            background-color: lightgray;
+        }
+        
+        /* Gebruik :focus-within om menu te openen bij klikken */
+        .dropdown:focus-within .content {
+            display: block;
+        }
+
         .recept-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -68,13 +112,19 @@
         .recept button:hover {
             background-color: orange;
         }
+
+        .recept-afbeelding {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
     </style>
 </head>
 <body>
     <header>
-        <button>&#9776;</button>
-        <h1>Logo</h1>
-        <button>&#128100;</button>
+        <%- include('header') %>
     </header>
     
     <main>
@@ -84,9 +134,7 @@
                 <button type="submit">Zoeken</button>
             </form>
         </div>
-        
-        <h2>Gevonden Recepten:</h2>
-            
+                    
             <ul class="filterbuttons">
                 <li>
                     <div class="dropdown" tabindex="0">
@@ -136,48 +184,17 @@
             
             <h2>Recepten:</h2>
             
-            <section class="recept-grid">
-                <div class="recept">
-                    <h3>Pasta</h3>
-                    <p>beschrijving</p>
-                    <button>Bekijk Recept</button>
-                </div>
-    
-                <div class="recept">
-                    <h3>Pizza</h3>
-                    <p>beschrijving</p>
-                    <button>Bekijk Recept</button>
-                </div>
-    
-                <div class="recept">
-                    <h3>Sushi</h3>
-                    <p>beschrijving</p>
-                    <button>Bekijk Recept</button>
-                </div>
-    
-                <div class="recept">
-                    <h3>Wok</h3>
-                    <p>beschrijving</p>
-                    <button>Bekijk Recept</button>
-                </div>
-    
-                <div class="recept">
-                    <h3>iets</h3>
-                    <p>beschrijving</p>
-                    <button>Bekijk Recept</button>
-                </div>
-    
-                <div class="recept">
-                    <h3>Iets2</h3>
-                    <p>beschrijving</p>
-                    <button>Bekijk Recept</button>
-                </div>
-            </section>
+      
   
         <section class="recept-grid">
             <% if (recipes && recipes.length > 0) { %>
                 <% recipes.forEach(recipe => { %>
                     <div class="recept">
+                        <% if (recipe.imageUrl) { %>
+                            <img src="<%= recipe.imageUrl %>" alt="Afbeelding van <%= recipe.name %>" class="recept-afbeelding">
+                        <% } else { %>
+                            <img src="/images/default-recipe.jpg" alt="Geen afbeelding beschikbaar" class="recept-afbeelding">
+                        <% } %>
                         <h3><%= recipe.name %></h3>
                         <p><%= recipe.description || 'Geen beschrijving beschikbaar' %></p>
                         <button onclick="window.location.href='/recipe/<%= recipe.id %>'">Bekijk Recept</button>
@@ -188,5 +205,8 @@
             <% } %>
         </section>
     </main>
+    <footer>
+        <%- include('footer') %>
+    </footer>
 </body>
 </html>

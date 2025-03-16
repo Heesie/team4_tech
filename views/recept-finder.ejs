@@ -7,18 +7,17 @@
     <link rel="stylesheet" href="/styles/style.css">
 </head>
 <body>
-    <header>
-    <h1>Welkom bij Recipify</h1>
-    </header>
+  <header>
+    <%- include('header') %>
+   </header>
     <main>
 
         <section class="finder">
-            <form>
-                <h2>Wat wil je vandaag eten?</h2>
-                <input type="text" placeholder="Zoek op ingredienten, recepten">
-                <button type="submit">Zoeken</button>
-            </form>
-            <a href="#">Uitgebreid zoeken</a>
+          <form action="/search" method="GET">
+            <h2>Wat wil je vandaag eten?</h2>
+            <input type="text" name="query" placeholder="Zoek op ingrediënten, recepten">
+            <button type="submit">Zoeken</button>
+        </form>
         </section>
         
 
@@ -57,6 +56,9 @@
   </div>
 
 </main>
+<footer>
+  <%- include('footer') %>
+</footer>
 <script>
   //  gedeelte pop up hier want get elemented by id document
   window.addEventListener("load", function() {

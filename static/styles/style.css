@@ -14,22 +14,15 @@
 body {
     font-family: Verdana, Geneva, Tahoma, sans-serif;
     color: #333;
-    padding: 30px 30px;
-  }
 
-  header{
-    text-align: center;
+  }
+main {
+  padding: 0px 30px;
 }
 
 /* basis */
   /* kook niveau */
 
-body {
-    font-family: Verdana, Geneva, Tahoma, sans-serif;
-    color: #333;
-    padding: 30px 30px;
-  }
-  
 
 
 .image-cooking{
@@ -141,12 +134,10 @@ body {
         border-radius: 10px;
         cursor: pointer;
         box-sizing: border-box; 
+        margin-top: 10px;
     }
     
-    button {
-        margin-top: 10px; 
-    }
-    
+
 .filter-begin {
     margin-top: 10em;
 
@@ -406,3 +397,161 @@ display: none;
 }
 
  /* Allergie pagina */
+
+
+ /* header basis */
+
+.steady {
+  font-family: Arial, sans-serif;
+  position: relative;
+}
+
+header {
+  padding: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  background-color: #eff4ed;
+}
+
+.hamburger-menu {
+  display: none;
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 0.5rem;
+  margin-left: auto; /* Dit zorgt ervoor dat de knop naar rechts wordt geduwd */
+}
+
+.logo img {
+  width: 40px;
+}
+
+nav.desktop-nav ul {
+  display: flex;
+  list-style: none;
+}
+
+
+nav.desktop-nav ul li {
+  margin-right: 2em;
+  font-size: 20px;
+}
+
+nav.desktop-nav ul li a {
+color: #afc8a1;
+  text-decoration: none;
+  position: relative;
+  transition: color 0.9 ease;
+  }
+
+  nav.desktop-nav ul li a:hover {
+    color: #ffac92; 
+  }
+
+  nav.desktop-nav ul li a:after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    bottom: -5px;
+    width: 0;
+    height: 3px;
+    background: #ffac92;
+    transition: width 0.3s ease, left 0.3s ease;
+      }
+
+      nav.desktop-nav ul li a:hover::after{
+        width: 100%;
+        left: 0;
+    }
+
+    .hamburger-menu {
+      display: none;
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 0.5rem;
+      margin-left: auto; 
+  }
+  .hamburger-menu img {
+    width: 24px;
+    height: 24px;
+}
+
+/* header stukje voor desktop */
+
+.mobile-nav {
+  position: relative;
+  top: 100%; 
+  right: 0;
+  width: 40%;
+  background-color: #afc8a1;
+  max-height: 0px;
+  overflow: hidden;
+  transition: max-height 1s ease;
+border-radius: 5px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+/* header voor mobile met uitklap functie  */
+
+
+/* media querie voor scherm  */
+
+
+@media screen and (max-width: 950px) {
+  nav.desktop-nav {
+      display: none;
+  }
+
+  .hamburger-menu {
+      display: block;
+  }
+  
+  .nav-placeholder {
+      display: none;
+  }
+}
+
+/* media querie voor scherm  */
+
+
+@media screen and (max-width: 950px) {
+  nav.desktop-nav {
+      display: none;
+  }
+
+  .hamburger-menu {
+      display: block;
+  }
+  
+  .nav-placeholder {
+      display: none;
+  }
+}
+
+
+/* media querie voor scherm  */
+
+/* header voor mobile met uitklap functie  */
+
+
+
+/* Button close image*/
+.close-menu {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: none;
+  border: none;
+  color: white;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+.close-menu img{
+  width: 30px;
+}
+
+/* Button close image*/
+

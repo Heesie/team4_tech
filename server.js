@@ -1,4 +1,3 @@
-
 const dotenv = require('dotenv');
 dotenv.config();
 
@@ -33,7 +32,7 @@ app
     .get('/fetch-recipes', fetchRecipes) // Nieuwe route voor API-aanroepen
     .listen(2000, () => console.log("De server draait op host 2000"));
 
-    // Verbind met MongoDB database
+// Verbind met MongoDB database
 const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb')
 // Maak de verbindingstring voor MongoDB met gegevens uit de .env file
 const uri = `mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@${process.env.DB_HOST}/${process.env.DB_NAME}?retryWrites=true&w=majority`
@@ -81,8 +80,15 @@ app.post('/createAccount', async (req, res) => {
         errors.push('Ongeldig e-mailadres');
     }
 
-    if (!validator.isLength(password, { min: 8 })) {
+    // Valideer wachtwoord
+    if (!password || password.length === 0) {
+        errors.push('Wachtwoord mag niet leeg zijn');
+    } else if (password.length < 8) {
         errors.push('Wachtwoord moet minimaal 8 tekens lang zijn');
+    } else if (!/[A-Z]/.test(password)) {
+        errors.push('Wachtwoord moet minimaal één hoofdletter bevatten');
+    } else if (!/[0-9]/.test(password)) {
+        errors.push('Wachtwoord moet minimaal één cijfer bevatten');
     }
 
     if (password !== passwordConfirm) {
@@ -291,5 +297,13 @@ async function fetchRecipes(req, res) {
     res.json(allData.Receptenlijst); // Geef de verzamelde data als JSON terug
 }
 
+// 404-foutafhandelingsmiddleware
+app.use((req, res, next) => {
+    res.status(404).send("Pagina niet gevonden");
+});
 
-
+// 500-foutafhandelingsmiddleware
+app.use((err, req, res, next) => {
+    console.error(err.stack);
+    res.status(500).send("Er is een serverfout opgetreden!");
+});

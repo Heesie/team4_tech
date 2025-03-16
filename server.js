@@ -32,11 +32,11 @@ app
     .get('/fetch-recipes', fetchRecipes) // Nieuwe route voor API-aanroepen
     .listen(2000, () => console.log("De server draait op host 2000"));
 
-    // Use MongoDB
+    // Verbind met MongoDB database
 const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb')
-// Construct URL used to connect to database from info in the .env file
+// Maak de verbindingstring voor MongoDB met gegevens uit de .env file
 const uri = `mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@${process.env.DB_HOST}/${process.env.DB_NAME}?retryWrites=true&w=majority`
-// Create a MongoClient
+// Maak een nieuwe MongoClient aan om verbinding te maken met de MongoDB-database
 const client = new MongoClient(uri, {
     serverApi: {
       version: ServerApiVersion.v1,
@@ -45,18 +45,26 @@ const client = new MongoClient(uri, {
     }
 })
 
+// Probeer verbinding te maken met de database
+client.connect()
+  .then(() => {
+    console.log('Verbinding met de database succesvol opgezet');
+  })
+  .catch((err) => {
+    console.error(`Fout bij het verbinden met de database: ${err}`);
+    console.error(`Gebruikte URI: ${uri}`);
+  });
+
 function createAccount(req, res) {
     res.render('createAccount', { errorMessage: '' });
 }
-
-// hallo
 
 function login(req, res) {
     res.render('login', { errorMessage: '' });
 }
 
 // Endpoint om (registratie)formuliergegevens te verwerken
-app.post('/createAccount', (req, res) => {
+app.post('/createAccount', async (req, res) => {
     let { fullname, email, password, passwordConfirm, voorwaarden } = req.body;
 
     // Sanitizeer de invoer om XSS-aanvallen te voorkomen
@@ -86,13 +94,28 @@ app.post('/createAccount', (req, res) => {
         return res.render('createAccount', { errorMessage: errors.join(', ') });
     }
 
-    console.log('Veilige gegevens ontvangen: ', { fullname, email, password });
+    try {
+        // Verkrijg toegang tot de gebruikersverzameling in de database
+        const database = client.db(process.env.DB_NAME);
+        const usersCollection = database.collection('users');
 
-    res.send('Registratie succesvol!');
+        // Controleer of e-mail al bestaat
+        const existingUser = await usersCollection.findOne({ email });
+        if (existingUser) return res.render('createAccount', { errorMessage: 'E-mail is al geregistreerd' });
+
+        // Voeg gebruiker toe aan database
+        await usersCollection.insertOne({ fullname, email, password });
+
+        console.log("Gebruiker aangemaakt:", { fullname, email });
+        res.send('Registratie succesvol!');
+    } catch (err) {
+        console.error("Fout bij registreren:", err);
+        res.status(500).send("Server error");
+    }
 });
 
 // Endpoint om (inlog)formuliergegevens te verwerken
-app.post('/login', (req, res) => {
+app.post('/login', async (req, res) => {
     let { email, password } = req.body;
 
     // Sanitizeer de invoer om XSS-aanvallen te voorkomen
@@ -111,6 +134,25 @@ app.post('/login', (req, res) => {
 
     if (errors.length > 0) {
         return res.render('login', { errorMessage: errors.join(', ') });
+    }
+
+    try {
+        // Verkrijg toegang tot de gebruikersverzameling in de database
+        const database = client.db(process.env.DB_NAME);
+        const usersCollection = database.collection('users');
+
+        // Zoek de gebruiker op e-mail
+        const user = await usersCollection.findOne({ email });
+        if (!user) return res.render('login', { errorMessage: 'E-mail niet gevonden' });
+
+        // Vergelijk het wachtwoord
+        if (user.password !== password) return res.render('login', { errorMessage: 'Ongeldig wachtwoord' });
+
+        console.log('Inloggen succesvol:', { email });
+        res.send('Inloggen succesvol!');
+    } catch (err) {
+        console.error("Fout bij inloggen:", err);
+        res.status(500).send("Server error");
     }
 });
 

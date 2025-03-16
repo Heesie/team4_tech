@@ -3,6 +3,7 @@ const dotenv = require('dotenv');
 dotenv.config();
 
 const express = require('express');
+const bcrypt = require('bcryptjs');
 const xss = require('xss')
 const validator = require('validator');
 const app = express();
@@ -65,14 +66,13 @@ function login(req, res) {
 
 // Endpoint om (registratie)formuliergegevens te verwerken
 app.post('/createAccount', async (req, res) => {
-    let { fullname, email, password, passwordConfirm, voorwaarden } = req.body;
+    let { fullname, email, password, passwordConfirm } = req.body;
 
     // Sanitizeer de invoer om XSS-aanvallen te voorkomen
     fullname = xss(fullname);
     email = xss(email);
     password = xss(password);
     passwordConfirm = xss(passwordConfirm);
-    voorwaarden = xss(voorwaarden);
 
     // Lege array om foutmeldingen op te slaan
     const errors = [];
@@ -103,8 +103,11 @@ app.post('/createAccount', async (req, res) => {
         const existingUser = await usersCollection.findOne({ email });
         if (existingUser) return res.render('createAccount', { errorMessage: 'E-mail is al geregistreerd' });
 
+        // Wachtwoord hashen
+        const hashedPassword = await bcrypt.hash(password, 10);
+
         // Voeg gebruiker toe aan database
-        await usersCollection.insertOne({ fullname, email, password });
+        await usersCollection.insertOne({ fullname, email, password: hashedPassword });
 
         console.log("Gebruiker aangemaakt:", { fullname, email });
         res.send('Registratie succesvol!');
@@ -146,7 +149,8 @@ app.post('/login', async (req, res) => {
         if (!user) return res.render('login', { errorMessage: 'E-mail niet gevonden' });
 
         // Vergelijk het wachtwoord
-        if (user.password !== password) return res.render('login', { errorMessage: 'Ongeldig wachtwoord' });
+        const match = await bcrypt.compare(password, user.password);
+        if (!match) return res.render('login', { errorMessage: 'Ongeldig wachtwoord' });
 
         console.log('Inloggen succesvol:', { email });
         res.send('Inloggen succesvol!');

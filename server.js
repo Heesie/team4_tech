@@ -24,6 +24,7 @@ app
     .get('/createAccount', createAccount)
     .get('/login', login)
     .get('/mainscherm', mainscherm)
+    .get('/recept', recept)
     .get('/koelkast', koelkast)
     .get('/pop-up', popup)
     .get('/allergie', allergie)
@@ -132,6 +133,26 @@ async function mainscherm(req, res) {
     } catch (error) {
         console.error('Fout bij ophalen van recepten:', error);
         res.render('mainscherm.ejs', { recipes: [] });
+    }
+}
+
+async function recept(req, res) {
+    try {
+        // Haal recepten op
+        const data = await fetchFromTasty('recipes/list', { from: 0, size: 20, tags: 'under_30_minutes' });
+
+        // Controleer of er resultaten zijn
+        const recipes = data?.results.map(recipe => ({
+            id: recipe.id,
+            name: recipe.name,
+            description: recipe.description || 'Geen beschrijving beschikbaar',
+            imageUrl: recipe.thumbnail_url || '/images/default-recipe.jpg' // Standaard afbeelding als geen beschikbaar is
+        })) || [];
+
+        res.render('recept.ejs', { recipes });
+    } catch (error) {
+        console.error('Fout bij ophalen van recepten:', error);
+        res.render('recept.ejs', { recipes: [] });
     }
 }
 

@@ -31,7 +31,10 @@ app
     .get('/fetch-recipes', fetchRecipes) 
     .get('/header', header) 
     .get('/footer', footer) 
+    .get('/intro', tomaat) 
     .listen(2000, () => console.log("De server draait op host 2000"));
+
+
 
 // Verbind met MongoDB database
 const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb')
@@ -238,7 +241,9 @@ function kookniveau(req, res) {
     res.render('kookniveau.ejs');
 }
 
-
+function tomaat(req, res) {
+    res.render('intro.ejs');
+}
 // API-aanroepen gedeelte
 
 const API_KEY = process.env.API_KEY;
@@ -319,3 +324,5 @@ app.use((err, req, res) => {
     console.error(err.stack);
     res.status(500).send("Er is een serverfout opgetreden!");
 });
+
+

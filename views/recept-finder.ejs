@@ -10,6 +10,26 @@
 <body>
   <%- include('header') %>
 
+
+  <div class="main-container">
+    <div class="container">
+        <img src="/images/talking-tomato.svg" alt="Tomaat" class="tomaat">
+        <div class="wolk">
+            <p id="tekst-wolk"></p>
+        </div>
+    </div>
+</div>
+
+
+<section>
+    <div class="trash-container">
+        <a href="/koelkast">
+            <span class="tooltip">Klik hier om te zien wat je met afval kan</span>
+            <img src="/images/trash.svg" alt="trash icon">
+        </a>
+    </div>
+</section>
+
   <h1>Welkom bij receptify</h1>
   <section class="finder">
     <h2>Zoek een recept om te maken</h2>
@@ -20,13 +40,10 @@
     <a href="/mainscherm" >Uitgebreid zoeken</a>
 </section>
 
-
-
-
 </section>
 
   <section class="trending">
-    <h2>Zie wat trending is</h2>
+    <h2>Willekeurige recepten</h2>
     <section class="recept-grid">
       <% if (recipes && recipes.length > 0) { %>
           <% recipes.forEach(recipe => { %>
@@ -50,5 +67,30 @@
 
 
 
+
+<script>
+
+const tekstWolk = document.getElementById('tekst-wolk');
+const tekst = "HI, Welkom bij Receptify!";
+
+let index = 0;
+
+function typeEffect() {
+    if (index < tekst.length) {
+        tekstWolk.textContent += tekst.charAt(index);
+        index++;
+        setTimeout(typeEffect, 1);  // Typen nog sneller door het interval te verlagen naar 1ms
+    } else {
+        setTimeout(() => {
+            document.querySelector('.main-container').classList.add('verberg');
+        }, 2500);  // Snel de pop-up verbergen zonder vertraging
+    }
+}
+
+typeEffect();
+
+
+    
+        </script>
 </body>
 </html>

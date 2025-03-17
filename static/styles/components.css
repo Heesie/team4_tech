@@ -1,0 +1,36 @@
+.button {
+    padding: 10px 20px;
+    font-size: 14px;
+    background-color: #578A37;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: background-color 0.3s ease;
+}
+
+
+.button:hover {
+    background-color: #2C5810;
+}
+
+
+.input-field {
+    width: 300px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+    outline: none;
+    cursor: text;
+}
+
+
+.input-field:focus {
+    border-color: #4CAF50;
+}
+
+.input-field::placeholder {
+    color: #888;
+}

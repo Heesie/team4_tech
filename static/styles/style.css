@@ -4,7 +4,7 @@
   /*********************/
   :root {
 
-    --color-background-base:#d2d2d2;
+    --color-background-base:#FFE6B1;
     --color-font:black;
     --button-background:#007bff;
 
@@ -14,6 +14,7 @@
 body {
     font-family: Verdana, Geneva, Tahoma, sans-serif;
     color: #333;
+    background-color: #FFF5DF;
 
   }
 main {
@@ -93,50 +94,6 @@ main {
 
     /* recept finder begin pagina */
 
-    .finder {
-        max-width: 500px; 
-        margin: 0 auto; 
-    }
-    .finder h2{
-        font-size: 20px;
-        margin-right: 5em;
-        margin-top: 2em;
-    }
-
-    .finder a{
-        text-decoration: none;
-        color: #333;
-        display: inline-block;
-    margin-top: 10px;   
-
-    }
-
-.finder input{
-    background-color: #d7d7d7;
-    display: block; 
-    width: 100%; 
-    padding: 15px;
-    color: white;
-    border: none;
-    border-radius: 10px;
-    cursor: pointer;
-    box-sizing: border-box; 
-}
-
-    
-    .finder button {
-        display: block; 
-        width: 100%; 
-        padding: 15px;
-        background-color: #444;
-        color: white;
-        border: none;
-        border-radius: 10px;
-        cursor: pointer;
-        box-sizing: border-box; 
-        margin-top: 10px;
-    }
-    
 
 .filter-begin {
     margin-top: 10em;
@@ -195,19 +152,19 @@ main {
         
         .pop-up h2 {
           font-size: 25px;
-          color: red;
+          color: #578A37;
         }
 
         .pop-up p {
             font-size: 14px;
             margin: 20px 0;
             line-height: 20px;
-            color: rgb(255, 148, 148);
+            color: #83b863;
            }
         
         .pop-up {
             display: none; 
-            background-color: rgb(255, 219, 219);
+          background-color: #EFF4EC;
             width: 250px;
             height: 350px;
             padding: 30px 40px;
@@ -240,7 +197,7 @@ main {
         border: none;
         outline: none;
         cursor: pointer;
-        background-color: rgb(117, 117, 117);
+        background-color: #578A37;
         color: white;
         } 
         
@@ -252,7 +209,7 @@ main {
         .pop-up a{
             position: relative; 
         top: 40px;
-            background-color: rgb(121, 121, 121);
+        background-color: #578A37;
             padding: 10px 20px;
             text-decoration: none;
             color: white;
@@ -554,4 +511,5 @@ border-radius: 5px;
 }
 
 /* Button close image*/
+
 

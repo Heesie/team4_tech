@@ -1,6 +1,4 @@
-* {
-    box-sizing: border-box;
-}
+
 
 body {
     font-family: Arial, sans-serif;
@@ -15,7 +13,7 @@ header {
     justify-content: space-between;
     align-items: center;
     position: relative;
-    background-color: #eff4ed;
+    background-color: #FFB48D;
 }
 
 .logo img {
@@ -34,15 +32,15 @@ nav.desktop-nav ul li {
 }
 
 nav.desktop-nav ul li a {
-  color: #afc8a1;
+    color: white;
     text-decoration: none;
     position: relative;
     transition: color 0.9 ease;
-    font-size: 18px;
+    font-size: 15px;
     }
 
 nav.desktop-nav ul li a:hover {
-    color: #ffac92; 
+    color: #ff3c00; 
   }
   
 
@@ -54,7 +52,7 @@ nav.desktop-nav ul li a:hover {
     bottom: -5px;
     width: 0;
     height: 3px;
-    background: #ffac92;
+    background: #ffffff;
     transition: width 0.3s ease, left 0.3s ease;
       }
 
@@ -160,7 +158,7 @@ transform: scale(1.05);
 /* Button close image*/
 .close-menu {
     position: absolute;
-    top: 10px;
+    top: 15px;
     right: 10px;
     background: none;
     border: none;
@@ -174,3 +172,8 @@ transform: scale(1.05);
 }
 
 /* Button close image*/
+
+
+
+
+/* input gedeelte */

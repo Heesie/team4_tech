@@ -38,6 +38,7 @@ nav.desktop-nav ul li a {
     text-decoration: none;
     position: relative;
     transition: color 0.9 ease;
+    font-size: 18px;
     }
 
 nav.desktop-nav ul li a:hover {
@@ -88,7 +89,7 @@ nav.desktop-nav ul li a:hover {
 
 .mobile-nav {
     position: absolute;
-    top: 100%; 
+    top: 15%; 
     right: 0;
     width: 40%;
     background-color: #afc8a1;

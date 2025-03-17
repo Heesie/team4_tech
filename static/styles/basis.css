@@ -6,6 +6,10 @@ body {
 }
 
 
+h1{
+    text-align: center;
+}
+
 /* header stukje voor desktop */
 header {
     padding: 1rem;

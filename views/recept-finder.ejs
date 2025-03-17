@@ -4,79 +4,28 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Begin pagina</title>
-    <link rel="stylesheet" href="/styles/style.css">
-    <link rel="stylesheet" href="/styles/basis.css">
-   <link rel="stylesheet" href="/static/styles/components.css">
-
-    
+    <link rel="stylesheet" href="styles/style.css">
+    <link rel="stylesheet" href="styles/components.css">
 </head>
 <body>
-    <%- include('header') %>
-    <main>
+  <%- include('header') %>
+  
+  <h1>Welkom bij receptify</h1>
 
-        <section class="finder">
-          <form action="/search" method="GET">
-            <h2>Wat wil je vandaag eten?</h2>
-            <input type="text" name="query" placeholder="Zoek op ingrediënten, recepten" id="all-inputs">
-            <button type="submit">Zoeken</button>
-        </form>
-        </section>
-        
+  <section class="finder">
+    <h2>Zoek een recept om te eten</h2>
+    <label for="veld">
+      <input type="text" name="query" placeholder="Zoek op recepten" id="veld" class="input-field">
+    </label>
+    <button type="submit" class="button">Zoeken</button>
+  </section>
 
-<section class="filter-begin">
-  <h2>Filter op bepaalde categorieën</h2>
-  <div class="filter-categorie">
-    <input type="checkbox" id="vis" name="filter" value="vis">
-    <label for="vis">Vis</label>
 
-    <input type="checkbox" id="vlees" name="filter" value="vlees">
-    <label for="vlees">Vlees</label>
 
-    <input type="checkbox" id="italiaans" name="filter" value="italiaans">
-    <label for="italiaans">Italiaans</label>
 
-    <input type="checkbox" id="glutenvrij" name="filter" value="glutenvrij">
-    <label for="glutenvrij">Glutenvrij</label>
 
-    <input type="checkbox" id="vegetarisch" name="filter" value="vegetarisch">
-    <label for="vegetarisch">Vegetarisch</label>
 
-    <input type="checkbox" id="halal" name="filter" value="halal">
-    <label for="halal">Halal</label>
 
-    <input type="checkbox" id="veganistisch" name="filter" value="veganistisch">
-    <label for="veganistisch">Veganistisch</label>
-</div>
-  <button id="filter-submit">Toon recepten</button>
-</section>
 
-<div class="pop-up">
-    <button id="close"> x</button>
-    <h2> Welkom bij de Recepten zoeker!</h2>
-    <p>De app om je kookkunsten te delen, recepten te vinden met je eigen ingrediënten en punten te scoren!</p>
-    <a href="#">LETS GO</a>
-  </div>
-
-</main>
-<footer>
-  <%- include('footer') %>
-</footer>
-<script>
-  //  gedeelte pop up hier want get elemented by id document
-  window.addEventListener("load", function() {
-    setTimeout(function() {
-        document.querySelector(".pop-up").classList.add("show");
-    },2000);  
-});
-
-document.getElementById("close").addEventListener("click", function() {
-    document.querySelector(".pop-up").classList.remove("show");
-});
-</script>
-
-<label for="all-inputs">
-  <input type="text" name="query" placeholder="Zoek op ingrediënten, recepten" id="all-inputs">
-</label>
 </body>
-
 </html>

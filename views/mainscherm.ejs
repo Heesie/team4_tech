@@ -7,7 +7,7 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
+            background-color: #ffefca;
             margin: 0;
             padding: 0;
         }
@@ -24,11 +24,12 @@
         .search-bar button {
             padding: 5px 10px;
             border: none;
-            background-color: darkgreen;
+            background-color: #578A37;
             color: white;
             border-radius: 5px;
             cursor: pointer;
         }
+
 
         .filterbuttons {
             list-style-type: none;
@@ -41,12 +42,14 @@
             position: relative;
             display: inline-block;
         }
+
         .dropdown button {
-            background-color: aqua;
-            color: black;
+            background-color: #FF3D00;
+            color: white;
             padding: 10px 15px;
             border: none;
             cursor: pointer;
+            border-radius: 8px;
         }
         .dropdown .content {
             display: none;
@@ -55,13 +58,15 @@
             left: 0;
             min-width: 150px;
             box-shadow: 2px 2px 5px black;
-            background-color: white;
+            background-color: #f1f1f1;
             z-index: 100;
             padding: 0;
         }
+        
         .dropdown .content li {
             list-style-type: none;
         }
+
         .dropdown .content a {
             display: block;
             text-decoration: none;
@@ -70,6 +75,7 @@
             background-color: white;
             transition: background 0.3s;
         }
+
         .dropdown .content a:hover {
             background-color: lightgray;
         }
@@ -101,7 +107,7 @@
             color: #555;
         }
         .recept button {
-            background-color: darkgreen;
+            background-color: #578A37;
             color: white;
             border: none;
             padding: 10px;
@@ -123,10 +129,7 @@
     </style>
 </head>
 <body>
-    <header>
         <%- include('header') %>
-    </header>
-    
     <main>
         <div class="search-bar">
             <form action="/search" method="GET">
@@ -134,7 +137,7 @@
                 <button type="submit">Zoeken</button>
             </form>
         </div>
-                    
+                 <p>Filteren:</p>   
             <ul class="filterbuttons">
                 <li>
                     <div class="dropdown" tabindex="0">

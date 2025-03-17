@@ -20,5 +20,31 @@
     <button type="submit" class="button">Zoeken</button>
   </section>
 
+
+
+  <section class="trending">
+    <h2>Zie wat trending is</h2>
+    <section class="recept-grid">
+      <% if (recipes && recipes.length > 0) { %>
+          <% recipes.forEach(recipe => { %>
+              <div class="recept">
+                  <% if (recipe.imageUrl) { %>
+                      <img src="<%= recipe.imageUrl %>" alt="Afbeelding van <%= recipe.name %>" class="recept-afbeelding">
+                  <% } else { %>
+                      <img src="/images/default-recipe.jpg" alt="Geen afbeelding beschikbaar" class="recept-afbeelding">
+                  <% } %>
+                  <h3><%= recipe.name %></h3>
+                  <p><%= recipe.description || 'Geen beschrijving beschikbaar' %></p>
+                  <button onclick="window.location.href='/recipe/<%= recipe.id %>'">Bekijk Recept</button>
+              </div>
+          <% }) %>
+      <% } else { %>
+          <p>Geen recepten gevonden.</p>
+      <% } %>
+  </section>
+  </section>
+  
+
+
 </body>
 </html>

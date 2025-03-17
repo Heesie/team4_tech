@@ -1,464 +1,156 @@
 
- /*********************/
-  /* CUSTOM PROPERTIES */
-  /*********************/
-  :root {
+/* basis code */
 
-    --color-background-base:#FFE6B1;
-    --color-font:black;
-    --button-background:#007bff;
-
-  }
-
-/* basis  */
-body {
-    font-family: Verdana, Geneva, Tahoma, sans-serif;
-    color: #333;
-    background-color: #FFF5DF;
-
-  }
-main {
-  padding: 0px 30px;
-}
-
-/* basis */
-  /* kook niveau */
-
-
-
-.image-cooking{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-
-.keuzen-niveau {
-    margin-top: 2em;
-}
-.keuzen-niveau button {
-    margin-bottom: 15px;
-    padding: 15px 20px;
-    width: 100%;
-    border-radius: 20px;
-    border: none;
-    font-size: 20px;
-    transition: background-color 0.3s ease;
-    cursor: pointer;
-}
-
-
-  .keuzen-niveau p {
-      font-size: 14px; 
-      margin: 10px 0 0;
-      color: #555; 
-  }
-
-  .keuzen-niveau .beginner{
-    background-color: rgb(218, 255, 218);
-  }
-  .keuzen-niveau .beginner:hover{
-    background-color: rgb(82, 225, 82);
-  }
-  .keuzen-niveau .gemiddeld{
-    background-color: rgb(255, 236, 169);
-  }
-  .keuzen-niveau .gemiddeld:hover{
-    background-color: rgb(255, 162, 23);
-  }
-
-  .keuzen-niveau .pro-chef{
-    background-color: rgb(255, 169, 169);
-  }
-  .keuzen-niveau .pro-chef:hover{
-    background-color: rgb(254, 59, 59);
-  }
-
-  .done button{
-    margin-bottom: 20px;
-    padding: 15px 20px;
-    width: 100%;
-    border-radius: 20px;
-    border: none;
-    font-size: 20px;
-    transition: background-color 0.3s ease;
-    cursor: pointer;
-  }
-
-  .done button:hover{
-    background-color: #333;
-    color: white;
-  }
-
-
-    /* kook niveau */
-
-    /* recept finder begin pagina */
-
-
-.filter-begin {
-    margin-top: 10em;
-
-}
-    .filter-begin h2{
-        font-size: 20px;
-        margin-right: 5em;
-        margin-top: 2em;
-    }
-
-
-    .filter-categorie input[type="checkbox"] {
-        display: none;
-      }
-
-      .filter-categorie {
-        display: flex;
-        flex-direction: row;
-        gap: 10px; 
-        flex-wrap: wrap;
-        color: white;
-        border-radius: 10px;
-    }
-    
-    .filter-categorie label {
-        background-color: #98ccff;
-        padding: 10px 20px; 
-        border-radius: 5px; 
-        color: white; 
-    }
-    
-    
-.filter-begin button {
-    display: inline-block;
-        padding: 10px 40px;
-        background-color: #bebebe;
-        color: white;
-        border-radius: 10px;
-        cursor: pointer;
-        margin-top: 20px;
-    
-    text-align: center;
-        border: none;
-    
-}
-
-    /* recept finder begin pagina */
-
-   
-
-    /* koelkast functie */
-
-
-
-     /* koelkast functie */
-
-     .koelkast-list {
-        display: flex;
-        flex-direction: column;
-        gap: 15px; 
-        margin-top: 3em;
-
-    }
-    
-    .koelkast-list label {
-        display: flex;
-        align-items: center;
-        font-size: 18px;
-        font-weight: bold;
-        color: #333;
-    }
-    
-    .ingredient-input {
-        flex: 1;
-        padding: 10px;
-        border: none;
-        border-radius: 5px;
-        background-color: #c5e1ff;
-        font-size: 16px;
-        transition: 0.3s ease-in-out;
-    }
-    
-
- /* koelkast functie */
-
-
- /* Allergie pagina */
-  label img{
-    width: 50px;
+:root {
+  --font-primary: 'Avenir', sans-serif; 
+  --font-secondary: 'Helvetica', sans-serif; 
+  --background-color:#fdf3de;
+  --color-font:black;
 }
 
 
 
 
-.filter-allergie {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-}
-
-.filter-allergie input {
-  display: none; 
-}
-
-.filter-allergie label {
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 60px;
-  height: 60px;
-  border-radius: 50%;
-  background-color: #f5f5f5;
-
-}
-
-.filter-allergie label img {
-  width: 40px;
-  height: 40px;
-}
-
-/* Actieve status bij selectie */
-.filter-allergie input:checked + label {
-  background-color: #888;
-}
-
-
-.filter-allergie input[type="checkbox"] {
-display: none;
-}
-.filter-start{
-  margin-top: 5em;
-}
-
-
-
-  .filter-start h2{
-      font-size: 20px;
-      margin-right: 5em;
-      margin-top: 2em;
-  }
-
-
-  .filter-categorie input[type="checkbox"] {
-      display: none;
-    }
-
-    .filter-categorie {
-      display: flex;
-      flex-direction: row;
-      gap: 10px; 
-      flex-wrap: wrap;
-      color: white;
-      border-radius: 10px;
-  }
-  
-  .filter-categorie label {
-      background-color: #98ccff;
-      padding: 10px 20px; 
-      border-radius: 5px; 
-      color: white; 
-  }
-  
-  
-.filter-start button {
-  display: inline-block;
-      padding: 10px 40px;
-      background-color: #bebebe;
-      color: white;
-      border-radius: 10px;
-      cursor: pointer;
-      margin-top: 20px;
-  
+h1, h2, h3 {
+  font-family: var(--font-primary); 
   text-align: center;
-      border: none;
 }
 
- /* Allergie pagina */
-
-
- /* header basis */
-
-.steady {
-  font-family: Arial, sans-serif;
-  position: relative;
+h4, h5, h6 p {
+  font-family: var(--font-secondary); 
+}
+body {
+  background-color: var(--background-color);
+  margin: 0;
+  padding: 0;
+  color: #333;
+font-family:sans-serif ;
 }
 
-header {
-  padding: 1rem;
+
+
+
+/* pop up  tomaat */
+
+.main-container.verberg {
+  opacity: 0;
+  transition: opacity 1s step-end;
+  pointer-events: none; 
+}
+
+.main-container {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
+  position: fixed; 
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%); 
+  width: 300px; 
+  height: 400px; 
+  background-color: #e7ffdc; 
+  border-radius: 10px; 
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); 
+  padding: 20px; 
+}
+
+.container {
   position: relative;
-  background-color: #eff4ed;
+  display: inline-block;
 }
 
-.hamburger-menu {
-  display: none;
-  cursor: pointer;
-  background: none;
-  border: none;
-  padding: 0.5rem;
-  margin-left: auto; /* Dit zorgt ervoor dat de knop naar rechts wordt geduwd */
+.tomaat {
+  width: 200px;
+  margin-top: 1em;
 }
 
-.logo img {
-  width: 40px;
-}
-
-nav.desktop-nav ul {
-  display: flex;
-  list-style: none;
-}
-
-
-nav.desktop-nav ul li {
-  margin-right: 2em;
-  font-size: 20px;
-}
-
-nav.desktop-nav ul li a {
-color: #afc8a1;
-  text-decoration: none;
-  position: relative;
-  transition: color 0.9 ease;
-  }
-
-  nav.desktop-nav ul li a:hover {
-    color: #ffac92; 
-  }
-
-  nav.desktop-nav ul li a:after {
-    content: "";
-    position: absolute;
-    left: 50%;
-    bottom: -5px;
-    width: 0;
-    height: 3px;
-    background: #ffac92;
-    transition: width 0.3s ease, left 0.3s ease;
-      }
-
-      nav.desktop-nav ul li a:hover::after{
-        width: 100%;
-        left: 0;
-    }
-
-    .hamburger-menu {
-      display: none;
-      cursor: pointer;
-      background: none;
-      border: none;
-      padding: 0.5rem;
-      margin-left: auto; 
-  }
-  .hamburger-menu img {
-    width: 24px;
-    height: 24px;
-}
-
-/* header stukje voor desktop */
-
-.mobile-nav {
-  position: relative;
-  top: 100%; 
-  right: 0;
-  width: 40%;
-  background-color: #afc8a1;
-  max-height: 0px;
-  overflow: hidden;
-  transition: max-height 1s ease;
-border-radius: 5px;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-}
-/* header voor mobile met uitklap functie  */
-
-
-/* media querie voor scherm  */
-
-
-@media screen and (max-width: 950px) {
-  nav.desktop-nav {
-      display: none;
-  }
-
-  .hamburger-menu {
-      display: block;
-  }
-  
-  .nav-placeholder {
-      display: none;
-  }
-}
-
-/* media querie voor scherm  */
-
-
-@media screen and (max-width: 950px) {
-  nav.desktop-nav {
-      display: none;
-  }
-
-  .hamburger-menu {
-      display: block;
-  }
-  
-  .nav-placeholder {
-      display: none;
-  }
-}
-
-
-/* media querie voor scherm  */
-
-/* header voor mobile met uitklap functie  */
-
-
-
-/* Button close image*/
-.close-menu {
+.wolk {
   position: absolute;
-  top: 10px;
-  right: 10px;
-  background: none;
-  border: none;
-  color: white;
-  font-size: 1.5rem;
-  cursor: pointer;
+  top: -70px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #fff;
+  padding: 20px;  
+  border-radius: 10px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  width: 200px;  
+  text-align: center;
 }
 
-.close-menu img{
-  width: 30px;
+.wolk::after {
+  content: '';
+  position: absolute;
+  bottom: -20px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 20px;
+  border-style: solid;
+  border-color: #fff transparent transparent transparent;
 }
 
-/* Button close image*/
+
+#tekst-wolk {
+  font-size: 18px;
+  color: #333;
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  border-right: 3px solid #333;
+  width: 0;
+  animation: typing 1s steps(40) 1s forwards, blink 0.75s step-end infinite;
+}
+
+
+@keyframes typing {
+  0% {
+      width: 0;
+  }
+  100% {
+      width: 100%;
+  }
+}
+
+@keyframes blink {
+  50% {
+      border-color: transparent;
+  }
+  100% {
+      border-color: #333;
+  }
+}
+
+
+.tomaat {
+  animation: soft-bounce 1.5s infinite ease-in-out;
+}
+
+@keyframes soft-bounce {
+  0%, 100% { transform: translateY(0); }
+  30% { transform: translateY(-5px); } /* Kleine bounce omhoog */
+  50% { transform: translateY(0); } 
+  70% { transform: translateY(-2px); } /* Kleinere tweede bounce */
+}
+
+/* code van youtube tutorial */
+/* einde tomaat */
+
 
 
 /* 1e pagina  */
   /* Algemene stijlen */
-  body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #f8f9fa;
-    color: #333;
-}
-
-h1, h2, h3 {
-    color: #2c3e50;
-}
 
 
 
-/* Zoekveld */
 .finder {
-    text-align: center;
-    margin: 2rem auto;
-    padding: 1rem;
-    background: white;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-    border-radius: 10px;
-    max-width: 500px;
+  text-align: center;
+  margin: 2rem auto;
+  padding: 1rem;
+  background: white;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  max-width: 500px;
+  width: 90%; 
 }
-
 .input-container {
     display: flex;
     justify-content: center;
@@ -474,21 +166,7 @@ h1, h2, h3 {
     font-size: 1rem;
 }
 
-.button {
-    background-color: #ff6b6b;
-    color: white;
-    border: none;
-    padding: 0.8rem 1.2rem;
-    font-size: 1rem;
-    border-radius: 5px;
-    cursor: pointer;
-}
 
-.button:hover {
-    background-color: #e63946;
-}
-
-/* Trending recepten */
 .trending {
     max-width: 900px;
     margin: 2rem auto;
@@ -526,16 +204,7 @@ h1, h2, h3 {
     color: #555;
 }
 
-.recept button {
-    background-color: #ff6b6b;
-    color: white;
-    border: none;
-    padding: 0.5rem 1rem;
-    font-size: 1rem;
-    border-radius: 5px;
-    cursor: pointer;
-    margin-top: 10px;
-}
+
 
 .recept button:hover {
     background-color: #e63946;
@@ -544,6 +213,237 @@ h1, h2, h3 {
 /* Responsiviteit */
 @media (max-width: 600px) {
     .input-field {
-        width: 100%;
+        width: 80%;
     }
+}
+
+@media (max-width: 600px) {
+  .finder {
+      width: 80%;
+  }
+}
+
+
+
+.recept button {
+  background-color: #f09c00;
+  color: white;
+  border: none;
+  padding: 10px;
+  width: 100%;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.recept button:hover {
+  background-color: #FF7300;
+}
+
+.recept-afbeelding {
+width: 100%;
+height: 200px;
+object-fit: cover;
+border-radius: 10px;
+}
+
+
+
+
+/* gedeelte praatende mascotte  */
+
+
+/* basis code */
+
+:root {
+  --font-primary: 'Avenir', sans-serif; 
+  --font-secondary: 'Helvetica', sans-serif; 
+  --background-color:#fdf3de;
+  --color-font:black;
+}
+
+
+
+
+h1, h2, h3 {
+  font-family: var(--font-primary); 
+  text-align: center;
+}
+
+h4, h5, h6 p {
+  font-family: var(--font-secondary); 
+}
+body {
+  background-color: var(--background-color);
+  margin: 0;
+  padding: 0;
+  color: #333;
+font-family:sans-serif ;
+}
+
+
+/* 1e pagina  */
+  /* Algemene stijlen */
+
+
+
+.finder {
+  text-align: center;
+  margin: 2rem auto;
+  padding: 1rem;
+  background: white;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  max-width: 500px;
+  width: 90%; 
+}
+.input-container {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin: 1rem 0;
+}
+
+.input-field {
+    padding: 0.8rem;
+    width: 70%;
+    border: 2px solid #ccc;
+    border-radius: 5px;
+    font-size: 1rem;
+}
+
+
+.trending {
+    max-width: 900px;
+    margin: 2rem auto;
+    padding: 1rem;
+}
+
+.recept-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+.recept {
+    background: white;
+    padding: 1rem;
+    border-radius: 10px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.recept-afbeelding {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 5px;
+}
+
+.recept h3 {
+    margin-top: 10px;
+    font-size: 1.2rem;
+}
+
+.recept p {
+    font-size: 0.9rem;
+    color: #555;
+}
+
+
+
+.recept button:hover {
+    background-color: #e63946;
+}
+
+/* Responsiviteit */
+@media (max-width: 600px) {
+    .input-field {
+        width: 80%;
+    }
+}
+
+@media (max-width: 600px) {
+  .finder {
+      width: 80%;
+  }
+}
+
+
+
+.recept button {
+  background-color: #f09c00;
+  color: white;
+  border: none;
+  padding: 10px;
+  width: 100%;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.recept button:hover {
+  background-color: #FF7300;
+}
+
+.recept-afbeelding {
+width: 100%;
+height: 200px;
+object-fit: cover;
+border-radius: 10px;
+}
+
+/* melding van de koelkast functie */
+
+
+
+.trash-container {
+  background-color: rgb(255, 106, 106);
+  padding: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  position: absolute;
+  right: 20px;
+  top: 90px;
+}
+
+.trash-container img {
+  width: 30px; 
+  animation: trillen 0.5s ease-in-out infinite;
+}
+
+@keyframes trillen {
+  0% { transform: rotate(0deg); }
+  25% { transform: rotate(-10deg); }
+  50% { transform: rotate(10deg); }
+  75% { transform: rotate(-10deg); }
+  100% { transform: rotate(0deg); }
+}
+
+.tooltip {
+  position: absolute;
+  background-color: rgb(18, 60, 8);
+  color: white;
+  padding: 10px 30px;
+  border-radius: 5px;
+  font-size: 14px;
+  white-space: nowrap;
+  right: 110%;
+  top: 50%;
+  transform: translateY(-50%); 
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.trash-container:hover .tooltip {
+  opacity: 1;
+  visibility: visible;
+}
+@media (max-width: 600px) {
+  .trash-container {
+    position: absolute;
+    right: 20px;
+    top: 400px;
+  }
 }

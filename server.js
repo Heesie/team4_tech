@@ -56,8 +56,12 @@ client.connect()
     console.error(`Gebruikte URI: ${uri}`);
   });
 
-function createAccount(req, res) {
-    res.render('createAccount', { errorMessage: '' });
+  function createAccount(req, res) {
+    res.render('createAccount', { 
+        errorMessage: '', 
+        fullname: '', 
+        email: '' 
+    });
 }
 
 function login(req, res) {
@@ -100,7 +104,11 @@ app.post('/createAccount', async (req, res) => {
 
     // Als er fouten zijn, geef ze terug aan de gebruiker
     if (errors.length > 0) {
-        return res.render('createAccount', { errorMessage: errors.join(', ') });
+        return res.render('createAccount', { 
+            errorMessage: errors.join(', '), 
+            fullname: fullname, // Zorg ervoor dat fullname wordt doorgegeven
+            email: email        // Zorg ervoor dat email wordt doorgegeven
+        });
     }
 
     try {

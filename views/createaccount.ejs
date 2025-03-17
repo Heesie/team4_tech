@@ -96,10 +96,10 @@
 
         <form action="/createAccount" method="POST">      
                 <label for="fullname">Volledige naam</label>
-                <input type="text" id="fullname" name="fullname" placeholder="Volledige naam..." required/>
+                <input type="text" id="fullname" name="fullname" placeholder="Volledige naam..." value="<%= fullname %>" required/>
                 
                 <label for="email">E-mailadres</label>
-                <input type="email" id="email" name="email" placeholder="E-mailadres..." required>
+                <input type="email" id="email" name="email" placeholder="E-mailadres..." value="<%= email %>" required>
 
                 <label for="password">Wachtwoord</label>
                 <input type="password" id="password" name="password" placeholder="Wachtwoord..." required>

@@ -1,12 +1,19 @@
+:root {
+    --font-primary: 'Avenir', sans-serif; 
+    --font-secondary: 'Helvetica', sans-serif; 
+  }
 
-
-body {
-    font-family: Arial, sans-serif;
-    position: relative;
-}
+  h1, h2, h3 {
+    font-family: var(--font-primary); 
+  }
+  
+  h4, h5, h6 p {
+    font-family: var(--font-secondary); 
+  }
 
 
 h1{
+
     text-align: center;
 }
 

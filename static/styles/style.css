@@ -263,3 +263,91 @@ border-radius: 10px;
 
 
 
+
+/* inlog functie  */
+.wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 100%;
+}
+
+.mainLogIn {
+  width: 100%;
+  max-width: 400px;
+  background: #fff;
+  padding: 2em;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  
+}
+
+.mainLogIn h1 {
+  text-align: center;
+  font-size: 1.75em;
+  margin-bottom: 1em;
+  color: #333;
+}
+
+.mainLogIn form {
+  display: flex;
+  flex-direction: column;
+}
+
+.mainLogIn label {
+  font-size: 1em;
+  margin-bottom: 0.5em;
+  font-weight: bold;
+  color: #444;
+}
+
+.mainLogIn input {
+  background-color: #f2f2f2;
+  padding: 0.8em;
+  margin-bottom: 1.2em;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 1em;
+  transition: 0.3s;
+}
+
+.mainLogIn input:focus {
+  outline: none;
+  border-color: #666;
+}
+
+.mainLogIn input[type="submit"] {
+  background-color: #444;
+  color: #fff;
+  cursor: pointer;
+  font-weight: bold;
+  transition: 0.3s;
+}
+
+.mainLogIn input[type="submit"]:hover {
+  background-color: #333;
+}
+
+.mainLogIn p {
+  text-align: center;
+  font-size: 0.9em;
+  margin-top: 1.5em;
+}
+
+.mainLogIn a {
+  color: #007BFF;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.mainLogIn a:hover {
+  text-decoration: underline;
+}
+
+.mainLogIn .error {
+  color: red;
+  text-align: center;
+  margin-top: 0.6em;
+  font-weight: bold;
+} 

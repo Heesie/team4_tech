@@ -21,15 +21,6 @@
 </div>
 
 
-<section>
-    <div class="trash-container">
-        <a href="/koelkast">
-            <span class="tooltip">Klik hier om te zien wat je met afval kan</span>
-            <img src="/images/trash.svg" alt="trash icon">
-        </a>
-    </div>
-</section>
-
   <h1>Welkom bij receptify</h1>
   <section class="finder">
     <h2>Zoek een recept om te maken</h2>
@@ -40,9 +31,16 @@
     <a href="/mainscherm" >Uitgebreid zoeken</a>
 </section>
 
+
+<section class="finder">
+    <h2>Gebruik de opruimfunctie</h2>
+    <a href="/koelkast">
+        <img src="/images/trash.svg" alt="trash icon">
+    </a>
 </section>
 
-  <section class="trending">
+
+  <section class="random">
     <h2>Willekeurige recepten</h2>
     <section class="recept-grid">
       <% if (recipes && recipes.length > 0) { %>

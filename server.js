@@ -59,8 +59,8 @@ client.connect()
   function createAccount(req, res) {
     res.render('createAccount', { 
         errorMessage: '', 
-        fullname: '', 
-        email: '' 
+        email: '', 
+        username: '' 
     });
 }
 
@@ -72,11 +72,11 @@ function login(req, res) {
 
 // Endpoint om (registratie)formuliergegevens te verwerken
 app.post('/createAccount', async (req, res) => {
-    let { fullname, email, password, passwordConfirm } = req.body;
+    let { email, username, password, passwordConfirm } = req.body;
 
     // Sanitizeer de invoer om XSS-aanvallen te voorkomen
-    fullname = xss(fullname);
     email = xss(email);
+    username = xss(username);
     password = xss(password);
     passwordConfirm = xss(passwordConfirm);
 
@@ -105,9 +105,9 @@ app.post('/createAccount', async (req, res) => {
     // Als er fouten zijn, geef ze terug aan de gebruiker
     if (errors.length > 0) {
         return res.render('createAccount', { 
-            errorMessage: errors.join(', '), 
-            fullname: fullname, // Zorg ervoor dat fullname wordt doorgegeven
-            email: email        // Zorg ervoor dat email wordt doorgegeven
+            errorMessage: errors.join(', '),
+            email: email ,       // Zorg ervoor dat email wordt doorgegeven
+            username: username   // Zorg ervoor dat username wordt doorgegeven
         });
     }
 

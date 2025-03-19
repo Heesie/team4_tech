@@ -15,6 +15,7 @@ header {
 nav.desktop-nav ul {
     display: flex;
     list-style: none;
+    margin-left: 17em;
 }
 
 nav.desktop-nav ul li {

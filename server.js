@@ -23,7 +23,6 @@ app
     .get('/', home)
     .get('/createAccount', createAccount)
     .get('/login', login)
-    .get('/mainscherm', mainscherm)
     .get('/koelkast', koelkast)
     .get('/pop-up', popup)
     .get('/allergie', allergie)
@@ -32,8 +31,8 @@ app
     .get('/header', header) 
     .get('/footer', footer) 
     .get('/intro', tomaat) 
+    .get('/fetchFromMongo', fetchFromMongo) // Nieuwe route voor API-aanroepen
     .listen(2000, () => console.log("De server draait op host 2000"));
-
 
 
 // Verbind met MongoDB database
@@ -48,6 +47,49 @@ const client = new MongoClient(uri, {
       deprecationErrors: true,
     }
 })
+
+////zoekfunctie////
+
+app.get('/mainscherm', async (req, res) => {
+    try {
+        const searchQuery = req.query.q;
+        console.log (searchQuery)
+        
+
+        const db = client.db(process.env.DB_NAME);
+        const collection = db.collection(process.env.DB_COLLECTION);
+
+const searchRegex = new RegExp(searchQuery, 'i');
+const recipes = await collection.find({
+    $or: [
+        { description: searchRegex }, 
+        { keywords: searchRegex },
+            ]
+        }).toArray();
+
+        res.render('mainscherm', { recipes, message: recipes.length ? "" : "Geen gerechten gevonden." });
+        console.log("Recepten:", recipes)
+
+    } catch (error) {
+        console.error("Fout bij zoeken naar gerechten:", error);
+        res.render('mainscherm', { recipes: [], message: "Er is een fout opgetreden." });
+    }
+});
+
+async function fetchFromMongo(collectionRecepten, query = {}, options = {}) {
+    try {
+        const db = client.db(process.env.DB_NAME); // Verbind met de database
+        const collection = db.collection(collectionRecepten); // Selecteer de collectie
+
+        // Voer de query uit met eventuele opties (bijv. limiet, sortering)
+        const results = await collection.find(query, options).toArray();
+        return results;
+    } catch (error) {
+        console.error('Fout bij ophalen van gegevens uit MongoDB:', error);
+        throw error; // Gooi de fout opnieuw om deze hogerop te behandelen
+    }
+}
+
 
 // Probeer verbinding te maken met de database
 client.connect()

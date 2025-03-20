@@ -182,11 +182,24 @@
         <%- include('header') %>
     <main>
         <div class="search-bar">
-            <form action="/search" method="GET">
-                <input type="text" name="q" placeholder="Voer een ingrediënt in...">
+            <form action="/mainscherm" method="GET">
+                <input type="text" name="q" placeholder="Zoek een gerecht op..." required>
                 <button type="submit">Zoeken</button>
             </form>
-        </div>
+            <% if (locals.message) { %>
+                <p style="color: red;"><%= locals.message %></p>
+            <% } %>
+        
+            <ul>
+                <% recipes.forEach(recipe => { %>
+                    <li>
+                        <h2><%= recipe.name %></h2>
+                        <p><%= recipe.description || "Geen beschrijving beschikbaar" %></p>
+                        <img src="<%= recipe.thumbnail_url || '/images/default-recipe.jpg' %>" alt="Gerecht afbeelding" width="200">
+                    </li>
+                <% }); %>
+            </ul>
+
                  <p>Filteren:</p>   
             <ul class="filterbuttons">
                 <li>
@@ -237,7 +250,6 @@
             
             <h2>Recepten:</h2>
             
-      
             <section class="recept-grid">
                 <% if (recipes && recipes.length > 0) { %>
                     <% recipes.forEach(recipe => { %>

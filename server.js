@@ -2,6 +2,7 @@ const dotenv = require('dotenv');
 dotenv.config();
 
 const express = require('express');
+const session = require('express-session')
 const bcrypt = require('bcryptjs');
 const xss = require('xss')
 const validator = require('validator');
@@ -22,6 +23,7 @@ app.set('views', 'views')
 app.get('/', home)
 app.get('/createAccount', createAccount)
 app.get('/login', login)
+app.get('/account', account)
 app.get('/recept', receptScherm)
 app.get('/koelkast', koelkast)
 app.get('/pop-up', popup)
@@ -59,7 +61,11 @@ app.get('/fetchFromMongo', fetchFromMongo) // Nieuwe route voor API-aanroepen
     });
     app .listen(2000, () => console.log("De server draait op host 2000"));
 
-
+app.use(session({
+    resave: false,
+    saveUninitialized: true,
+    secret: process.env.SESSION_SECRET
+}))
 
 // Verbind met MongoDB database
 const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb')
@@ -103,23 +109,29 @@ client.connect()
     console.error(`Gebruikte URI: ${uri}`);
   });
 
-function createAccount(req, res) {
-    res.render('createAccount', { errorMessage: '' });
+  function createAccount(req, res) {
+    res.render('createAccount', { 
+        errorMessage: '', 
+        email: '', 
+        username: '' 
+    });
 }
 
 function login(req, res) {
     res.render('login', { errorMessage: '' });
 }
 
-
+function account(req, res) {
+    res.render('account');
+}
 
 // Endpoint om (registratie)formuliergegevens te verwerken
 app.post('/createAccount', async (req, res) => {
-    let { fullname, email, password, passwordConfirm } = req.body;
+    let { email, username, password, passwordConfirm } = req.body;
 
     // Sanitizeer de invoer om XSS-aanvallen te voorkomen
-    fullname = xss(fullname);
     email = xss(email);
+    username = xss(username);
     password = xss(password);
     passwordConfirm = xss(passwordConfirm);
 
@@ -147,7 +159,11 @@ app.post('/createAccount', async (req, res) => {
 
     // Als er fouten zijn, geef ze terug aan de gebruiker
     if (errors.length > 0) {
-        return res.render('createAccount', { errorMessage: errors.join(', ') });
+        return res.render('createAccount', { 
+            errorMessage: errors.join(', '),
+            email: email ,       // Zorg ervoor dat email wordt doorgegeven
+            username: username   // Zorg ervoor dat username wordt doorgegeven
+        });
     }
 
     try {
@@ -209,7 +225,13 @@ app.post('/login', async (req, res) => {
         if (!match) return res.render('login', { errorMessage: 'Ongeldig wachtwoord' });
 
         console.log('Inloggen succesvol:', { email });
-        res.send('Inloggen succesvol!');
+
+        // Sla de gebruikers-ID op in de sessie
+        req.session.userId = user._id;  // Dit is de gebruikers-ID die je in de sessie wilt bewaren
+        req.session.username = user.username;  // Je kunt ook andere gegevens bewaren als je wilt
+
+        // Redirect naar de gewenste pagina, bijvoorbeeld de homepage of dashboard
+        res.redirect('/account');
     } catch (err) {
         console.error("Fout bij inloggen:", err);
         res.status(500).send("Server error");

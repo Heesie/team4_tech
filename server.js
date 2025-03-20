@@ -179,10 +179,10 @@ app.post('/createAccount', async (req, res) => {
         const hashedPassword = await bcrypt.hash(password, 10);
 
         // Voeg gebruiker toe aan database
-        await usersCollection.insertOne({ fullname, email, password: hashedPassword });
+        await usersCollection.insertOne({ username, email, password: hashedPassword });
 
-        console.log("Gebruiker aangemaakt:", { fullname, email });
-        res.send('Registratie succesvol!');
+        console.log("Gebruiker aangemaakt:", { username, email });
+        res.redirect('/account');
     } catch (err) {
         console.error("Fout bij registreren:", err);
         res.status(500).send("Server error");
@@ -231,7 +231,7 @@ app.post('/login', async (req, res) => {
         req.session.username = user.username;  // Je kunt ook andere gegevens bewaren als je wilt
 
         // Redirect naar de gewenste pagina, bijvoorbeeld de homepage of dashboard
-        res.redirect('/account');
+        res.redirect('/');
     } catch (err) {
         console.error("Fout bij inloggen:", err);
         res.status(500).send("Server error");

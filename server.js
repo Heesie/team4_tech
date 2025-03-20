@@ -2,6 +2,7 @@ const dotenv = require('dotenv');
 dotenv.config();
 
 const express = require('express');
+const session = require('express-session')
 const bcrypt = require('bcryptjs');
 const xss = require('xss')
 const validator = require('validator');
@@ -23,6 +24,7 @@ app
     .get('/', home)
     .get('/createAccount', createAccount)
     .get('/login', login)
+    .get('/account', account)
     .get('/mainscherm', mainscherm)
     .get('/koelkast', koelkast)
     .get('/pop-up', popup)
@@ -32,6 +34,12 @@ app
     .get('/header', header) 
     .get('/footer', footer) 
     .listen(2000, () => console.log("De server draait op host 2000"));
+
+app.use(session({
+    resave: false,
+    saveUninitialized: true,
+    secret: process.env.SESSION_SECRET
+}))
 
 // Verbind met MongoDB database
 const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb')
@@ -68,7 +76,9 @@ function login(req, res) {
     res.render('login', { errorMessage: '' });
 }
 
-
+function account(req, res) {
+    res.render('account');
+}
 
 // Endpoint om (registratie)formuliergegevens te verwerken
 app.post('/createAccount', async (req, res) => {
@@ -170,7 +180,13 @@ app.post('/login', async (req, res) => {
         if (!match) return res.render('login', { errorMessage: 'Ongeldig wachtwoord' });
 
         console.log('Inloggen succesvol:', { email });
-        res.send('Inloggen succesvol!');
+
+        // Sla de gebruikers-ID op in de sessie
+        req.session.userId = user._id;  // Dit is de gebruikers-ID die je in de sessie wilt bewaren
+        req.session.username = user.username;  // Je kunt ook andere gegevens bewaren als je wilt
+
+        // Redirect naar de gewenste pagina, bijvoorbeeld de homepage of dashboard
+        res.redirect('/account');
     } catch (err) {
         console.error("Fout bij inloggen:", err);
         res.status(500).send("Server error");

@@ -3,7 +3,6 @@
 :root {
   --font-primary: 'Avenir', sans-serif; 
   --font-secondary: 'Helvetica', sans-serif; 
-  --background-color:#fdf3de;
   --color-font:black;
 }
 
@@ -17,7 +16,7 @@ h4, h5, h6 p {
   font-family: var(--font-secondary); 
 }
 body {
-  background-color: var(--background-color);
+
   margin: 0;
   padding: 0;
   color: #333;
@@ -94,7 +93,7 @@ font-family:sans-serif ;
   overflow: hidden;
   border-right: 3px solid #333;
   width: 0;
-  animation: typing 1s steps(40) 1s forwards, blink 0.75s step-end infinite;
+  animation: typing 0.7s steps(40) 1s forwards, blink 0.75s step-end infinite;
 }
 
 
@@ -191,7 +190,7 @@ font-family:sans-serif ;
   .finder-koelkast{
     width: 20%;
    
-    background-color: #e7e7e7;
+    background-color: #d9ebff;
   }
 }
 
@@ -323,7 +322,6 @@ font-family:sans-serif ;
 /* mainschern  css */
 
 body {
-  font-family: Arial, sans-serif;
   background-color: #ffefca;
   margin: 0;
   padding: 0;

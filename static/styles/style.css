@@ -236,7 +236,7 @@ font-family:sans-serif ;
   width: 100%;
 }
 
-.mainLogIn {
+.mainForm {
   width: 100%;
   max-width: 400px;
   background: #fff;
@@ -246,26 +246,26 @@ font-family:sans-serif ;
   
 }
 
-.mainLogIn h1 {
+.mainForm h1 {
   text-align: center;
   font-size: 1.75em;
   margin-bottom: 1em;
   color: #333;
 }
 
-.mainLogIn form {
+.mainForm form {
   display: flex;
   flex-direction: column;
 }
 
-.mainLogIn label {
+.mainForm label {
   font-size: 1em;
   margin-bottom: 0.5em;
   font-weight: bold;
   color: #444;
 }
 
-.mainLogIn input {
+.mainForm input {
   background-color: #f2f2f2;
   padding: 0.8em;
   margin-bottom: 1.2em;
@@ -275,12 +275,12 @@ font-family:sans-serif ;
   transition: 0.3s;
 }
 
-.mainLogIn input:focus {
+.mainForm input:focus {
   outline: none;
   border-color: #666;
 }
 
-.mainLogIn input[type="submit"] {
+.mainForm input[type="submit"] {
   background-color: #444;
   color: #fff;
   cursor: pointer;
@@ -288,27 +288,27 @@ font-family:sans-serif ;
   transition: 0.3s;
 }
 
-.mainLogIn input[type="submit"]:hover {
+.mainForm input[type="submit"]:hover {
   background-color: #333;
 }
 
-.mainLogIn p {
+.mainForm p {
   text-align: center;
   font-size: 0.9em;
   margin-top: 1.5em;
 }
 
-.mainLogIn a {
+.mainForm a {
   color: #007BFF;
   text-decoration: none;
   font-weight: bold;
 }
 
-.mainLogIn a:hover {
+.mainForm a:hover {
   text-decoration: underline;
 }
 
-.mainLogIn .error {
+.mainForm .error {
   color: red;
   text-align: center;
   margin-top: 0.6em;

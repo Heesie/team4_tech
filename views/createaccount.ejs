@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Registreren</title>
+    <title>Create account</title>
 <style>
     *, *::after, *::before {
         box-sizing: border-box;
@@ -86,31 +86,32 @@
         margin-top: 0.6em;
     }
     </style>
+    <link rel="stylesheet" href="/styles/style.css">
 </head>
 <body>
 
     <%- include('header') %>
 
     <main class="mainCreateAccount">
-        <h1>Registreren</h1>
+        <h1>Create account</h1>
 
     <form action="/createAccount" method="POST">      
-            <label for="email">E-mailadres</label>
-            <input type="email" id="email" name="email" placeholder="E-mailadres..." value="<%= email %>" required/>
+            <label for="email">Email address</label>
+            <input type="email" id="email" name="email" placeholder="Email address..." value="<%= email %>" required/>
     
-            <label for="username">Gebruikersnaam</label>
-            <input type="text" id="username" name="username" placeholder="Gebruikersnaam..." value="<%= username %>" required/>
+            <label for="username">Username</label>
+            <input type="text" id="username" name="username" placeholder="Username..." value="<%= username %>" required/>
     
             <!-- Genereer een nieuwe gebruikersnaam -->
-            <button type="button" onclick="generateRandomUsername()">Genereer een willekeurige gebruikersnaam</button>
+            <button type="button" onclick="generateRandomUsername()">Generate random username</button>
 
-            <label for="password">Wachtwoord</label>
-            <input type="password" id="password" name="password" placeholder="Wachtwoord..." required>
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" placeholder="Password..." required>
 
-            <label for="passwordConfirm">Wachtwoord</label>
-            <input type="password" id="passwordConfirm" name="passwordConfirm" placeholder="Bevestig wachtwoord..." required>
+            <label for="passwordConfirm">Confirm password</label>
+            <input type="password" id="passwordConfirm" name="passwordConfirm" placeholder="Confirm password..." required>
 
-            <input type="submit" value="Registreer">
+            <input type="submit" value="Create account">
             <% if (errorMessage) { %>
                 <div class="error">
                     <%= errorMessage %>
@@ -118,7 +119,7 @@
             <% } %>
         </form>
 
-        <p>Heb je al een account? <a href="/login">Log in</a></p>
+        <p>Already have an account? <a href="/login">Log in</a></p>
 
     </main>
     

@@ -16,21 +16,17 @@
 }
 
 
-.input-field {
-    width: 300px;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 14px;
-    outline: none;
-    cursor: text;
+
+/* a linkjes */
+
+a {
+text-decoration: none;
+margin-top: 1em;
+color: #1d1d1d;
 }
 
 
-.input-field:focus {
-    border-color: #4CAF50;
-}
 
-.input-field::placeholder {
-    color: #888;
-}
+/* a linkjes */
+
+

@@ -1,33 +1,45 @@
-
-
-body {
-    font-family: Arial, sans-serif;
-    position: relative;
-}
-
-
-h1{
-    text-align: center;
-}
-
-/* header stukje voor desktop */
 header {
     padding: 1rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
     position: relative;
-    background-color: #FFB48D;
+    background-color: #ffefca;
 }
 
+
+body{
+    background-color: #fffdf6;
+}
+
+.logo-mobile {
+    display: block;
+  }
+  .logo-desktop {
+    display: none;
+  }
+  
+  /* Bij desktop: toon alleen desktop logo */
+  @media (min-width: 768px) {
+    .logo-mobile {
+      display: none;
+    }
+    .logo-desktop {
+      display: block;
+    }
+  }
+
+
+
 .logo img {
-    width: 40px;
+    width: 60px;
 }
 
 
 nav.desktop-nav ul {
     display: flex;
     list-style: none;
+    margin-left: 17em;
 }
 
 nav.desktop-nav ul li {
@@ -36,7 +48,7 @@ nav.desktop-nav ul li {
 }
 
 nav.desktop-nav ul li a {
-    color: white;
+    color: #ff3c00; 
     text-decoration: none;
     position: relative;
     transition: color 0.9 ease;
@@ -56,7 +68,7 @@ nav.desktop-nav ul li a:hover {
     bottom: -5px;
     width: 0;
     height: 3px;
-    background: #ffffff;
+    background-color: #ff3c00; 
     transition: width 0.3s ease, left 0.3s ease;
       }
 
@@ -74,7 +86,6 @@ nav.desktop-nav ul li a:hover {
     background: none;
     border: none;
     padding: 0.5rem;
-    margin-left: auto; 
 }
 
 .hamburger-menu img {
@@ -91,13 +102,13 @@ nav.desktop-nav ul li a:hover {
 
 .mobile-nav {
     position: absolute;
-    top: 15%; 
+    z-index: 1;
     right: 0;
     width: 40%;
     background-color: #afc8a1;
     max-height: 0px;
     overflow: hidden;
-    transition: max-height 1s ease;
+    transition: max-height 0.5s ease;
 border-radius: 5px;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
 }
@@ -109,7 +120,7 @@ border-radius: 5px;
 .mobile-nav ul {
     list-style: none;
     padding: 1rem;
-    margin-left: 10px;
+
     margin-top: 2em;
 }
 
@@ -153,6 +164,12 @@ transform: scale(1.05);
     }
 }
 
+
+@media (max-width: 600px) {
+    .input-field {
+        width: 80%;
+    }}
+
 /* media querie voor scherm  */
 
 /* header voor mobile met uitklap functie  */
@@ -175,9 +192,10 @@ transform: scale(1.05);
     width: 30px;
 }
 
-/* Button close image*/
 
 
 
 
-/* input gedeelte */
+/* footer gedeelt hier onder */
+
+

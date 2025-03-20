@@ -1,533 +1,535 @@
+/* basis code */
 
- /*********************/
-  /* CUSTOM PROPERTIES */
-  /*********************/
-  :root {
-
-    --color-background-base:#FFE6B1;
-    --color-font:black;
-    --button-background:#007bff;
-
-  }
-
-/* basis  */
-body {
-    font-family: Verdana, Geneva, Tahoma, sans-serif;
-    color: #333;
-    background-color: #FFF5DF;
-
-  }
-main {
-  padding: 0px 30px;
+:root {
+  --font-primary: 'Avenir', sans-serif; 
+  --font-secondary: 'Helvetica', sans-serif; 
+  --color-font:black;
 }
 
-/* basis */
-  /* kook niveau */
+
+h1, h2, h3 {
+  font-family: var(--font-primary); 
+  text-align: center;
+}
+
+h4, h5, h6 p {
+  font-family: var(--font-secondary); 
+}
+body {
+
+  margin: 0;
+  padding: 0;
+  color: #333;
+font-family:sans-serif ;
+}
 
 
 
-.image-cooking{
+/* pop up  tomaat */
+
+.main-container.verberg {
+  opacity: 0;
+  transition: opacity 1s step-end;
+  pointer-events: none; 
+}
+
+.main-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed; 
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%); 
+  width: 300px; 
+  height: 400px; 
+  background-color: #e7ffdc; 
+  border-radius: 10px; 
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); 
+  padding: 20px; 
+  z-index: 9999;
+}
+
+.container {
+  position: relative;
+  display: inline-block;
+}
+
+.tomaat {
+  width: 200px;
+  margin-top: 1em;
+}
+
+.wolk {
+  position: absolute;
+  top: -70px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #fff;
+  padding: 20px;  
+  border-radius: 10px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  width: 200px;  
+  text-align: center;
+}
+
+.wolk::after {
+  content: '';
+  position: absolute;
+  bottom: -20px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 20px;
+  border-style: solid;
+  border-color: #fff transparent transparent transparent;
+}
+
+
+#tekst-wolk {
+  font-size: 18px;
+  color: #333;
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  border-right: 3px solid #333;
+  width: 0;
+  animation: typing 0.7s steps(40) 1s forwards, blink 0.75s step-end infinite;
+}
+
+
+@keyframes typing {
+  0% {
+      width: 0;
+  }
+  100% {
+      width: 100%;
+  }
+}
+
+@keyframes blink {
+  50% {
+      border-color: transparent;
+  }
+  100% {
+      border-color: #333;
+  }
+}
+
+
+.tomaat {
+  animation: soft-bounce 1.5s infinite ease-in-out;
+}
+
+@keyframes soft-bounce {
+  0%, 100% { transform: translateY(0); }
+  30% { transform: translateY(-5px); } /* Kleine bounce omhoog */
+  50% { transform: translateY(0); } 
+  70% { transform: translateY(-2px); } /* Kleinere tweede bounce */
+}
+
+/* code van youtube tutorial */
+/* einde tomaat */
+
+
+
+
+/* 1e pagina recept zoeken */
+.finder {
+  text-align: center;
+  margin: 2rem auto;
+  padding: 1rem;
+  background: white;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  max-width: 500px;
+  width: 90%; 
+}
+
+.finder-koelkast {
+  text-align: center;
+  margin: 2rem auto;
+  padding: 1rem;
+  background: white;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  max-width: 500px;
+  width: 90%; 
+}
+
+
+
+.input-container {
     display: flex;
     justify-content: center;
-    align-items: center;
+    gap: 10px;
+    margin: 1rem 0;
+}
+
+.input-field {
+    padding: 0.8rem;
+    width: 70%;
+    border: 2px solid #ccc;
+    border-radius: 5px;
+    font-size: 1rem;
+}
+
+@media (max-width: 600px) {
+  .input-field {
+      width: 80%;
   }
-
-.keuzen-niveau {
-    margin-top: 2em;
-}
-.keuzen-niveau button {
-    margin-bottom: 15px;
-    padding: 15px 20px;
-    width: 100%;
-    border-radius: 20px;
-    border: none;
-    font-size: 20px;
-    transition: background-color 0.3s ease;
-    cursor: pointer;
-}
-
-
-  .keuzen-niveau p {
-      font-size: 14px; 
-      margin: 10px 0 0;
-      color: #555; 
-  }
-
-  .keuzen-niveau .beginner{
-    background-color: rgb(218, 255, 218);
-  }
-  .keuzen-niveau .beginner:hover{
-    background-color: rgb(82, 225, 82);
-  }
-  .keuzen-niveau .gemiddeld{
-    background-color: rgb(255, 236, 169);
-  }
-  .keuzen-niveau .gemiddeld:hover{
-    background-color: rgb(255, 162, 23);
-  }
-
-  .keuzen-niveau .pro-chef{
-    background-color: rgb(255, 169, 169);
-  }
-  .keuzen-niveau .pro-chef:hover{
-    background-color: rgb(254, 59, 59);
-  }
-
-  .done button{
-    margin-bottom: 20px;
-    padding: 15px 20px;
-    width: 100%;
-    border-radius: 20px;
-    border: none;
-    font-size: 20px;
-    transition: background-color 0.3s ease;
-    cursor: pointer;
-  }
-
-  .done button:hover{
-    background-color: #333;
-    color: white;
-  }
-
-
-    /* kook niveau */
-
-    /* recept finder begin pagina */
-
-
-.filter-begin {
-    margin-top: 10em;
-
-}
-    .filter-begin h2{
-        font-size: 20px;
-        margin-right: 5em;
-        margin-top: 2em;
-    }
-
-
-    .filter-categorie input[type="checkbox"] {
-        display: none;
-      }
-
-      .filter-categorie {
-        display: flex;
-        flex-direction: row;
-        gap: 10px; 
-        flex-wrap: wrap;
-        color: white;
-        border-radius: 10px;
-    }
-    
-    .filter-categorie label {
-        background-color: #98ccff;
-        padding: 10px 20px; 
-        border-radius: 5px; 
-        color: white; 
-    }
-    
-    
-.filter-begin button {
-    display: inline-block;
-        padding: 10px 40px;
-        background-color: #bebebe;
-        color: white;
-        border-radius: 10px;
-        cursor: pointer;
-        margin-top: 20px;
-    
-    text-align: center;
-        border: none;
-    
-}
-
-    /* recept finder begin pagina */
-
-    /* pop - up */
-    div .pop-up {
-        background-color: rgb(170, 191, 255);
-        font-family: sans-serif;
-        padding: 20px;
-        }
-        
-        .pop-up h2 {
-          font-size: 25px;
-          color: #578A37;
-        }
-
-        .pop-up p {
-            font-size: 14px;
-            margin: 20px 0;
-            line-height: 20px;
-            color: #83b863;
-           }
-        
-        .pop-up {
-            display: none; 
-          background-color: #EFF4EC;
-            width: 250px;
-            height: 350px;
-            padding: 30px 40px;
-            position: absolute;
-            transform: translate(-50%, 50%); 
-            left: 50%;
-            top: 50%;
-            border-radius: 1em;
-            text-align: center;
-            opacity: 0;
-            transition: transform 0.5s ease-out, opacity 0.5s ease-out;
-        }
-        
-        .pop-up.show {
-            display: block;
-            opacity: 1;
-            transform: translate(-50%, -50%);
-        }
-        
-        
-        
-        .pop-up button {
-          display: block;
-          margin:0 0 20px auto;
-          background: transparent;
-          font-size: 30px;
-          border-radius: 100%;
-          width:40px;
-        height: 40px;
-        border: none;
-        outline: none;
-        cursor: pointer;
-        background-color: #578A37;
-        color: white;
-        } 
-        
-        
-        
-        
-    
-        
-        .pop-up a{
-            position: relative; 
-        top: 40px;
-        background-color: #578A37;
-            padding: 10px 20px;
-            text-decoration: none;
-            color: white;
-            display: block;
-            width: 150px;
-            margin: 10px auto;
-            text-align: center;
-            border-radius: 2em;
-        }  
-
-
-
-
-    /* pop - up */
-
-
-    /* koelkast functie */
-
-
-
-     /* koelkast functie */
-
-     .koelkast-list {
-        display: flex;
-        flex-direction: column;
-        gap: 15px; 
-        margin-top: 3em;
-
-    }
-    
-    .koelkast-list label {
-        display: flex;
-        align-items: center;
-        font-size: 18px;
-        font-weight: bold;
-        color: #333;
-    }
-    
-    .ingredient-input {
-        flex: 1;
-        padding: 10px;
-        border: none;
-        border-radius: 5px;
-        background-color: #c5e1ff;
-        font-size: 16px;
-        transition: 0.3s ease-in-out;
-    }
-    
-
- /* koelkast functie */
-
-
- /* Allergie pagina */
-  label img{
-    width: 50px;
 }
 
 
 
-
-.filter-allergie {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-}
-
-.filter-allergie input {
-  display: none; 
-}
-
-.filter-allergie label {
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 60px;
-  height: 60px;
-  border-radius: 50%;
-  background-color: #f5f5f5;
-
-}
-
-.filter-allergie label img {
-  width: 40px;
-  height: 40px;
-}
-
-/* Actieve status bij selectie */
-.filter-allergie input:checked + label {
-  background-color: #888;
-}
-
-
-.filter-allergie input[type="checkbox"] {
-display: none;
-}
-.filter-start{
-  margin-top: 5em;
-}
-
-
-
-  .filter-start h2{
-      font-size: 20px;
-      margin-right: 5em;
-      margin-top: 2em;
-  }
-
-
-  .filter-categorie input[type="checkbox"] {
-      display: none;
-    }
-
-    .filter-categorie {
+@media (min-width: 1070px) {
+  .begin-grid {
       display: flex;
-      flex-direction: row;
-      gap: 10px; 
-      flex-wrap: wrap;
-      color: white;
-      border-radius: 10px;
   }
-  
-  .filter-categorie label {
-      background-color: #98ccff;
-      padding: 10px 20px; 
-      border-radius: 5px; 
-      color: white; 
+  .finder{
   }
-  
-  
-.filter-start button {
-  display: inline-block;
-      padding: 10px 40px;
-      background-color: #bebebe;
-      color: white;
-      border-radius: 10px;
-      cursor: pointer;
-      margin-top: 20px;
-  
-  text-align: center;
-      border: none;
+  .finder-koelkast{
+    width: 20%;
+   
+    background-color: #d9ebff;
+  }
 }
 
- /* Allergie pagina */
 
-
- /* header basis */
-
-.steady {
-  font-family: Arial, sans-serif;
-  position: relative;
+@media (max-width: 600px) {
+.finder-koelkast {
+    width:50%;
+}
+.finder-koelkast h2{
+  font-size: 15px;
+}
 }
 
-header {
-  padding: 1rem;
+
+/* einde gedeelte recept zoek  */
+
+
+/* functie trash weg gooien overig  */
+
+.finder-koelkast img {
+  width: 40px; 
+  animation: trillen 0.5s ease-in-out infinite;
+}
+
+@keyframes trillen {
+  0% { transform: rotate(0deg); }
+  25% { transform: rotate(-10deg); }
+  50% { transform: rotate(10deg); }
+  75% { transform: rotate(-10deg); }
+  100% { transform: rotate(0deg); }
+}
+
+
+
+
+
+/* inlog functie  */
+.wrapper {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
-  position: relative;
-  background-color: #eff4ed;
+  height: 100vh;
+  width: 100%;
 }
 
-.hamburger-menu {
-  display: none;
-  cursor: pointer;
-  background: none;
-  border: none;
-  padding: 0.5rem;
-  margin-left: auto; /* Dit zorgt ervoor dat de knop naar rechts wordt geduwd */
-}
-
-.logo img {
-  width: 40px;
-}
-
-nav.desktop-nav ul {
-  display: flex;
-  list-style: none;
-}
-
-
-nav.desktop-nav ul li {
-  margin-right: 2em;
-  font-size: 20px;
-}
-
-nav.desktop-nav ul li a {
-color: #afc8a1;
-  text-decoration: none;
-  position: relative;
-  transition: color 0.9 ease;
-  }
-
-  nav.desktop-nav ul li a:hover {
-    color: #ffac92; 
-  }
-
-  nav.desktop-nav ul li a:after {
-    content: "";
-    position: absolute;
-    left: 50%;
-    bottom: -5px;
-    width: 0;
-    height: 3px;
-    background: #ffac92;
-    transition: width 0.3s ease, left 0.3s ease;
-      }
-
-      nav.desktop-nav ul li a:hover::after{
-        width: 100%;
-        left: 0;
-    }
-
-    .hamburger-menu {
-      display: none;
-      cursor: pointer;
-      background: none;
-      border: none;
-      padding: 0.5rem;
-      margin-left: auto; 
-  }
-  .hamburger-menu img {
-    width: 24px;
-    height: 24px;
-}
-
-/* header stukje voor desktop */
-
-.mobile-nav {
-  position: relative;
-  top: 100%; 
-  right: 0;
-  width: 40%;
-  background-color: #afc8a1;
-  max-height: 0px;
-  overflow: hidden;
-  transition: max-height 1s ease;
-border-radius: 5px;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-}
-/* header voor mobile met uitklap functie  */
-
-
-/* media querie voor scherm  */
-
-
-@media screen and (max-width: 950px) {
-  nav.desktop-nav {
-      display: none;
-  }
-
-  .hamburger-menu {
-      display: block;
-  }
+.mainLogIn {
+  width: 100%;
+  max-width: 400px;
+  background: #fff;
+  padding: 2em;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   
-  .nav-placeholder {
-      display: none;
-  }
 }
 
-/* media querie voor scherm  */
-
-
-@media screen and (max-width: 950px) {
-  nav.desktop-nav {
-      display: none;
-  }
-
-  .hamburger-menu {
-      display: block;
-  }
-  
-  .nav-placeholder {
-      display: none;
-  }
+.mainLogIn h1 {
+  text-align: center;
+  font-size: 1.75em;
+  margin-bottom: 1em;
+  color: #333;
 }
 
-
-/* media querie voor scherm  */
-
-/* header voor mobile met uitklap functie  */
-
-
-
-/* Button close image*/
-.close-menu {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  background: none;
-  border: none;
-  color: white;
-  font-size: 1.5rem;
-  cursor: pointer;
-}
-
-.close-menu img{
-  width: 30px;
-}
-
-/* Button close image*/
-
-
-/* 1e pagina de finder */
-
-.finder{
+.mainLogIn form {
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
+}
+
+.mainLogIn label {
+  font-size: 1em;
+  margin-bottom: 0.5em;
+  font-weight: bold;
+  color: #444;
+}
+
+.mainLogIn input {
+  background-color: #f2f2f2;
+  padding: 0.8em;
+  margin-bottom: 1.2em;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 1em;
+  transition: 0.3s;
+}
+
+.mainLogIn input:focus {
+  outline: none;
+  border-color: #666;
+}
+
+.mainLogIn input[type="submit"] {
+  background-color: #444;
+  color: #fff;
+  cursor: pointer;
+  font-weight: bold;
+  transition: 0.3s;
+}
+
+.mainLogIn input[type="submit"]:hover {
+  background-color: #333;
+}
+
+.mainLogIn p {
+  text-align: center;
+  font-size: 0.9em;
+  margin-top: 1.5em;
+}
+
+.mainLogIn a {
+  color: #007BFF;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.mainLogIn a:hover {
+  text-decoration: underline;
+}
+
+.mainLogIn .error {
+  color: red;
+  text-align: center;
+  margin-top: 0.6em;
+  font-weight: bold;
+} 
+
+
+
+
+
+/* mainschern  css */
+
+body {
+  background-color: #ffefca;
+  margin: 0;
+  padding: 0;
+}
+
+main {
+  padding: 20px;
+}
+.search-bar input {
+  width: 80%;
+  padding: 5px;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+}
+.search-bar button {
+  padding: 5px 10px;
+  border: none;
+  background-color: #578A37;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
 }
 
 
-@media (min-width: 768px) {
-  .finder {
-      justify-content: flex-start;  
-      align-items: flex-start;
-      display: flex;
-      margin-left: 20px;  
-  }
+.filterbuttons {
+  list-style-type: none;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  padding: 0;
+}
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown button {
+  background-color: #FF3D00;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  cursor: pointer;
+  border-radius: 8px;
+}
+.dropdown .content {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  min-width: 150px;
+  box-shadow: 2px 2px 5px black;
+  background-color: #f1f1f1;
+  z-index: 100;
+  padding: 0;
+}
+
+.dropdown .content li {
+  list-style-type: none;
+}
+
+.dropdown .content a {
+  display: block;
+  text-decoration: none;
+  padding: 10px;
+  color: black;
+  background-color: white;
+  transition: background 0.3s;
+}
+
+.dropdown .content a:hover {
+  background-color: lightgray;
+}
+
+/* Gebruik :focus-within om menu te openen bij klikken */
+.dropdown:focus-within .content {
+  display: block;
+}
+/* begnin recept grid */
+
+.recept-grid {
+display: grid;
+grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+gap: 50px;
+padding: 20px;
+}
+
+.recept {
+position: relative;
+display: flex;
+flex-direction: column;
+background: white;
+padding: 15px;
+border-radius: 10px;
+box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.recept h3 {
+margin-top: 20px;
+font-size: 18px;
+font-weight: bold;
+}
+
+.recept-description {
+font-size: 14px;
+color: #555;
+display: -webkit-box;
+-webkit-box-orient: vertical;
+-webkit-line-clamp: 2; /* Laat alleen maar  regels zien (van chat) */
+overflow: hidden;
+}
+
+.recept button {
+background-color: #578A37;
+color: white;
+border: none;
+padding: 10px;
+width: 100%;
+border-radius: 5px;
+cursor: pointer;
+margin-top: auto;
+}
+
+.recept button:hover {
+background-color: orange;
+}
+
+.recept-afbeelding {
+width: 100%;
+height: 200px;
+object-fit: cover;
+border-radius: 10px;
+position: relative; }
+
+
+/* einde recept grid */
+/* Like functtie */
+.like {
+position: absolute;
+top: 20px; 
+right: 20px;
+z-index: 10; 
+
+}
+
+
+.like svg {
+cursor: pointer;
+width: 20px;
+height: 20px;
+fill: #ffc6c6;
+transition: transform 0.3s ease, fill 0.3s ease;
+background-color: #ffffff;
+padding: 5px;
+border-radius: 5px;
+}
+
+
+.like:active svg {
+fill: red;
+transform: scale(1.2);
+transition: 700ms;
+}
+
+.like-checkbox {
+display: none;
+}
+
+.like-checkbox:checked + label svg {
+fill: red;
+transform: scale(1.1);
+transition: transform 0.5s ease, fill 0.5s ease;
+}
+
+.like-checkbox:not(:checked) + label svg {
+transform: scale(1);
+transition: transform 0.5s ease, fill 0.5s ease;
+}
+/* einde like functie */
+
+
+/* media grid 1e pagina naast elkaar */
+
+/* notifcation  */
+.notification {
+  position: fixed;  
+  top: 100px;
+  right: -400px; 
+  background: #4CAF50;
+  color: white;
+  border-radius: 5px;
+  font-size: 14px;
+  padding-top: 15px;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-bottom: 15px;
+  transition: right 0.5s ease-in-out, opacity 0.5s ease-in-out;  
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+  z-index: 9999;  
+  opacity: 0; 
+}
+
+.notification.show {
+  right: 20px;  
+  opacity: 1;  
+}
+
+.notification.hide {
+  right: -400px; 
+  opacity: 0;   
+  pointer-events: none; 
 }

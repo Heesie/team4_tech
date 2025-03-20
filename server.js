@@ -15,25 +15,51 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(express.static("static"));
 
-app
-    .use(express.json())
-    .use(express.urlencoded({ extended: true }))
-    .use('/', express.static('static'))
-    .set('view engine', 'ejs')
-    .set('views', 'views')
-    .get('/', home)
-    .get('/createAccount', createAccount)
-    .get('/login', login)
-    .get('/account', account)
-    .get('/mainscherm', mainscherm)
-    .get('/koelkast', koelkast)
-    .get('/pop-up', popup)
-    .get('/allergie', allergie)
-    .get('/kookniveau', kookniveau)
-    .get('/fetch-recipes', fetchRecipes) 
-    .get('/header', header) 
-    .get('/footer', footer) 
-    .listen(2000, () => console.log("De server draait op host 2000"));
+app.use(express.json())
+app.use(express.urlencoded({ extended: true }))
+app.use('/', express.static('static'))
+app.set('view engine', 'ejs')
+app.set('views', 'views')
+app.get('/', home)
+app.get('/createAccount', createAccount)
+app.get('/login', login)
+app.get('/account', account)
+app.get('/recept', receptScherm)
+app.get('/koelkast', koelkast)
+app.get('/pop-up', popup)
+app.get('/allergie', allergie)
+app.get('/kookniveau', kookniveau)
+app.get('/fetch-recipes', fetchRecipes) 
+app.get('/header', header) 
+app.get('/footer', footer) 
+app.get('/intro', tomaat) 
+app.get('/fetchFromMongo', fetchFromMongo) // Nieuwe route voor API-aanroepen
+    app .get('/mainscherm', async (req, res) => {
+        try {
+            const searchQuery = req.query.q;
+            console.log (searchQuery)
+            
+    
+            const db = client.db(process.env.DB_NAME);
+            const collection = db.collection(process.env.DB_COLLECTION);
+    
+    const searchRegex = new RegExp(searchQuery, 'i');
+    const recipes = await collection.find({
+        $or: [
+            { description: searchRegex }, 
+            { keywords: searchRegex },
+                ]
+            }).toArray();
+    
+            res.render('mainscherm', { recipes, message: recipes.length ? "" : "Geen gerechten gevonden." });
+            console.log("Recepten:", recipes)
+    
+        } catch (error) {
+            console.error("Fout bij zoeken naar gerechten:", error);
+            res.render('mainscherm', { recipes: [], message: "Er is een fout opgetreden." });
+        }
+    });
+    app .listen(2000, () => console.log("De server draait op host 2000"));
 
 app.use(session({
     resave: false,
@@ -53,6 +79,25 @@ const client = new MongoClient(uri, {
       deprecationErrors: true,
     }
 })
+
+////zoekfunctie////
+
+
+
+async function fetchFromMongo(collectionRecepten, query = {}, options = {}) {
+    try {
+        const db = client.db(process.env.DB_NAME); // Verbind met de database
+        const collection = db.collection(collectionRecepten); // Selecteer de collectie
+
+        // Voer de query uit met eventuele opties (bijv. limiet, sortering)
+        const results = await collection.find(query, options).toArray();
+        return results;
+    } catch (error) {
+        console.error('Fout bij ophalen van gegevens uit MongoDB:', error);
+        throw error; // Gooi de fout opnieuw om deze hogerop te behandelen
+    }
+}
+
 
 // Probeer verbinding te maken met de database
 client.connect()
@@ -197,7 +242,9 @@ function home(req, res) {
     res.render('recept-finder.ejs');
 }
 
-async function mainscherm(req, res) {
+
+
+async function home (req, res) {
     try {
         // Haal recepten op
         const data = await fetchFromTasty('recipes/list', { from: 0, size: 20, tags: 'under_30_minutes' });
@@ -210,15 +257,21 @@ async function mainscherm(req, res) {
             imageUrl: recipe.thumbnail_url || '/images/default-recipe.jpg' // Standaard afbeelding als geen beschikbaar is
         })) || [];
 
-        res.render('mainscherm.ejs', { recipes });
+        res.render('recept-finder.ejs', { recipes });
     } catch (error) {
         console.error('Fout bij ophalen van recepten:', error);
-        res.render('mainscherm.ejs', { recipes: [] });
+        res.render('recept-finder.ejs', { recipes: [] });
     }
 }
 
+
+
 function koelkast(req, res) {
     res.render('koelkast.ejs');
+}
+
+function receptScherm(req, res) {
+    res.render('recept.ejs');
 }
 
 function popup(req, res) {
@@ -240,7 +293,9 @@ function kookniveau(req, res) {
     res.render('kookniveau.ejs');
 }
 
-
+function tomaat(req, res) {
+    res.render('intro.ejs');
+}
 // API-aanroepen gedeelte
 
 const API_KEY = process.env.API_KEY;
@@ -321,3 +376,7 @@ app.use((err, req, res) => {
     console.error(err.stack);
     res.status(500).send("Er is een serverfout opgetreden!");
 });
+
+
+
+

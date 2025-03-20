@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recepten</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #ffefca;
+            margin: 0;
+            padding: 0;
+        }
+  
+        main {
+            padding: 20px;
+        }
+   
+        .recept         {
+            max-width: 100%;
+            margin: 20px auto;
+            background: #FFFF;
+            padding: 20px;
+        }
+        .afbeelding {
+            position: relative;
+        }
+        .afbeelding img {
+            width: 100%;
+            border-radius: 8px;
+        }
+        .afbeelding h1 {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            color: white;
+            background: rgba(0, 0, 0, 0.6);
+            padding: 5px 10px;
+            border-radius: 4px;
+        }
+
+        .info {
+            display: flex;
+            justify-content: space-around;
+            margin: 20px 0;
+        }
+
+        h2 {
+            border-bottom: 2px solid #ddd;
+            padding-bottom: 5px;
+        }
+
+        ul, ol {
+            padding-left: 20px;
+        }
+        
+   
+    </style>
+</head>
+<body>
+    <%- include('header') %>
+
+    <a href="/mainscherm">
+        <button>Terug</button>
+    </a>
+
+    <div class="recept">
+        <div class="afbeelding">
+            <img src="/images/lasagna.jpg" alt="Lasagna met kaas">
+            <h1>Lasagna met kaas</h1>
+        </div>
+        <div class="info">
+                <span>20 min</span>
+                <span>makkelijk</span>
+                <span>200 kcal</span>
+        </div>
+
+        <section>
+            <h2>Ingrediënten</h2>
+            <ul>
+                <li>Tomaten</li>
+                <li>Komkommer</li>
+                <li>Rijst</li>
+            </ul>
+        </section>
+        <section>
+            <h2>Bereiding</h2>
+            <ol>
+                <li>Doe de pasta in kokend water</li>
+                <li>Snijd de tomaten in stukjes</li>
+            </ol>
+        </section>
+    </div>
+</body>
+</html>
+
+
+

@@ -85,46 +85,96 @@
             display: block;
         }
 
-        .recept-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 15px;
-            margin-top: 20px;
-        }
-        .recept {
-            background: white;
-            padding: 15px;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-        .recept h3 {
-            margin-top: 10px;
-            font-size: 18px;
-            font-weight: bold;
-        }
-        .recept p {
-            font-size: 14px;
-            color: #555;
-        }
-        .recept button {
-            background-color: #578A37;
-            color: white;
-            border: none;
-            padding: 10px;
-            width: 100%;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        .recept button:hover {
-            background-color: orange;
-        }
 
-        .recept-afbeelding {
+        .recept-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.recept {
+    position: relative; 
+    background: white;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.recept h3 {
+    margin-top: 10px;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.recept-description {
+    font-size: 14px;
+    color: #555;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3; /* Laat alleen maar 3 regels zien (van chat) */
+    overflow: hidden;
+}
+
+.recept button {
+    background-color: #578A37;
+    color: white;
+    border: none;
+    padding: 10px;
+    width: 100%;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.recept button:hover {
+    background-color: orange;
+}
+
+.recept-afbeelding {
     width: 100%;
     height: 200px;
     object-fit: cover;
     border-radius: 10px;
+    position: relative; }
+
+/* Like functtie */
+.like {
+    position: absolute;
+    top: 10px; 
+    right: 20px;
+    z-index: 10; 
 }
+
+
+.like svg {
+    cursor: pointer;
+    width: 35px;
+ fill: #ffc6c6;
+    transition: transform 0.3s ease, fill 0.3s ease;
+}
+
+
+.like:active svg {
+    fill: red;
+    transform: scale(1.2);
+    transition: 700ms;
+}
+
+.like-checkbox {
+    display: none;
+}
+
+.like-checkbox:checked + label svg {
+    fill: red;
+    transform: scale(1.1);
+    transition: transform 0.5s ease, fill 0.5s ease;
+}
+
+.like-checkbox:not(:checked) + label svg {
+    transform: scale(1);
+    transition: transform 0.5s ease, fill 0.5s ease;
+}
+
 
     </style>
 </head>
@@ -132,11 +182,24 @@
         <%- include('header') %>
     <main>
         <div class="search-bar">
-            <form action="/search" method="GET">
-                <input type="text" name="q" placeholder="Voer een ingrediënt in...">
+            <form action="/mainscherm" method="GET">
+                <input type="text" name="q" placeholder="Zoek een gerecht op..." required>
                 <button type="submit">Zoeken</button>
             </form>
-        </div>
+            <% if (locals.message) { %>
+                <p style="color: red;"><%= locals.message %></p>
+            <% } %>
+        
+            <ul>
+                <% recipes.forEach(recipe => { %>
+                    <li>
+                        <h2><%= recipe.name %></h2>
+                        <p><%= recipe.description || "Geen beschrijving beschikbaar" %></p>
+                        <img src="<%= recipe.thumbnail_url || '/images/default-recipe.jpg' %>" alt="Gerecht afbeelding" width="200">
+                    </li>
+                <% }); %>
+            </ul>
+
                  <p>Filteren:</p>   
             <ul class="filterbuttons">
                 <li>
@@ -187,29 +250,37 @@
             
             <h2>Recepten:</h2>
             
-      
-  
-        <section class="recept-grid">
-            <% if (recipes && recipes.length > 0) { %>
-                <% recipes.forEach(recipe => { %>
-                    <div class="recept">
-                        <% if (recipe.imageUrl) { %>
-                            <img src="<%= recipe.imageUrl %>" alt="Afbeelding van <%= recipe.name %>" class="recept-afbeelding">
-                        <% } else { %>
-                            <img src="/images/default-recipe.jpg" alt="Geen afbeelding beschikbaar" class="recept-afbeelding">
-                        <% } %>
-                        <h3><%= recipe.name %></h3>
-                        <p><%= recipe.description || 'Geen beschrijving beschikbaar' %></p>
-                        <button onclick="window.location.href='/recipe/<%= recipe.id %>'">Bekijk Recept</button>
-                    </div>
-                <% }) %>
-            <% } else { %>
-                <p>Geen recepten gevonden.</p>
-            <% } %>
-        </section>
+            <section class="recept-grid">
+                <% if (recipes && recipes.length > 0) { %>
+                    <% recipes.forEach(recipe => { %>
+                        <div class="recept">
+                            <% if (recipe.imageUrl) { %>
+                                <img src="<%= recipe.imageUrl %>" alt="Afbeelding van <%= recipe.name %>" class="recept-afbeelding">
+                            <% } else { %>
+                                <img src="/images/default-recipe.jpg" alt="Geen afbeelding beschikbaar" class="recept-afbeelding">
+                            <% } %>
+                            <h3><%= recipe.name %></h3>
+                            <p class="recept-description"><%= recipe.description || 'Geen beschrijving beschikbaar' %></p>
+                            
+                            <!-- Like functie -->
+                            <section class="like">
+                                <input type="checkbox" id="like-checkbox-<%= recipe.id %>" class="like-checkbox">
+                                <label for="like-checkbox-<%= recipe.id %>">
+                                    <svg width="60px" height="60px" viewBox="0 0 48 48" version="1" xmlns="http://www.w3.org/2000/svg" ">
+                                        <path d="M34,9c-4.2,0-7.9,2.1-10,5.4C21.9,11.1,18.2,9,14,9C7.4,9,2,14.4,2,21c0,11.9,22,24,22,24s22-12,22-24C46,14.4,40.6,9,34,9z"/>
+                                    </svg>
+                                </label>
+                            </section>
+                            
+                            <button onclick="window.location.href='/recipe/<%= recipe.id %>'">Bekijk Recept</button>
+                        </div>
+                    <% }) %>
+                <% } else { %>
+                    <p>Geen recepten gevonden.</p>
+                <% } %>
+            </section>
     </main>
-    <footer>
-        <%- include('footer') %>
-    </footer>
+
+
 </body>
 </html>

@@ -95,7 +95,7 @@ function typeEffect() {
     } else {
         setTimeout(() => {
             document.querySelector('.main-container').classList.add('verberg');
-        }, 2500); 
+        }, 1200); 
     }
 }
 
@@ -110,7 +110,7 @@ notification.className ="notification";
 document.body.appendChild(notification);
 
 function showNotification(recipeName){
-    notification.textContent = `"${recipeName}" toegevoegd!`;
+    notification.textContent = `"${recipeName}" is toegevoegd aan je gelikte !`;
     notification.classList.add("show");
     setTimeout(() =>notification.classList.remove("show"), 3000 );
 }

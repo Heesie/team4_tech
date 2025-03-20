@@ -93,7 +93,7 @@ font-family:sans-serif ;
   overflow: hidden;
   border-right: 3px solid #333;
   width: 0;
-  animation: typing 1s steps(40) 1s forwards, blink 0.75s step-end infinite;
+  animation: typing 0.7s steps(40) 1s forwards, blink 0.75s step-end infinite;
 }
 
 

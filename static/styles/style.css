@@ -145,6 +145,20 @@ font-family:sans-serif ;
   max-width: 500px;
   width: 90%; 
 }
+
+.finder-koelkast {
+  text-align: center;
+  margin: 2rem auto;
+  padding: 1rem;
+  background: white;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  max-width: 500px;
+  width: 90%; 
+}
+
+
+
 .input-container {
     display: flex;
     justify-content: center;
@@ -166,9 +180,28 @@ font-family:sans-serif ;
   }
 }
 
+
+
+@media (min-width: 1070px) {
+  .begin-grid {
+      display: flex;
+  }
+  .finder{
+  }
+  .finder-koelkast{
+    width: 20%;
+   
+    background-color: #e7e7e7;
+  }
+}
+
+
 @media (max-width: 600px) {
-.finder {
-    width: 80%;
+.finder-koelkast {
+    width:50%;
+}
+.finder-koelkast h2{
+  font-size: 15px;
 }
 }
 
@@ -178,7 +211,7 @@ font-family:sans-serif ;
 
 /* functie trash weg gooien overig  */
 
-.finder img {
+.finder-koelkast img {
   width: 40px; 
   animation: trillen 0.5s ease-in-out infinite;
 }
@@ -373,13 +406,14 @@ main {
 .recept-grid {
 display: grid;
 grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-gap: 15px;
-margin-top: 20px;
+gap: 50px;
 padding: 20px;
 }
 
 .recept {
-position: relative; 
+position: relative;
+display: flex;
+flex-direction: column;
 background: white;
 padding: 15px;
 border-radius: 10px;
@@ -387,7 +421,7 @@ box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .recept h3 {
-margin-top: 10px;
+margin-top: 20px;
 font-size: 18px;
 font-weight: bold;
 }
@@ -397,7 +431,7 @@ font-size: 14px;
 color: #555;
 display: -webkit-box;
 -webkit-box-orient: vertical;
--webkit-line-clamp: 3; /* Laat alleen maar 3 regels zien (van chat) */
+-webkit-line-clamp: 2; /* Laat alleen maar  regels zien (van chat) */
 overflow: hidden;
 }
 
@@ -409,6 +443,7 @@ padding: 10px;
 width: 100%;
 border-radius: 5px;
 cursor: pointer;
+margin-top: auto;
 }
 
 .recept button:hover {
@@ -427,17 +462,22 @@ position: relative; }
 /* Like functtie */
 .like {
 position: absolute;
-top: 10px; 
+top: 20px; 
 right: 20px;
 z-index: 10; 
+
 }
 
 
 .like svg {
 cursor: pointer;
-width: 35px;
+width: 20px;
+height: 20px;
 fill: #ffc6c6;
 transition: transform 0.3s ease, fill 0.3s ease;
+background-color: #ffffff;
+padding: 5px;
+border-radius: 5px;
 }
 
 
@@ -465,9 +505,33 @@ transition: transform 0.5s ease, fill 0.5s ease;
 
 
 /* media grid 1e pagina naast elkaar */
-@media (min-width: 1070px) {
-  .begin-grid {
-      display: flex;
-      gap: 20px; /* Voeg ruimte toe tussen items */
-  }
+
+/* notifcation  */
+.notification {
+  position: fixed;  
+  top: 100px;
+  right: -400px; 
+  background: #4CAF50;
+  color: white;
+  border-radius: 5px;
+  font-size: 14px;
+  padding-top: 15px;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-bottom: 15px;
+  transition: right 0.5s ease-in-out, opacity 0.5s ease-in-out;  
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+  z-index: 9999;  
+  opacity: 0; 
+}
+
+.notification.show {
+  right: 20px;  
+  opacity: 1;  
+}
+
+.notification.hide {
+  right: -400px; 
+  opacity: 0;   
+  pointer-events: none; 
 }

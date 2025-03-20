@@ -20,7 +20,8 @@
     </div>
 </div>
 
-<h1>Welkom bij receptify</h1>
+<h1>Receptify</h1>
+
 <section class="begin-grid ">
   <section class="finder">
     <h2>Zoek een recept om te maken</h2>
@@ -32,7 +33,7 @@
 </section>
 
 
-<section class="finder">
+<section class="finder-koelkast">
     <h2>Gebruik de opruimfunctie</h2>
     <a href="/koelkast">
         <img src="/images/trash.svg" alt="trash icon">
@@ -76,6 +77,11 @@
 
 <script>
 
+    // gedeelte like notificatie //
+
+
+
+
 const tekstWolk = document.getElementById('tekst-wolk');
 const tekst = "HI, Welkom bij Receptify!";
 
@@ -96,8 +102,32 @@ function typeEffect() {
 typeEffect();
 
 
-    
-        </script>
+
+// gedeelte like notificatie
+const notification = document.createElement("div");
+
+notification.className ="notification";
+document.body.appendChild(notification);
+
+function showNotification(recipeName){
+    notification.textContent = `"${recipeName}" toegevoegd!`;
+    notification.classList.add("show");
+    setTimeout(() =>notification.classList.remove("show"), 3000 );
+}
+
+
+document.querySelectorAll(".like-checkbox").forEach(box => 
+    box.addEventListener("change", () => box.checked && showNotification(box.closest(".recept").querySelector("h3").textContent))
+);
+
+// like functie stukje met notificatie  
+
+
+
+
+
+
+</script>
             <%- include('footer') %>
 </body>
 </html>

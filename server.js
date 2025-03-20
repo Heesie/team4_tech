@@ -23,6 +23,8 @@ app
     .get('/', home)
     .get('/createAccount', createAccount)
     .get('/login', login)
+    .get('/mainscherm', mainscherm)
+    .get('/recept', receptScherm)
     .get('/koelkast', koelkast)
     .get('/pop-up', popup)
     .get('/allergie', allergie)
@@ -262,6 +264,10 @@ async function home (req, res) {
 
 function koelkast(req, res) {
     res.render('koelkast.ejs');
+}
+
+function receptScherm(req, res) {
+    res.render('recept.ejs');
 }
 
 function popup(req, res) {

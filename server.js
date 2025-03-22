@@ -50,6 +50,7 @@ app.get('/logout', (req, res) => {
 
 app.get('/login', login)
 app.get('/account', authMiddleware, account);
+app.get('/favorites', favorites)
 app.get('/recept', receptScherm)
 app.get('/koelkast', koelkast)
 app.get('/pop-up', popup)
@@ -139,13 +140,17 @@ function login(req, res) {
 }
 
 function account(req, res) {
-    res.render('account');
+    // Geef de sessiegegevens door aan de accountpagina
+    res.render('account', { 
+        username: req.session.username, // Gebruikersnaam uit sessie
+        email: req.session.email        // Email uit sessie
+    });
 }
 
 // Middleware om in te loggen te controleren
 function authMiddleware(req, res, next) {
-    // Als geen sessie of userId, stuur naar login
-    if (!req.session || !req.session.userId) {
+    // Als geen sessie is stuur naar login
+    if (!req.session) {
         console.log("Geen actieve sessie, doorsturen naar login");
         return res.redirect('/login');
     }
@@ -276,6 +281,10 @@ app.post('/login', async (req, res) => {
         res.status(500).send("Server error");
     }
 });
+
+function favorites(req, res) {
+    res.render('favorites.ejs');
+}
 
 function home(req, res) {
     res.render('recept-finder.ejs');

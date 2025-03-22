@@ -1,7 +1,9 @@
+
+
 header {
     padding: 1rem;
     display: flex;
-    justify-content: space-between;
+    justify-content: space-between; 
     align-items: center;
     position: relative;
     background-color: #ffefca;
@@ -11,6 +13,12 @@ header {
 body{
     background-color: #fffdf6;
 }
+
+.logo a {
+    display: inline-block;
+    text-decoration: none;
+}
+
 
 .logo-mobile {
     display: block;
@@ -29,11 +37,43 @@ body{
     }
   }
 
+  
 
 
 .logo img {
     width: 60px;
 }
+
+.logo {
+    display: flex;
+    justify-content: center;
+    position: absolute; 
+    left: 50%; 
+    transform: translateX(-50%); 
+}
+
+
+
+
+@media screen and (max-width: 767px) {
+    header {
+        justify-content: flex-start;
+    }
+    
+    .logo {
+        position: static; 
+        left: auto; 
+        transform: none; 
+    }
+}
+
+
+
+
+
+
+
+
 
 
 nav.desktop-nav ul {
@@ -104,6 +144,7 @@ nav.desktop-nav ul li a:hover {
     position: absolute;
     z-index: 1;
     right: 0;
+    top: 100%;
     width: 40%;
     background-color: #afc8a1;
     max-height: 0px;
@@ -157,6 +198,7 @@ transform: scale(1.05);
 
     .hamburger-menu {
         display: block;
+        margin-left: auto; 
     }
     
     .nav-placeholder {
@@ -169,6 +211,15 @@ transform: scale(1.05);
     .input-field {
         width: 80%;
     }}
+
+
+    @media (max-width: 600px) {
+        header {
+            justify-content: flex-start;
+        }
+    }
+
+
 
 /* media querie voor scherm  */
 
@@ -194,8 +245,4 @@ transform: scale(1.05);
 
 
 
-
-
 /* footer gedeelt hier onder */
-
-

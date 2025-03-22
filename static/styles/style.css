@@ -9,7 +9,6 @@
 
 h1, h2, h3 {
   font-family: var(--font-primary); 
-  text-align: center;
 }
 
 h4, h5, h6 p {
@@ -25,204 +24,7 @@ font-family:sans-serif ;
 
 
 
-/* pop up  tomaat */
-
-.main-container.verberg {
-  opacity: 0;
-  transition: opacity 1s step-end;
-  pointer-events: none; 
-}
-
-.main-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: fixed; 
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%); 
-  width: 300px; 
-  height: 400px; 
-  background-color: #e7ffdc; 
-  border-radius: 10px; 
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); 
-  padding: 20px; 
-  z-index: 9999;
-}
-
-.container {
-  position: relative;
-  display: inline-block;
-}
-
-.tomaat {
-  width: 200px;
-  margin-top: 1em;
-}
-
-.wolk {
-  position: absolute;
-  top: -70px;
-  left: 50%;
-  transform: translateX(-50%);
-  background-color: #fff;
-  padding: 20px;  
-  border-radius: 10px;
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-  width: 200px;  
-  text-align: center;
-}
-
-.wolk::after {
-  content: '';
-  position: absolute;
-  bottom: -20px;
-  left: 50%;
-  transform: translateX(-50%);
-  border-width: 20px;
-  border-style: solid;
-  border-color: #fff transparent transparent transparent;
-}
-
-
-#tekst-wolk {
-  font-size: 18px;
-  color: #333;
-  margin: 0;
-  white-space: nowrap;
-  overflow: hidden;
-  border-right: 3px solid #333;
-  width: 0;
-  animation: typing 0.7s steps(40) 1s forwards, blink 0.75s step-end infinite;
-}
-
-
-@keyframes typing {
-  0% {
-      width: 0;
-  }
-  100% {
-      width: 100%;
-  }
-}
-
-@keyframes blink {
-  50% {
-      border-color: transparent;
-  }
-  100% {
-      border-color: #333;
-  }
-}
-
-
-.tomaat {
-  animation: soft-bounce 1.5s infinite ease-in-out;
-}
-
-@keyframes soft-bounce {
-  0%, 100% { transform: translateY(0); }
-  30% { transform: translateY(-5px); } /* Kleine bounce omhoog */
-  50% { transform: translateY(0); } 
-  70% { transform: translateY(-2px); } /* Kleinere tweede bounce */
-}
-
-/* code van youtube tutorial */
-/* einde tomaat */
-
-
-
-
-/* 1e pagina recept zoeken */
-.finder {
-  text-align: center;
-  margin: 2rem auto;
-  padding: 1rem;
-  background: white;
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-  border-radius: 10px;
-  max-width: 500px;
-  width: 90%; 
-}
-
-.finder-koelkast {
-  text-align: center;
-  margin: 2rem auto;
-  padding: 1rem;
-  background: white;
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-  border-radius: 10px;
-  max-width: 500px;
-  width: 90%; 
-}
-
-
-
-.input-container {
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-    margin: 1rem 0;
-}
-
-.input-field {
-    padding: 0.8rem;
-    width: 70%;
-    border: 2px solid #ccc;
-    border-radius: 5px;
-    font-size: 1rem;
-}
-
-@media (max-width: 600px) {
-  .input-field {
-      width: 80%;
-  }
-}
-
-
-
-@media (min-width: 1070px) {
-  .begin-grid {
-      display: flex;
-  }
-  .finder{
-  }
-  .finder-koelkast{
-    width: 20%;
-   
-    background-color: #d9ebff;
-  }
-}
-
-
-@media (max-width: 600px) {
-.finder-koelkast {
-    width:50%;
-}
-.finder-koelkast h2{
-  font-size: 15px;
-}
-}
-
-
-/* einde gedeelte recept zoek  */
-
-
-/* functie trash weg gooien overig  */
-
-.finder-koelkast img {
-  width: 40px; 
-  animation: trillen 0.5s ease-in-out infinite;
-}
-
-@keyframes trillen {
-  0% { transform: rotate(0deg); }
-  25% { transform: rotate(-10deg); }
-  50% { transform: rotate(10deg); }
-  75% { transform: rotate(-10deg); }
-  100% { transform: rotate(0deg); }
-}
-
+/* eerste pagina van grid pagina */
 
 
 
@@ -281,7 +83,7 @@ font-family:sans-serif ;
 }
 
 .mainLogIn input[type="submit"] {
-  background-color: #444;
+  background-color: #578A37;
   color: #fff;
   cursor: pointer;
   font-weight: bold;
@@ -289,7 +91,7 @@ font-family:sans-serif ;
 }
 
 .mainLogIn input[type="submit"]:hover {
-  background-color: #333;
+  background-color: #2C5810;
 }
 
 .mainLogIn p {

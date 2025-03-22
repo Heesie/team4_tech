@@ -217,7 +217,7 @@ app.post('/login', async (req, res) => {
 });
 
 function home(req, res) {
-    res.render('recept-finder.ejs');
+    res.render('beginscherm.ejs');
 }
 
 
@@ -235,10 +235,10 @@ async function home (req, res) {
             imageUrl: recipe.thumbnail_url || '/images/default-recipe.jpg' // Standaard afbeelding als geen beschikbaar is
         })) || [];
 
-        res.render('recept-finder.ejs', { recipes });
+        res.render('beginscherm.ejs', { recipes });
     } catch (error) {
         console.error('Fout bij ophalen van recepten:', error);
-        res.render('recept-finder.ejs', { recipes: [] });
+        res.render('beginscherm.ejs', { recipes: [] });
     }
 }
 

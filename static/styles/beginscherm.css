@@ -9,6 +9,12 @@ h1, h2, h3 {
   font-family:sans-serif ;
   }
 
+  .begin-scherm-h2 {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    margin-top: 2em;
+  }
 
   .grid-pagina img {
     width: 50em;
@@ -137,7 +143,6 @@ h1, h2, h3 {
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     gap: 50px;
     padding: 20px;
-    margin-top: 5em;
     }
     
     .recept {

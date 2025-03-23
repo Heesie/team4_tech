@@ -318,6 +318,10 @@ font-family:sans-serif ;
   background-color: #333;
 }
 
+.mainForm button {
+  margin-bottom: 1em;
+}
+
 .mainForm p {
   text-align: center;
   font-size: 0.9em;

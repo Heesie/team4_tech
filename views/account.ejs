@@ -9,17 +9,20 @@
     
     <%- include('header') %>
     
-    <main class="mainAccount">
-        <h1>Account</h1>
+    <section class="wrapper">
+        <main class="mainAccount">
+            <h1>Account</h1>
 
-        <p><strong>Gebruikersnaam:</strong> <%= username %></p>
-        <p><strong>Email adress:</strong> <%= email %></p>
+            <h2>User name</h2>
+            <p><%= username %></p>
+            <h2>Email address</h2>
+            <p><%= email %></p>
+       
+            <p class="logout"><a href="/logout">Log out</a></p>
+        </main>
+    </section>
 
-        <a href="/logout">Uitloggen</a>
-    </main>
-    
-<footer>
     <%- include('footer') %>
-</footer>
+
 </body>
 </html>

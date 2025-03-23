@@ -147,15 +147,12 @@ function account(req, res) {
     });
 }
 
-// Middleware om in te loggen te controleren
 function authMiddleware(req, res, next) {
-    // Als geen sessie is stuur naar login
-    if (!req.session) {
-        console.log("Geen actieve sessie, doorsturen naar login");
+    if (!req.session || !req.session.userId) {
+        console.log("Geen actieve sessie of niet ingelogd, doorsturen naar login");
         return res.redirect('/login');
     }
-    // Als ingelogd, ga door naar de volgende functie
-    next();
+    next(); // Gebruiker is ingelogd, ga door naar de volgende functie
 }
 
 // Endpoint om (registratie)formuliergegevens te verwerken

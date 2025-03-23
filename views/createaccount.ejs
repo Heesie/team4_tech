@@ -22,11 +22,9 @@
                     <% } %>
 
                     <label for="username">Username</label>
-                    <input type="text" id="username" name="username" placeholder="Username..." value="<%= username %>" required/>
-            
-                    <!-- Genereer een nieuwe gebruikersnaam -->
                     <button type="button" onclick="generateRandomUsername()">Generate random username</button>
-                    
+                    <input type="text" id="username" name="username" placeholder="Username..." value="<%= username %>" required/>
+                            
                     <label for="email">Email address</label>
                     <input type="email" id="email" name="email" placeholder="Email address..." value="<%= email %>" required/>
 

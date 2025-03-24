@@ -43,12 +43,16 @@ h1, h2, h3 {
   }
   .actions button {
     padding: 10px 20px;
-    background-color: #ff6600;
+    background-color: #578A37;
     color: white;
     border: none;
     cursor: pointer;
     border-radius: 5px;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  }
+
+  .actions button:hover {
+   background-color: #2C5810;
   }
   .actions input {
     padding: 10px;

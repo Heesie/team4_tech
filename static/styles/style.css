@@ -335,3 +335,49 @@ transition: transform 0.5s ease, fill 0.5s ease;
   opacity: 0;   
   pointer-events: none; 
 }
+
+
+
+/* favoriete pagina */
+
+.favorieten ul {
+  list-style: none;
+    padding: 0;
+}
+
+.favorieten li {
+  background: #fff;
+  margin: 10px 0;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease-in-out;
+}
+
+.favorieten li:hover{
+  transform: scale(1.02);
+}
+
+.favorieten img {
+  width: 100%;
+  max-width: 200px;
+  height: auto;
+  border-radius: 8px;
+  margin-top: 10px;
+}
+
+.favorieten a {
+  display: inline-block;
+  margin-top: 20px;
+  padding: 10px 15px;
+  background: #ff6600;
+  color: white;
+  text-decoration: none;
+  border-radius: 5px;
+  font-weight: bold;
+  transition: background 0.3s;
+}
+
+.favorieten a:hover {
+  background: #e55a00;
+}

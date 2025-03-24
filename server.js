@@ -28,6 +28,7 @@ app.get('/pop-up', popup)
 app.get('/allergie', allergie)
 app.get('/kookniveau', kookniveau)
 app.get('/fetch-recipes', fetchRecipes) 
+app.get('/favorieten', favorieten) 
 app.get('/header', header) 
 app.get('/footer', footer) 
 app.get('/intro', tomaat) 
@@ -247,6 +248,11 @@ async function home (req, res) {
 function koelkast(req, res) {
     res.render('koelkast.ejs');
 }
+
+function favorieten (req, res) {
+    res.render('favorieten.ejs');
+}
+
 
 function receptScherm(req, res) {
     res.render('recept.ejs');

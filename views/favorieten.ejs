@@ -11,21 +11,6 @@
     <%- include('header') %>
 
 <main>
-    <section class="favorieten">
-        <h1>Welkom, <%= username %>!</h1>
-        <h2>Jouw gelikete recepten:</h2>
-
-        <ul>
-          <% likedRecipes.forEach(recept => { %>
-            <li>
-              <h3><%= recept.title %></h3>
-              <img src="<%= recept.image %>" alt="<%= recept.title %>" width="200">
-            </li>
-          <% }) %>
-        </ul>
-        <a href="/mainscherm">Terug naar recepten</a>
-
-    </section>
 </main>
 </body>
 </html>

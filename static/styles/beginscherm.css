@@ -93,7 +93,7 @@ h1, h2, h3 {
 
  @media (max-width: 480px) {
     .content h1 {
-      font-size: 8vw;
+        font-size: 8vw;
     }
     .grid-pagina {
         display: flex;
@@ -124,7 +124,7 @@ h1, h2, h3 {
 
   @media (min-width: 1100px) {
     .content h1 {
-        font-size: 4vw;
+        font-size: 50px;
     }
     .grid-pagina {
         display: flex;

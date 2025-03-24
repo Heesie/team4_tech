@@ -31,10 +31,6 @@ app.use(session({
 
 
 
-
-
-
-
 app.use('/', express.static('static'))
 app.set('view engine', 'ejs')
 app.set('views', 'views')

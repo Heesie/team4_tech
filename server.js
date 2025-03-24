@@ -17,13 +17,40 @@ app.use(express.static("static"));
 
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
+
+app.use(session({
+    resave: false, // De sessie wordt niet opnieuw opgeslagen op elke aanvraag
+    saveUninitialized: true, // Nieuwe sessie wordt altijd opgeslagen
+    secret: process.env.SESSION_SECRET, // De geheime sleutel om de sessie-id te ondertekenen en te versleutelen
+    cookie: {
+        httpOnly: true, // Beveiligt tegen XSS
+        secure: process.env.NODE_ENV === 'production', // Alleen HTTPS in productie
+        maxAge: 1000 * 60 * 60 * 24 // Sessieduur: 24 uur
+    }
+}))
+
 app.use('/', express.static('static'))
 app.set('view engine', 'ejs')
 app.set('views', 'views')
 app.get('/', home)
 app.get('/createAccount', createAccount)
+
+// Route om uit te loggen
+app.get('/logout', (req, res) => {
+    // Verwijder de sessie van de gebruiker
+    req.session.destroy((err) => {
+        if (err) {
+            return res.status(500).send('Fout bij het uitloggen');
+        }
+        // Sessie is succesvol verwijderd, stuur door naar de loginpagina
+        res.redirect('/login');
+        console.log("Uitgelogd!")
+    });
+});
+
 app.get('/login', login)
-app.get('/account', account)
+app.get('/account', authMiddleware, account);
+app.get('/favorites', favorites)
 app.get('/recept', receptScherm)
 app.get('/koelkast', koelkast)
 app.get('/pop-up', popup)
@@ -62,12 +89,6 @@ app.get('/fetchFromMongo', fetchFromMongo) // Nieuwe route voor API-aanroepen
     });
     app .listen(2000, () => console.log("De server draait op host 2000"));
 
-app.use(session({
-    resave: false,
-    saveUninitialized: true,
-    secret: process.env.SESSION_SECRET
-}))
-
 // Verbind met MongoDB database
 const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb')
 // Maak de verbindingstring voor MongoDB met gegevens uit de .env file
@@ -82,9 +103,6 @@ const client = new MongoClient(uri, {
 })
 
 ////zoekfunctie////
-
-
-
 async function fetchFromMongo(collectionRecepten, query = {}, options = {}) {
     try {
         const db = client.db(process.env.DB_NAME); // Verbind met de database
@@ -123,7 +141,19 @@ function login(req, res) {
 }
 
 function account(req, res) {
-    res.render('account');
+    // Geef de sessiegegevens door aan de accountpagina
+    res.render('account', { 
+        username: req.session.username, // Gebruikersnaam uit sessie
+        email: req.session.email        // Email uit sessie
+    });
+}
+
+function authMiddleware(req, res, next) {
+    if (!req.session || !req.session.userId) {
+        console.log("Geen actieve sessie of niet ingelogd, doorsturen naar login");
+        return res.redirect('/login');
+    }
+    next(); // Gebruiker is ingelogd, ga door naar de volgende functie
 }
 
 // Endpoint om (registratie)formuliergegevens te verwerken
@@ -162,8 +192,8 @@ app.post('/createAccount', async (req, res) => {
     if (errors.length > 0) {
         return res.render('createAccount', { 
             errorMessage: errors.join(', '),
-            email: email ,       // Zorg ervoor dat email wordt doorgegeven
-            username: username   // Zorg ervoor dat username wordt doorgegeven
+            email: email ,       // E-mail wordt doorgegeven
+            username: username   // Username wordt doorgegeven
         });
     }
 
@@ -180,10 +210,10 @@ app.post('/createAccount', async (req, res) => {
         const hashedPassword = await bcrypt.hash(password, 10);
 
         // Voeg gebruiker toe aan database
-        await usersCollection.insertOne({ fullname, email, password: hashedPassword });
+        await usersCollection.insertOne({ username, email, password: hashedPassword });
 
-        console.log("Gebruiker aangemaakt:", { fullname, email });
-        res.send('Registratie succesvol!');
+        console.log("Gebruiker aangemaakt:", { username, email });
+        res.redirect('/account');
     } catch (err) {
         console.error("Fout bij registreren:", err);
         res.status(500).send("Server error");
@@ -216,28 +246,43 @@ app.post('/login', async (req, res) => {
         // Verkrijg toegang tot de gebruikersverzameling in de database
         const database = client.db(process.env.DB_NAME);
         const usersCollection = database.collection('users');
-
+    
         // Zoek de gebruiker op e-mail
         const user = await usersCollection.findOne({ email });
-        if (!user) return res.render('login', { errorMessage: 'E-mail niet gevonden' });
-
+        if (!user) {
+            return res.render('login', { errorMessage: 'E-mail niet gevonden' });
+        }
+    
         // Vergelijk het wachtwoord
         const match = await bcrypt.compare(password, user.password);
-        if (!match) return res.render('login', { errorMessage: 'Ongeldig wachtwoord' });
-
-        console.log('Inloggen succesvol:', { email });
-
-        // Sla de gebruikers-ID op in de sessie
-        req.session.userId = user._id;  // Dit is de gebruikers-ID die je in de sessie wilt bewaren
-        req.session.username = user.username;  // Je kunt ook andere gegevens bewaren als je wilt
-
-        // Redirect naar de gewenste pagina, bijvoorbeeld de homepage of dashboard
-        res.redirect('/account');
+        if (!match) {
+            return res.render('login', { errorMessage: 'Ongeldig wachtwoord' });
+        }
+        
+        // Sla de gebruikersgegevens op in de sessie
+        req.session.userId = user._id;
+        req.session.username = user.username;
+        req.session.email = user.email;
+    
+        console.log("Sessie na login:", req.session);
+    
+        req.session.save(err => {
+            if (err) {
+                console.error("Fout bij opslaan sessie:", err);
+                return res.status(500).send("Sessie kon niet worden opgeslagen.");
+            }
+            res.redirect('/');
+        });
+    
     } catch (err) {
         console.error("Fout bij inloggen:", err);
         res.status(500).send("Server error");
     }
 });
+
+function favorites(req, res) {
+    res.render('favorites.ejs');
+}
 
 function home(req, res) {
     res.render('beginscherm.ejs');

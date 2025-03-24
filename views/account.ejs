@@ -3,17 +3,26 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Account</title>
+    <link rel="stylesheet" href="/styles/style.css">
 </head>
 <body>
     
     <%- include('header') %>
     
-    <main class="mainAccount">
-        <h1>Account</h1>
-    </main>
-    
-<footer>
+    <section class="wrapper">
+        <main class="mainAccount">
+            <h1>Account</h1>
+
+            <h2>User name</h2>
+            <p><%= username %></p>
+            <h2>Email address</h2>
+            <p><%= email %></p>
+       
+            <p class="logout"><a href="/logout">Log out</a></p>
+        </main>
+    </section>
+
     <%- include('footer') %>
-</footer>
+
 </body>
 </html>

@@ -4,124 +4,43 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Create account</title>
-<style>
-    *, *::after, *::before {
-        box-sizing: border-box;
-        margin: 0;
-        padding: 0;
-    }
-    
-    body {
-        font-family: Arial, Helvetica, sans-serif;
-        background-color: #fff;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-        padding: 1.5em;
-        font-size: 1em;
-    }
-
-    .mainCreateAccount {
-        width: 100%;
-        max-width: 30em;
-        background-color: #fff;
-        padding: 1.2em;
-        border-radius: 0.5em;
-    }
-
-    h1 {
-        text-align: center;
-        font-size: 1.5em;
-        margin-bottom: 1.25em;
-    }
-
-    form {
-        display: flex;
-        flex-direction: column;
-    }
-
-    label {
-        font-size: 1em;
-        margin-bottom: 0.8em;
-    }
-
-    input {
-        background-color: #f2f2f2;
-        padding: 1em;
-        margin-bottom: 1.5em;
-        border: none;
-        border-radius: 0.5em;
-        font-size: 1em;
-    }
-
-    input[type="submit"] {
-        padding: 1em;
-        background-color: dimgray;
-        color: #fff;
-        cursor: pointer;
-    }
-
-    input[type="submit"]:hover {
-        background-color: gray;
-    }
-
-    p {
-        text-align: center;
-        font-size: 0.875em;
-        margin-top: 1.5em;
-    }
-
-    a {
-        color: black;
-        text-decoration: none;
-    }
-
-    a:hover {
-        text-decoration: underline;
-    }
-
-    .error {
-        color: red;
-        text-align: center;
-        margin-top: 0.6em;
-    }
-    </style>
     <link rel="stylesheet" href="/styles/style.css">
 </head>
 <body>
 
     <%- include('header') %>
 
-    <main class="mainCreateAccount">
-        <h1>Create account</h1>
+    <section class="wrapper">
+        <main class="mainForm">
+            <h1>Create account</h1>
 
-    <form action="/createAccount" method="POST">      
-            <label for="email">Email address</label>
-            <input type="email" id="email" name="email" placeholder="Email address..." value="<%= email %>" required/>
-    
-            <label for="username">Username</label>
-            <input type="text" id="username" name="username" placeholder="Username..." value="<%= username %>" required/>
-    
-            <!-- Genereer een nieuwe gebruikersnaam -->
-            <button type="button" onclick="generateRandomUsername()">Generate random username</button>
+                <form action="/createAccount" method="POST">
+                    <% if (errorMessage) { %>
+                        <div class="error">
+                            <%= errorMessage %>
+                        </div>
+                    <% } %>
 
-            <label for="password">Password</label>
-            <input type="password" id="password" name="password" placeholder="Password..." required>
+                    <label for="username">Username</label>
+                    <button type="button" onclick="generateRandomUsername()">Generate random username</button>
+                    <input type="text" id="username" name="username" placeholder="Username..." value="<%= username %>" required/>
+                            
+                    <label for="email">Email address</label>
+                    <input type="email" id="email" name="email" placeholder="Email address..." value="<%= email %>" required/>
 
-            <label for="passwordConfirm">Confirm password</label>
-            <input type="password" id="passwordConfirm" name="passwordConfirm" placeholder="Confirm password..." required>
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" placeholder="Password..." required>
 
-            <input type="submit" value="Create account">
-            <% if (errorMessage) { %>
-                <div class="error">
-                    <%= errorMessage %>
-                </div>
-            <% } %>
-        </form>
+                    <label for="passwordConfirm">Confirm password</label>
+                    <input type="password" id="passwordConfirm" name="passwordConfirm" placeholder="Confirm password..." required>
 
-        <p>Already have an account? <a href="/login">Log in</a></p>
+                    <input type="submit" value="Create account">
+                </form>
 
-    </main>
+                <p>Already have an account? <a href="/login">Log in</a></p>
+                    
+        </main>
+    </section>
     
         <%- include('footer') %>
 

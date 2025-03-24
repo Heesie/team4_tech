@@ -67,7 +67,7 @@ notification.className ="notification";
 document.body.appendChild(notification);
 
 function showNotification(recipeName){
-    notification.textContent = `"${recipeName}" is toegevoegd aan je gelikte !`;
+    notification.textContent = `"${recipeName}" is toegevoegd aan je favorieten !`;
     notification.classList.add("show");
     setTimeout(() =>notification.classList.remove("show"), 3000 );
 }

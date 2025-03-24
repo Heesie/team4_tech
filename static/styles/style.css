@@ -49,11 +49,11 @@ font-family:sans-serif ;
 input[type="submit"], 
 button {
     width: 100%;
-    padding: 12px;
+    padding: 8px;
     border: none;
     background-color: #578A37;
     color: white;
-    font-size: 16px;
+    font-size: 12px;
     border-radius: 5px;
     cursor: pointer;
     transition: 0.3s;
@@ -76,6 +76,7 @@ button:hover {
   align-items: center;
   height: 90vh;
   width: 100%;
+  margin-top: 1em;
 }
 
 /* account */
@@ -134,7 +135,6 @@ button:hover {
 }
 
 .mainForm input {
-  background-color: #f2f2f2;
   padding: 0.8em;
   margin-bottom: 1.2em;
   border: 1px solid #ccc;

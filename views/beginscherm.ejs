@@ -4,43 +4,27 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Begin pagina</title>
-    <link rel="stylesheet" href="styles/style.css">
-    <link rel="stylesheet" href="styles/components.css">
+    <link rel="stylesheet" href="/styles/beginscherm.css">
 </head>
 <body>
   <%- include('header') %>
 
-
-  <div class="main-container">
-    <div class="container">
-        <img src="/images/talking-tomato.svg" alt="Tomaat" class="tomaat">
-        <div class="wolk">
-            <p id="tekst-wolk"></p>
+    <section class="grid-pagina">
+        <div class="content">
+            <h1>Cook Like a Pro with Easy & Tasty Recipes</h1>
+            <p>Quick meals or special dinners we have recipes for every moment. Simple, delicious, and easy to make!</p>
         </div>
+        <img src="/images/cooking.svg" alt="">
+    </section>
+    
+    <div class="actions">
+      
+        <button><a href="/mainscherm"></a>Explore all Recipes</button>
+        <input type="text" placeholder="Search recipes...">
     </div>
-</div>
-
-<h1>Receptify</h1>
-
-<section class="begin-grid ">
-  <section class="finder">
-    <h2>Zoek een recept om te maken</h2>
-    <label for="veld" class="input-container">
-      <input type="text" name="query" placeholder="Zoek op recepten" id="veld" class="input-field">
-    </label>
-    <button type="submit" class="button">Zoeken</button>
-    <a href="/mainscherm" >Uitgebreid zoeken</a>
-</section>
-
-
-<section class="finder-koelkast">
-    <h2>Gebruik de opruimfunctie</h2>
-    <a href="/koelkast">
-        <img src="/images/trash.svg" alt="trash icon">
-    </a>
-</section>
-</section>
-
+    <section class="begin-scherm-h2">
+        <h2>Or find here random recipes</h2>
+    </section>
 <section class="recept-grid">
     <% if (recipes && recipes.length > 0) { %>
         <% recipes.forEach(recipe => { %>
@@ -57,7 +41,7 @@
                 <section class="like">
                     <input type="checkbox" id="like-checkbox-<%= recipe.id %>" class="like-checkbox">
                     <label for="like-checkbox-<%= recipe.id %>">
-                        <svg width="60px" height="60px" viewBox="0 0 48 48" version="1" xmlns="http://www.w3.org/2000/svg" ">
+                        <svg width="60px" height="60px" viewBox="0 0 48 48" version="1" xmlns="http://www.w3.org/2000/svg">
                             <path d="M34,9c-4.2,0-7.9,2.1-10,5.4C21.9,11.1,18.2,9,14,9C7.4,9,2,14.4,2,21c0,11.9,22,24,22,24s22-12,22-24C46,14.4,40.6,9,34,9z"/>
                         </svg>
                     </label>
@@ -76,33 +60,6 @@
 
 
 <script>
-
-    // gedeelte like notificatie //
-
-
-
-
-const tekstWolk = document.getElementById('tekst-wolk');
-const tekst = "HI, Welkom bij Receptify!";
-
-let index = 0;
-
-function typeEffect() {
-    if (index < tekst.length) {
-        tekstWolk.textContent += tekst.charAt(index);
-        index++;
-        setTimeout(typeEffect, 1); 
-    } else {
-        setTimeout(() => {
-            document.querySelector('.main-container').classList.add('verberg');
-        }, 1200); 
-    }
-}
-
-typeEffect();
-
-
-
 // gedeelte like notificatie
 const notification = document.createElement("div");
 
@@ -121,12 +78,6 @@ document.querySelectorAll(".like-checkbox").forEach(box =>
 );
 
 // like functie stukje met notificatie  
-
-
-
-
-
-
 </script>
             <%- include('footer') %>
 </body>

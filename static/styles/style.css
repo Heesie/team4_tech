@@ -28,6 +28,46 @@ font-family:sans-serif ;
 
 
 
+#button-login {
+  background: #578A37;
+  color: white;
+  border: none;
+  padding: 12px;
+  font-size: 16px;
+  font-weight: bold;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+#button-login:hover {
+  background: #2C5810;
+}
+
+
+
+input[type="submit"], 
+button {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    background-color: #578A37;
+    color: white;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+input[type="submit"]:hover, 
+button:hover {
+    background-color: #2C5810;
+}
+
+
+
+
+
 
 
 .wrapper {

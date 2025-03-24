@@ -68,7 +68,7 @@ h1, h2, h3 {
 
    @media (max-width: 820px) {
     .content h1 {
-        font-size: 40px;
+      font-size: 6vw;
     }
     .actions {
         margin-top: 3em;
@@ -93,7 +93,7 @@ h1, h2, h3 {
 
  @media (max-width: 480px) {
     .content h1 {
-        font-size: 30px;
+      font-size: 8vw;
     }
     .grid-pagina {
         display: flex;
@@ -124,7 +124,7 @@ h1, h2, h3 {
 
   @media (min-width: 1100px) {
     .content h1 {
-        font-size: 50px;
+        font-size: 4vw;
     }
     .grid-pagina {
         display: flex;

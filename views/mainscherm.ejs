@@ -37,53 +37,70 @@
             justify-content: center;
             gap: 20px;
             padding: 0;
+
         }
+        
         .dropdown {
-            position: relative;
-            display: inline-block;
-        }
+    position: relative;
+    display: inline-block;
+}
 
-        .dropdown button {
-            background-color: #FF3D00;
-            color: white;
-            padding: 10px 15px;
-            border: none;
-            cursor: pointer;
-            border-radius: 8px;
-        }
-        .dropdown .content {
-            display: none;
-            position: absolute;
-            top: 100%;
-            left: 0;
-            min-width: 150px;
-            box-shadow: 2px 2px 5px black;
-            background-color: #f1f1f1;
-            z-index: 100;
-            padding: 0;
-        }
-        
-        .dropdown .content li {
-            list-style-type: none;
-        }
+.dropdown button {
+    background-color: #FF3D00;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: background 0.3s ease;
+}
 
-        .dropdown .content a {
-            display: block;
-            text-decoration: none;
-            padding: 10px;
-            color: black;
-            background-color: white;
-            transition: background 0.3s;
-        }
+.dropdown button:hover {
+    background-color: #e63600;
+}
 
-        .dropdown .content a:hover {
-            background-color: lightgray;
-        }
-        
-        /* Gebruik :focus-within om menu te openen bij klikken */
-        .dropdown:focus-within .content {
-            display: block;
-        }
+.dropdown .content {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    min-width: 160px;
+    border-radius: 8px;
+    background-color: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    padding: 5px 0;
+    opacity: 0;
+    transform: translateY(-5px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    z-index: 2;
+}
+
+.dropdown .content li {
+    list-style-type: none;
+    padding: 0;
+}
+
+.dropdown .content a {
+    display: block;
+    text-decoration: none;
+    padding: 10px;
+    color: black;
+    background-color: white;
+    transition: background 0.3s ease;
+    border-radius: 5px;
+    margin: 2px 10px;
+}
+
+.dropdown .content a:hover {
+    background-color: #ffefca;
+}
+
+.dropdown:focus-within .content {
+    display: block;
+    opacity: 1;
+    transform: translateY(0);
+}
+
 
 
         .recept-grid {
@@ -142,7 +159,7 @@
     position: absolute;
     top: 10px; 
     right: 20px;
-    z-index: 10; 
+    z-index: 1; 
 }
 
 

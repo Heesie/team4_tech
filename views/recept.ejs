@@ -15,6 +15,19 @@
         main {
             padding: 20px;
         }
+
+        button {
+            background-color: #678b4d;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #56793f;
+        }
    
         .recept         {
             max-width: 100%;
@@ -53,6 +66,8 @@
         ul, ol {
             padding-left: 20px;
         }
+
+        
         
    
     </style>
@@ -60,9 +75,9 @@
 <body>
     <%- include('header') %>
 
-    <a href="/mainscherm">
-        <button>Terug</button>
-    </a>
+        <a href="/mainscherm">
+            <button>Terug</button>
+        </a>
 
     <div class="recept">
         <div class="afbeelding">

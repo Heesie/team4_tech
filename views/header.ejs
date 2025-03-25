@@ -12,8 +12,12 @@
             <ul>
                 <li><a href="/">Home</a></li>
                 <li><a href="/mainscherm">Recepten</a></li>
-                <li><a href="/account">Account</a></li>
                 <li><a href="/favorieten">Favorieten</a></li>
+                <% if (typeof username !== 'undefined' && username) { %>
+                    <li><a href="/account"><%= username %></a></li>
+                <% } else { %>
+                    <li><a href="/login">Inloggen</a></li>
+                <% } %>
             </ul>
         </nav>
         
@@ -29,8 +33,12 @@
         <ul>
             <li><a href="/">Home</a></li>
             <li><a href="/mainscherm">Recepten</a></li>
-            <li><a href="/account">Account</a></li>
             <li><a href="/favorieten">Favorieten</a></li>
+            <% if (typeof username !== 'undefined' && username) { %>
+                <li><a href="/account"><%= username %></a></li>
+            <% } else { %>
+                <li><a href="/login">Inloggen</a></li>
+            <% } %>
         </ul>
     </nav>
 </header>

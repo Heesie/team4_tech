@@ -48,25 +48,6 @@ font-family:sans-serif ;
 
 
 
-input[type="submit"], 
-button {
-    width: 100%;
-    padding: 8px;
-    border: none;
-    background-color: #578A37;
-    color: white;
-    font-size: 12px;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: 0.3s;
-}
-
-input[type="submit"]:hover, 
-button:hover {
-    background-color: #2C5810;
-}
-
-
 
 
 

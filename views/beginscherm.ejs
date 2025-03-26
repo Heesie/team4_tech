@@ -9,9 +9,10 @@
 </head>
 <body>
     <%- include('header') %>
+
     <section class="grid-pagina">
         <div class="content">
-            <h1>Cook Like a Pro with Easy & Tasty Recipes</h1>
+            <h1> Cook Like a Pro with Easy & Tasty Recipes</h1>
             <p>Quick meals or special dinners we have recipes for every moment. Simple, delicious, and easy to make!</p>
         </div>
         <img src="/images/cooking.svg" alt="">
@@ -19,12 +20,13 @@
     
     <div class="actions">
       
-        <button><a href="/mainscherm"></a>Explore all Recipes</button>
-        <input type="text" placeholder="Search recipes...">
+        <button><a href="/mainscherm"></a> <span> all Recipes </span></button>
+        <input placeholder="Searth here..." type="text" name="text" class="input">
     </div>
     <section class="begin-scherm-h2">
         <h2>Or find here random recipes</h2>
     </section>
+    
 <section class="recept-grid">
     <% if (recipes && recipes.length > 0) { %>
         <% recipes.forEach(recipe => { %>

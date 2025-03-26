@@ -4,200 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Recepten</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #ffefca;
-            margin: 0;
-            padding: 0;
-        }
-  
-        main {
-            padding: 20px;
-        }
-        .search-bar input {
-            width: 80%;
-            padding: 5px;
-            border-radius: 5px;
-            border: 1px solid #ddd;
-        }
-        .search-bar button {
-            padding: 5px 10px;
-            border: none;
-            background-color: #578A37;
-            color: white;
-            border-radius: 5px;
-            cursor: pointer;
-        }
+        <link rel="stylesheet" href="/styles/beginscherm.css">
+    <link rel="stylesheet" href="/styles/styles.css">
 
-
-        .filterbuttons {
-            list-style-type: none;
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            padding: 0;
-
-        }
-        
-        .dropdown {
-    position: relative;
-    display: inline-block;
-}
-
-.dropdown button {
-    background-color: #FF3D00;
-    color: white;
-    padding: 10px 15px;
-    border: none;
-    cursor: pointer;
-    border-radius: 8px;
-    transition: background 0.3s ease;
-}
-
-.dropdown button:hover {
-    background-color: #e63600;
-}
-
-.dropdown .content {
-    display: none;
-    position: absolute;
-    top: 100%;
-    left: 0;
-    min-width: 160px;
-    border-radius: 8px;
-    background-color: white;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    padding: 5px 0;
-    opacity: 0;
-    transform: translateY(-5px);
-    transition: opacity 0.3s ease, transform 0.3s ease;
-    z-index: 2;
-}
-
-.dropdown .content li {
-    list-style-type: none;
-    padding: 0;
-}
-
-.dropdown .content a {
-    display: block;
-    text-decoration: none;
-    padding: 10px;
-    color: black;
-    background-color: white;
-    transition: background 0.3s ease;
-    border-radius: 5px;
-    margin: 2px 10px;
-}
-
-.dropdown .content a:hover {
-    background-color: #ffefca;
-}
-
-.dropdown:focus-within .content {
-    display: block;
-    opacity: 1;
-    transform: translateY(0);
-}
-
-
-
-        .recept-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 15px;
-    margin-top: 20px;
-}
-
-.recept {
-    position: relative; 
-    background: white;
-    padding: 15px;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-.recept h3 {
-    margin-top: 10px;
-    font-size: 18px;
-    font-weight: bold;
-}
-
-.recept-description {
-    font-size: 14px;
-    color: #555;
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 3; /* Laat alleen maar 3 regels zien (van chat) */
-    overflow: hidden;
-}
-
-.recept button {
-    background-color: #578A37;
-    color: white;
-    border: none;
-    padding: 10px;
-    width: 100%;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-.recept button:hover {
-    background-color: orange;
-}
-
-.recept-afbeelding {
-    width: 100%;
-    height: 200px;
-    object-fit: cover;
-    border-radius: 10px;
-    position: relative; }
-
-/* Like functtie */
-.like {
-    position: absolute;
-    top: 10px; 
-    right: 20px;
-    z-index: 1; 
-}
-
-
-.like svg {
-    cursor: pointer;
-    width: 35px;
- fill: #ffc6c6;
-    transition: transform 0.3s ease, fill 0.3s ease;
-}
-
-
-.like:active svg {
-    fill: red;
-    transform: scale(1.2);
-    transition: 700ms;
-}
-
-.like-checkbox {
-    display: none;
-}
-
-.like-checkbox:checked + label svg {
-    fill: red;
-    transform: scale(1.1);
-    transition: transform 0.5s ease, fill 0.5s ease;
-}
-
-.like-checkbox:not(:checked) + label svg {
-    transform: scale(1);
-    transition: transform 0.5s ease, fill 0.5s ease;
-}
-
-
-    </style>
 </head>
 <body>
     <%- include('header') %>
     <main>
+
+        <section class="mainscherm-filter">
         <div class="search-bar">
             <form action="/mainscherm" method="GET">
                 <input type="text" name="q" placeholder="Zoek een gerecht op..." required>
@@ -208,7 +23,6 @@
             <% } %>
         
             <p>Filteren:</p>   
-
             <ul class="filterbuttons">
                 <li>
                     <div class="dropdown">
@@ -259,7 +73,9 @@
                 </ul>
             </div>
             
-            
+        </section>
+
+        
             <h2>Recepten:</h2>
 
 
@@ -290,6 +106,24 @@
             
     </main>
 
+    <script>
+        // gedeelte like notificatie
+const notification = document.createElement("div");
+
+notification.className ="notification";
+document.body.appendChild(notification);
+
+function showNotification(recipeName){
+    notification.textContent = `"${recipeName}" is toegevoegd aan je favorieten !`;
+    notification.classList.add("show");
+    setTimeout(() =>notification.classList.remove("show"), 3000 );
+}
+
+
+document.querySelectorAll(".like-checkbox").forEach(box => 
+    box.addEventListener("change", () => box.checked && showNotification(box.closest(".recept").querySelector("h3").textContent))
+);
+    </script>
 
 </body>
 </html>

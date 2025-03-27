@@ -25,6 +25,8 @@
             border-radius: 5px;
             cursor: pointer;
             font-size: 16px;
+            margin-left: 20px;
+            margin-top: 20px;
         }
         button:hover {
             background-color: #56793f;
@@ -59,16 +61,75 @@
             margin: 20px 0;
         }
 
+
         h2 {
             border-bottom: 2px solid #ddd;
             padding-bottom: 5px;
         }
 
-        ul, ol {
+        ul {
             padding-left: 20px;
         }
 
-        
+        ol{
+        list-style-position: inside;
+        padding-right: 0px;
+        padding-left: 0px;
+        }
+
+        ol li{
+            padding: 2px;
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-top: 5px;
+            background-color: #ddd;
+
+        }
+
+        .like {
+        position: absolute;
+        top: 110px; 
+        right: 20px;
+
+        }
+
+
+        .like svg {
+        cursor: pointer;
+        width: 40px;
+        height: 40px;
+        fill: #ffc6c6;
+        transition: transform 0.3s ease, fill 0.3s ease;
+        background-color: #ffffff;
+        padding: 5px;
+        border-radius: 5px;
+        }
+
+
+        .like:active svg {
+        fill: red;
+        transform: scale(1.2);
+        transition: 700ms;
+        }
+
+        .like-checkbox {
+        display: none;
+        }
+
+        .like-checkbox:checked + label svg {
+        fill: red;
+        transform: scale(1.1);
+        transition: transform 0.5s ease, fill 0.5s ease;
+        }
+
+        .like-checkbox:not(:checked) + label svg {
+        transform: scale(1);
+        transition: transform 0.5s ease, fill 0.5s ease;
+        }
+
+    
         
    
     </style>
@@ -80,31 +141,47 @@
             <button>Terug</button>
         </a>
 
+        <section class="like">
+            <input type="checkbox" id="like-checkbox-<%= recipe.id %>" class="like-checkbox">
+            <label for="like-checkbox-<%= recipe.id %>">
+                <svg width="60px" height="60px" viewBox="0 0 48 48" version="1" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M34,9c-4.2,0-7.9,2.1-10,5.4C21.9,11.1,18.2,9,14,9C7.4,9,2,14.4,2,21c0,11.9,22,24,22,24s22-12,22-24C46,14.4,40.6,9,34,9z"/>
+                </svg>
+            </label>
+        </section>
+
     <div class="recept">
         <div class="afbeelding">
-            <img src="/images/lasagna.jpg" alt="Lasagna met kaas">
-            <h1>Lasagna met kaas</h1>
+            <img src="<%= recipe.thumbnail_url || '/images/default-recipe.jpg' %>" alt="Gerecht afbeelding" class="recept-afbeelding">
+            <h1><%= recipe.name %></h1>
         </div>
+
         <div class="info">
-                <span>20 min</span>
-                <span>makkelijk</span>
-                <span>200 kcal</span>
+                <span><%= recipe.total_time_minutes %> Minutes</span>
+                <span><%= recipe.num_servings %> Servings</span>
+                <span><%= recipe.nutrition.calories %> kcal</span>
         </div>
 
         <section>
-            <h2>Ingrediënten</h2>
+            <h2>Ingredients</h2>
+     
             <ul>
-                <li>Tomaten</li>
-                <li>Komkommer</li>
-                <li>Rijst</li>
-            </ul>
+                <% recipe.ingredients.forEach(function(ingredient) { %>
+                  <li><%= ingredient.quantity %></li>
+                <% }); %>
+              </ul>
+              
         </section>
         <section>
-            <h2>Bereiding</h2>
+            <h2>Recipe</h2>
+          
             <ol>
-                <li>Doe de pasta in kokend water</li>
-                <li>Snijd de tomaten in stukjes</li>
-            </ol>
+                <% recipe.instructions.forEach(function(step) { %>
+                  <li><%= step.text %></li>
+                <% }); %>
+              </ol>
+              
+         
         </section>
     </div>
 </body>

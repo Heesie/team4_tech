@@ -59,12 +59,10 @@ app.get('/logout', (req, res) => {
 app.get('/login', login)
 app.get('/account', authMiddleware, account);
 app.get('/favorites', favorites)
-app.get('/recept', receptScherm)
 app.get('/koelkast', koelkast)
 app.get('/pop-up', popup)
 app.get('/allergie', allergie)
 app.get('/kookniveau', kookniveau)
-app.get('/fetch-recipes', fetchRecipes) 
 app.get('/favorieten', favorieten) 
 app.get('/header', header) 
 app.get('/footer', footer) 
@@ -130,6 +128,27 @@ app.get('/mainscherm', async (req, res) => {
     }
 });
 
+app.get('/recipe/:id', async (req, res) => {
+    try {
+        const recipeId = req.params.id;
+        const db = client.db(process.env.DB_NAME);
+        const collection = db.collection(process.env.DB_COLLECTION);
+
+        // Zoek het recept op basis van het ID
+        const recipe = await collection.findOne({ _id: new ObjectId(recipeId) });
+
+        if (!recipe) {
+            return res.status(404).send("Recept niet gevonden");
+        }
+
+        res.render('recept', { recipe });
+    } catch (error) {
+        console.error("Fout bij ophalen van recept:", error);
+        res.status(500).send("Er is een fout opgetreden bij het ophalen van het recept.");
+    }
+});
+
+  
     app .listen(2000, () => console.log("De server draait op host 2000"));
 
 // Verbind met MongoDB database
@@ -323,29 +342,29 @@ function favorites(req, res) {
     res.render('favorites.ejs');
 }
 
-function home(req, res) {
-    res.render('beginscherm.ejs');
-}
 
-
-
-async function home (req, res) {
+async function home(req, res) {
     try {
-        // Haal recepten op
-        const data = await fetchFromTasty('recipes/list', { from: 0, size: 20, tags: 'under_30_minutes' });
+        // Maak verbinding met de MongoDB database
+        const db = client.db(process.env.DB_NAME);
+        const collection = db.collection(process.env.DB_COLLECTION);
 
-        // Controleer of er resultaten zijn
-        const recipes = data?.results.map(recipe => ({
-            id: recipe.id,
+        // Haal alle recepten op uit de database (limiet op 20 voor prestaties)
+        const recipes = await collection.find().limit(20).toArray();
+
+        // Zorg ervoor dat de recepten correct worden geformatteerd voor de EJS-weergave
+        const formattedRecipes = recipes.map(recipe => ({
+            _id: recipe._id.toString(), // ObjectId naar string converteren
             name: recipe.name,
             description: recipe.description || 'Geen beschrijving beschikbaar',
-            imageUrl: recipe.thumbnail_url || '/images/default-recipe.jpg' // Standaard afbeelding als geen beschikbaar is
-        })) || [];
+            thumbnail_url: recipe.thumbnail_url || '/images/default-recipe.jpg' // Standaardafbeelding als er geen beschikbaar is
+        }));
 
-        res.render('beginscherm.ejs', { recipes });
+        // Render de beginscherm.ejs met de recepten
+        res.render('beginscherm.ejs', { recipes: formattedRecipes });
     } catch (error) {
-        console.error('Fout bij ophalen van recepten:', error);
-        res.render('beginscherm.ejs', { recipes: [] });
+        console.error('Fout bij ophalen van recepten uit MongoDB:', error);
+        res.render('beginscherm.ejs', { recipes: [] }); // Render een lege lijst bij een fout
     }
 }
 
@@ -359,10 +378,6 @@ function favorieten (req, res) {
     res.render('favorieten.ejs');
 }
 
-
-function receptScherm(req, res) {
-    res.render('recept.ejs');
-}
 
 function popup(req, res) {
     res.render('pop-up.ejs');
@@ -386,75 +401,7 @@ function kookniveau(req, res) {
 function tomaat(req, res) {
     res.render('intro.ejs');
 }
-// API-aanroepen gedeelte
 
-const API_KEY = process.env.API_KEY;
-const API_HOST = process.env.API_HOST;
-
-async function fetchFromTasty(endpoint, params = {}) {
-    const url = new URL(`https://${API_HOST}/${endpoint}`);
-
-    // Voeg queryparameters toe aan de URL
-    Object.keys(params).forEach(key => url.searchParams.append(key, params[key]));
-
-    try {
-        const response = await fetch(url, {
-            method: 'GET',
-            headers: {
-                'X-RapidAPI-Key': API_KEY,
-                'X-RapidAPI-Host': API_HOST
-            }
-        });
-
-        // Controleer de status van de response
-        if (!response.ok) {
-            throw new Error(`API-fout: ${response.statusText}`);
-        }
-
-        // Probeer de JSON te parsen en log de response
-        const data = await response.json();
-        
-        if (data && Object.keys(data).length === 0) {
-            throw new Error('Lege response ontvangen');
-        }
-
-        return data;
-    } catch (error) {
-        console.error('Fout bij API-aanroep:', error);
-        return null; // Geef null terug als er een fout optreedt
-    }
-}
-
-// Nieuwe route voor het ophalen van recepten
-async function fetchRecipes(req, res) {
-    const endpoints = [
-        { name: 'Auto-complete', endpoint: 'recipes/auto-complete', params: { prefix: 'chicken soup' } },
-        { name: 'Receptenlijst', endpoint: 'recipes/list', params: { from: 0, size: 20, tags: 'under_30_minutes' } },
-        { name: 'Vergelijkbare recepten', endpoint: 'recipes/list-similarities', params: { recipe_id: 8138 } },
-        { name: 'Meer info over recept', endpoint: 'recipes/get-more-info', params: { id: 8138 } },
-        { name: 'Tips lijst', endpoint: 'tips/list', params: { from: 0, size: 30, id: 3562 } },
-        { name: 'Tags lijst', endpoint: 'tags/list', params: {} },
-        { name: 'Feeds lijst', endpoint: 'feeds/list', params: { size: 5, timezone: '+0700', vegetarian: false, from: 0 } },
-        { name: 'Receptdetails', endpoint: 'recipes/detail', params: { id: 5586 } }
-    ];
-
-    let allData = {}; // Object om alle verzamelde data op te slaan
-
-    // Verwerk elke API-aanroep en verzamel de data
-    for (const api of endpoints) {
-        console.log(`Ophalen: ${api.name}`);
-        const data = await fetchFromTasty(api.endpoint, api.params);
-        
-        if (data) {
-            allData[api.name] = data;  // Bewaar de response per naam
-        } else {
-            allData[api.name] = 'Fout bij ophalen data';  // Als er een fout is
-        }
-    }
-
-    // Toon de opgehaalde gegevens in de response
-    res.json(allData.Receptenlijst); // Geef de verzamelde data als JSON terug
-}
 
 // 404-foutafhandelingsmiddleware
 app.use((req, res) => {
@@ -467,9 +414,5 @@ app.use((err, req, res) => {
     res.status(500).send("Er is een serverfout opgetreden!");
 });
 
-
-
-
-//  inlog naam weergeve
 
 

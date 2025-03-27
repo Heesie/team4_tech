@@ -98,7 +98,11 @@
                                 </label>
                             </section>
             
-                            <button onclick="window.location.href='/recipe/<%= recipe.id %>'">Bekijk Recept</button>
+                            <a href="/recipe/<%= recipe._id %>">
+                                <button>Bekijk Recept</button>
+                            </a>
+                            
+
                         </div>
                     <% }) %>
                 <% } else { %>

@@ -29,7 +29,13 @@ app.use(session({
     }
 }))
 
+app.use((req, res, next) => {
+    // Gebruikersgegevens uit de sessie beschikbaar voor de views
+    res.locals.username = req.session.username || null; // Gebruikersnaam
+    res.locals.email = req.session.email || null;       // E-mailadres
 
+    next(); // Ga verder naar de volgende route
+});
 
 app.use('/', express.static('static'))
 app.set('view engine', 'ejs')
@@ -178,11 +184,7 @@ function login(req, res) {
 }
 
 function account(req, res) {
-    // Geef de sessiegegevens door aan de accountpagina
-    res.render('account', { 
-        username: req.session.username, // Gebruikersnaam uit sessie
-        email: req.session.email        // Email uit sessie
-    });
+    res.render('account');
 }
 
 function authMiddleware(req, res, next) {

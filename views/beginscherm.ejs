@@ -20,42 +20,40 @@
     
     <div class="actions">
       
-        <button><a href="/mainscherm"></a> <span> all Recipes </span></button>
+        <button><a href="/mainscherm"> <span> All Recipes </span> </a></button>
         <input placeholder="Searth here..." type="text" name="text" class="input">
     </div>
     <section class="begin-scherm-h2">
         <h2>Or find here random recipes</h2>
     </section>
     
-<section class="recept-grid">
-    <% if (recipes && recipes.length > 0) { %>
-        <% recipes.forEach(recipe => { %>
-            <div class="recept">
-                <% if (recipe.imageUrl) { %>
-                    <img src="<%= recipe.imageUrl %>" alt="Afbeelding van <%= recipe.name %>" class="recept-afbeelding">
-                <% } else { %>
-                    <img src="/images/default-recipe.jpg" alt="Geen afbeelding beschikbaar" class="recept-afbeelding">
-                <% } %>
-                <h3><%= recipe.name %></h3>
-                <p class="recept-description"><%= recipe.description || 'Geen beschrijving beschikbaar' %></p>
+    <section class="recept-grid">
+        <% if (recipes && recipes.length > 0) { %> 
+            <% recipes.forEach(recipe => { %>
+                <div class="recept">
+                    <img src="<%= recipe.thumbnail_url || '/images/default-recipe.jpg' %>" alt="Gerecht afbeelding" class="recept-afbeelding">
+                    <h2><%= recipe.name %></h2>
+                    <p class="recept-description"><%= recipe.description || "Geen beschrijving beschikbaar" %></p>
+    
+                    <section class="like">
+                        <input type="checkbox" id="like-checkbox-<%= recipe.id %>" class="like-checkbox">
+                        <label for="like-checkbox-<%= recipe.id %>">
+                            <svg width="60px" height="60px" viewBox="0 0 48 48" version="1" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M34,9c-4.2,0-7.9,2.1-10,5.4C21.9,11.1,18.2,9,14,9C7.4,9,2,14.4,2,21c0,11.9,22,24,22,24s22-12,22-24C46,14.4,40.6,9,34,9z"/>
+                            </svg>
+                        </label>
+                    </section>
+
+                    <a href="/recipe/<%= recipe._id %>">
+                        <button>Bekijk Recept</button>
+                    </a>
                 
-            <!-- de like functie -->
-                <section class="like">
-                    <input type="checkbox" id="like-checkbox-<%= recipe.id %>" class="like-checkbox">
-                    <label for="like-checkbox-<%= recipe.id %>">
-                        <svg width="60px" height="60px" viewBox="0 0 48 48" version="1" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M34,9c-4.2,0-7.9,2.1-10,5.4C21.9,11.1,18.2,9,14,9C7.4,9,2,14.4,2,21c0,11.9,22,24,22,24s22-12,22-24C46,14.4,40.6,9,34,9z"/>
-                        </svg>
-                    </label>
-                </section>
-                
-                <button onclick="window.location.href='/recipe/<%= recipe.id %>'">Bekijk Recept</button>
-            </div>
-        <% }) %>
-    <% } else { %>
-        <p>Geen recepten gevonden.</p>
-    <% } %>
-</section>
+                </div>
+            <% }) %>
+        <% } else { %>
+            <p>Geen recepten gevonden.</p>
+        <% } %>
+    </section>
 
 
 

@@ -59,7 +59,6 @@ app.get('/logout', (req, res) => {
 app.get('/login', login)
 app.get('/account', authMiddleware, account);
 app.get('/favorites', favorites)
-app.get('/recept', receptScherm)
 app.get('/koelkast', koelkast)
 app.get('/pop-up', popup)
 app.get('/allergie', allergie)
@@ -129,6 +128,28 @@ app.get('/mainscherm', async (req, res) => {
         res.render('mainscherm', { recipes: [], message: "Er is een fout opgetreden." });
     }
 });
+
+app.get('/recipe/:id', async (req, res) => {
+    try {
+        const recipeId = req.params.id;
+        const db = client.db(process.env.DB_NAME);
+        const collection = db.collection(process.env.DB_COLLECTION);
+
+        // Zoek het recept op basis van het ID
+        const recipe = await collection.findOne({ _id: new ObjectId(recipeId) });
+
+        if (!recipe) {
+            return res.status(404).send("Recept niet gevonden");
+        }
+
+        res.render('recept', { recipe });
+    } catch (error) {
+        console.error("Fout bij ophalen van recept:", error);
+        res.status(500).send("Er is een fout opgetreden bij het ophalen van het recept.");
+    }
+});
+
+  
 
     app .listen(2000, () => console.log("De server draait op host 2000"));
 
@@ -359,10 +380,6 @@ function favorieten (req, res) {
     res.render('favorieten.ejs');
 }
 
-
-function receptScherm(req, res) {
-    res.render('recept.ejs');
-}
 
 function popup(req, res) {
     res.render('pop-up.ejs');

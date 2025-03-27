@@ -4,15 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Create account</title>
-    <link rel="stylesheet" href="/styles/style.css">
+    <link rel="stylesheet" href="/styles/basis.css">
+    <link rel="stylesheet" href="/styles/createAccount.css">
 </head>
 <body>
 
     <%- include('header') %>
 
+    
     <section class="wrapper">
         <main class="mainForm">
             <h1>Create account</h1>
+            <p>Het wachtwoord moet minimaal 8 tekens zijn en 1 hoofdletter en cijfer</p>
 
                 <form action="/createAccount" method="POST">
                     <% if (errorMessage) { %>

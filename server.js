@@ -149,7 +149,6 @@ app.get('/recipe/:id', async (req, res) => {
 });
 
   
-
     app .listen(2000, () => console.log("De server draait op host 2000"));
 
 // Verbind met MongoDB database

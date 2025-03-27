@@ -28,29 +28,31 @@
                     <div class="dropdown">
                         <button>Hoofdingrediënt</button>
                         <ul class="content">
-                            <li><a href="?mainingredient=chicken&q=<%= selectedFilters.q %>">Kip</a></li>
-                            <li><a href="?mainingredient=cheese&q=<%= selectedFilters.q %>">Kaas</a></li>
-                            <li><a href="?mainingredient=shrimp&q=<%= selectedFilters.q %>">Garnalen</a></li>
+                            <li><a href="?mainingredient=chicken&q=<%= selectedFilters.q || '' %>&porties=<%= selectedFilters.porties || '' %>&bereidingstijd=<%= selectedFilters.bereidingstijd || '' %>">Kip</a></li>
+                            <li><a href="?mainingredient=cheese&q=<%= selectedFilters.q || '' %>&porties=<%= selectedFilters.porties || '' %>&bereidingstijd=<%= selectedFilters.bereidingstijd || '' %>">Kaas</a></li>
+                            <li><a href="?mainingredient=shrimp&q=<%= selectedFilters.q || '' %>&porties=<%= selectedFilters.porties || '' %>&bereidingstijd=<%= selectedFilters.bereidingstijd || '' %>">Garnalen</a></li>
+                            
                         </ul>
                     </div>
                     
                     <div class="dropdown">
                         <button>Porties</button>
                         <ul class="content">
-                            <li><a href="?porties=2&q=<%= selectedFilters.q %>">2 porties</a></li>
-                            <li><a href="?porties=4&q=<%= selectedFilters.q %>">4 porties</a></li>
-                            <li><a href="?porties=6&q=<%= selectedFilters.q %>">6 porties</a></li>
-                            <li><a href="?porties=8&q=<%= selectedFilters.q %>">8 porties</a></li>
+                            <li><a href="?porties=2&q=<%= selectedFilters.q || '' %>&mainingredient=<%= selectedFilters.mainingredient || '' %>&bereidingstijd=<%= selectedFilters.bereidingstijd || '' %>">2 porties</a></li>
+                            <li><a href="?porties=4&q=<%= selectedFilters.q || '' %>&mainingredient=<%= selectedFilters.mainingredient || '' %>&bereidingstijd=<%= selectedFilters.bereidingstijd || '' %>">4 porties</a></li>
+                            <li><a href="?porties=6&q=<%= selectedFilters.q || '' %>&mainingredient=<%= selectedFilters.mainingredient || '' %>&bereidingstijd=<%= selectedFilters.bereidingstijd || '' %>">6 porties</a></li>
+                            <li><a href="?porties=8&q=<%= selectedFilters.q || '' %>&mainingredient=<%= selectedFilters.mainingredient || '' %>&bereidingstijd=<%= selectedFilters.bereidingstijd || '' %>">8 porties</a></li>
+                            
                         </ul>
                     </div>
                     
                     <div class="dropdown">
                         <button>Bereidingstijd</button>
                         <ul class="content">
-                            <li><a href="?bereidingstijd=15&q=<%= selectedFilters.q %>">Ongeveer 15 min</a></li>
-                            <li><a href="?bereidingstijd=30&q=<%= selectedFilters.q %>">Ongeveer 30 min</a></li>
-                            <li><a href="?bereidingstijd=45&q=<%= selectedFilters.q %>">Ongeveer 45 min</a></li>
-                            <li><a href="?bereidingstijd=60&q=<%= selectedFilters.q %>">Ongeveer 60 min</a></li>
+                            <li><a href="?bereidingstijd=15&q=<%= selectedFilters.q || '' %>&porties=<%= selectedFilters.porties || '' %>&mainingredient=<%= selectedFilters.mainingredient || '' %>">Ongeveer 15 min</a></li>
+                            <li><a href="?bereidingstijd=30&q=<%= selectedFilters.q || '' %>&porties=<%= selectedFilters.porties || '' %>&mainingredient=<%= selectedFilters.mainingredient || '' %>">Ongeveer 30 min</a></li>
+                            <li><a href="?bereidingstijd=45&q=<%= selectedFilters.q || '' %>&porties=<%= selectedFilters.porties || '' %>&mainingredient=<%= selectedFilters.mainingredient || '' %>">Ongeveer 45 min</a></li>
+                            <li><a href="?bereidingstijd=60&q=<%= selectedFilters.q || '' %>&porties=<%= selectedFilters.porties || '' %>&mainingredient=<%= selectedFilters.mainingredient || '' %>">Ongeveer 60 min</a></li>
                         </ul>
                     </div>
                     

@@ -79,6 +79,7 @@ app.get('/mainscherm', async (req, res) => {
 
         const db = client.db(process.env.DB_NAME);
         const collection = db.collection(process.env.DB_COLLECTION);
+        const usersCollection = db.collection('users');
 
         // Bouw de zoekopdracht
         let query = {};
@@ -115,16 +116,31 @@ app.get('/mainscherm', async (req, res) => {
         // Haal de recepten op uit de database op basis van de opgestelde query
         const recipes = await collection.find(query).toArray();
 
-        // Render de pagina met de recepten (of een bericht als er geen recepten zijn)
-        res.render('mainscherm', { 
-            recipes, 
+        // Haal de gebruiker op (als ingelogd)
+        let likedRecipes = [];
+        if (req.session.userId) {
+            try {
+                const user = await usersCollection.findOne({ _id: new ObjectId(req.session.userId) });
+                if (user && user.likes) {
+                    likedRecipes = user.likes;
+                }
+            } catch (error) {
+                console.error("Fout bij ophalen van gebruiker:", error);
+            }
+        }
+        // Render de pagina met recepten
+        res.render('mainscherm', {
+            recipes: recipes.map(recipe => ({
+                ...recipe,
+                isLiked: likedRecipes.includes(recipe._id.toString()) // Controleer of recept is geliked
+            })),
             message: recipes.length ? "" : "Geen gerechten gevonden.",
             selectedFilters: req.query // Voeg geselecteerde filters door aan de view
         });
-
+        
     } catch (error) {
         console.error("Fout bij ophalen van gerechten:", error);
-        res.render('mainscherm', { recipes: [], message: "Er is een fout opgetreden." });
+        res.render('mainscherm', { recipes: [], message: "Er is een fout opgetreden.", selectedFilters: req.query });
     }
 });
 
@@ -148,7 +164,65 @@ app.get('/recipe/:id', async (req, res) => {
     }
 });
 
-  
+// Endpoint om een recept leuk te vinden
+app.post('/like/:recipeId', authMiddleware, async (req, res) => {
+    const recipeId = req.params.recipeId;
+    const userId = req.session.userId;
+
+    if (!recipeId || !userId) {
+        return res.status(400).json({ message: 'Recept-ID en gebruikers-ID zijn vereist' });
+    }
+
+    try {
+        const db = client.db(process.env.DB_NAME);
+        const usersCollection = db.collection('users');
+
+        // Update de gebruiker door het recept-ID toe te voegen aan de likes array
+        const result = await usersCollection.updateOne(
+            { _id: new ObjectId(userId) },
+            { $addToSet: { likes: recipeId } }
+        );
+
+        if (result.modifiedCount === 1) {
+            res.json({ success: true, message: 'Recept succesvol leuk gevonden' });
+        } else {
+            res.status(400).json({ message: 'Recept al leuk gevonden of gebruiker niet gevonden' });
+        }
+    } catch (error) {
+        console.error('Fout bij het leuk vinden van recept:', error);
+        res.status(500).json({ message: 'Serverfout' });
+    }
+});
+
+app.post('/unlike/:recipeId', authMiddleware, async (req, res) => {
+    const recipeId = req.params.recipeId;
+    const userId = req.session.userId;
+
+    if (!recipeId || !userId) {
+        return res.status(400).json({ message: 'Recept-ID en gebruikers-ID zijn vereist' });
+    }
+
+    try {
+        const db = client.db(process.env.DB_NAME);
+        const usersCollection = db.collection('users');
+
+        // Verwijder het recept-ID uit de likes array van de gebruiker
+        const result = await usersCollection.updateOne(
+            { _id: new ObjectId(userId) },
+            { $pull: { likes: recipeId } }
+        );
+
+        if (result.modifiedCount === 1) {
+            res.json({ success: true, message: 'Recept succesvol verwijderd uit favorieten' });
+        } else {
+            res.status(400).json({ message: 'Recept is niet geliked of gebruiker niet gevonden' });
+        }
+    } catch (error) {
+        console.error('Fout bij verwijderen van recept uit favorieten:', error);
+        res.status(500).json({ message: 'Serverfout' });
+    }
+});
+
     app .listen(2000, () => console.log("De server draait op host 2000"));
 
 // Verbind met MongoDB database

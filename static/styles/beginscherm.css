@@ -1,63 +1,4 @@
-:root {
 
-  --font-primary: 'Avenir', sans-serif; 
-  --font-secondary: 'Helvetica', sans-serif; 
-
-  /* colors fonts */
-  --color-text:rgb(37, 37, 37);
-  --color-text-white:white;
-
-
-  /* backgrounds  */
-  --background-page: #FFFDF7;
-  --background-white: white;
-
-  /* inputs */
-  --color-input--border-hover: 2px solid #FF7300;
-  --color-input-border: 1px solid #ccc;
- 
-  /* heart */
-  --fill-heart-color:#ffc6c6;
-  --fill-heart-color-hover:red;
-
-  /* header */
-  --background-color-header: #ffefca;
-  --background-color-menu:#afc8a1;
-  --color-text-menu-hover: #FF3D00;
-  --color-text-menu: white;
-  --color-text-desktop:#FF3D00;
-
-
-  /* hovers */
-
-  --background-color-hover-filter: #ffefca;
-
-
-
- /* buttons */
- --background-color-button: #578A37;
- --text-color-button:white;
- --background-color-button-hover:#2C5810;
-
-
-/* tags */
---background-color-tag-noti:#FF3D00;
---background-color-tag-noti-hover:#dd3400;
-
- /* border radius */
- --border-radius-small: 5px;
- --border-radius-medium: 8px;
- --border-radius-big: 10px;
-
- /* shadows */
- --box-shadow:0px 6px 24px 2px rgba(0, 0, 0, 0.2);
-
-
-
-/* recept cards */
---background-recept-cards: white;
-
-}
 
 
 
@@ -72,7 +13,6 @@
   .grid-pagina img {
     width: 50em;
     max-width: 100%;
-    margin-left: 5em;
   }
   
 
@@ -80,33 +20,33 @@
     grid-column-start: 1/2;
 
   }
-.grid-pagina h1{
-font-size: 90px;
+
+  .grid-pagina h1 {
+    font-size: clamp(1.5rem, 3vw, 4rem);
 }
 
 .grid-pagina p {
-  font-size: 25px;
+    font-size: clamp(1rem, 1.5vw, 2.5rem);
 }
 
 .grid-pagina .actions {
   grid-column-start: 2/3;
   align-self: start;
+}
+
+.search-div {
   display: flex;
-
-
+  margin-bottom: 1em;
+  gap: 1em;
 }
 
   .grid-pagina {
     display: grid;
     grid-template-columns: 1fr 1fr;
-
     align-items: center;
 margin-left: 10em;
 margin-right: 10em;
-  }
 
-  .actions {
-    gap: 20px;
   }
 
 
@@ -123,7 +63,7 @@ margin-right: 10em;
   }
   
   .actions .input:hover {
-    border: var(--color-input--border-hover);;
+    border: var(--color-input--border-hover);
   box-shadow: var(--box-shadow);
   }
   
@@ -150,7 +90,7 @@ margin-right: 10em;
 
 .actions button {
   position: relative;
-  padding: 0 20px;
+  padding: 10px 20px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -180,9 +120,7 @@ margin-right: 10em;
 }
 
 .actions button span {
-  text-align: center;
   text-decoration: none;
-  width: 100%;
   padding: 15px 50px;
   color: var(--text-color-button);
   z-index: 20;
@@ -215,8 +153,16 @@ margin-right: 10em;
 
 
 
-
-
+@media (max-width: 768px){
+  .grid-pagina {
+    grid-template-columns: 1fr;
+    margin: 0;
+padding: 40px;
+  }
+  content h1 {
+    font-size: 20px;
+  }
+}
 
 
 

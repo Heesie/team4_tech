@@ -4,12 +4,13 @@
     align-items: center;
     height: 90vh;
     width: 100%;
-    margin-top: 1em;
+
+
   }
 
 
   .mainaccount {
-    width: 100%;
+    width: 80%;
     max-width: 400px;
     background: var(--background-white);
     padding: 2em;

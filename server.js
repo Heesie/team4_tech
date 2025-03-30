@@ -175,7 +175,7 @@ app.post('/like/:recipeId', authMiddleware, async (req, res) => {
         const usersCollection = db.collection('users');
 
         const result = await usersCollection.updateOne(
-            { username: username }, // Vind de gebruiker op basis van hun username
+            { _id: new ObjectId(userId) }, // Vind de gebruiker op basis van hun userID
             { $addToSet: { likes: recipeId } } // Voeg het recept toe aan de lijst van 'likes'
         );
 
@@ -200,7 +200,7 @@ app.post('/unlike/:recipeId', authMiddleware, async (req, res) => {
         const usersCollection = db.collection('users');
 
         const result = await usersCollection.updateOne(
-            { username: username },
+            { _id: new ObjectId(userId) },
             { $pull: { likes: recipeId } } // Verwijder het recept uit de lijst van favorieten
         );
 

@@ -128,6 +128,7 @@ app.get('/mainscherm', async (req, res) => {
                 console.error("Fout bij ophalen van gebruiker:", error);
             }
         }
+
         // Render de pagina met recepten
         res.render('mainscherm', {
             recipes: recipes.map(recipe => ({
@@ -164,62 +165,53 @@ app.get('/recipe/:id', async (req, res) => {
     }
 });
 
-// Endpoint om een recept leuk te vinden
+// Like een recept
 app.post('/like/:recipeId', authMiddleware, async (req, res) => {
-    const recipeId = req.params.recipeId;
-    const userId = req.session.userId;
-
-    if (!recipeId || !userId) {
-        return res.status(400).json({ message: 'Recept-ID en gebruikers-ID zijn vereist' });
-    }
+    const recipeId = req.params.recipeId; // Haal het recept-ID uit de URL
+    const userId = req.session.userId; // Haal de gebruikers-ID uit de sessie
 
     try {
         const db = client.db(process.env.DB_NAME);
         const usersCollection = db.collection('users');
 
-        // Update de gebruiker door het recept-ID toe te voegen aan de likes array
         const result = await usersCollection.updateOne(
-            { _id: new ObjectId(userId) },
-            { $addToSet: { likes: recipeId } }
+            { username: username }, // Vind de gebruiker op basis van hun username
+            { $addToSet: { likes: recipeId } } // Voeg het recept toe aan de lijst van 'likes'
         );
 
         if (result.modifiedCount === 1) {
-            res.json({ success: true, message: 'Recept succesvol leuk gevonden' });
+            return res.json({ success: true, message: 'Recept toegevoegd aan favorieten!' });
         } else {
-            res.status(400).json({ message: 'Recept al leuk gevonden of gebruiker niet gevonden' });
+            res.status(400).send({ message: 'Recept al in je favorieten of iets ging mis' });
         }
     } catch (error) {
-        console.error('Fout bij het leuk vinden van recept:', error);
-        res.status(500).json({ message: 'Serverfout' });
+        console.error('Fout bij het liken van recept:', error);
+        res.status(500).send("Server error");
     }
 });
 
+// Unlike een recept
 app.post('/unlike/:recipeId', authMiddleware, async (req, res) => {
     const recipeId = req.params.recipeId;
     const userId = req.session.userId;
 
-    if (!recipeId || !userId) {
-        return res.status(400).json({ message: 'Recept-ID en gebruikers-ID zijn vereist' });
-    }
-
     try {
         const db = client.db(process.env.DB_NAME);
         const usersCollection = db.collection('users');
 
-        // Verwijder het recept-ID uit de likes array van de gebruiker
         const result = await usersCollection.updateOne(
-            { _id: new ObjectId(userId) },
-            { $pull: { likes: recipeId } }
+            { username: username },
+            { $pull: { likes: recipeId } } // Verwijder het recept uit de lijst van favorieten
         );
 
         if (result.modifiedCount === 1) {
-            res.json({ success: true, message: 'Recept succesvol verwijderd uit favorieten' });
+            return res.json({ success: true, message: 'Recept verwijderd uit favorieten!' });
         } else {
-            res.status(400).json({ message: 'Recept is niet geliked of gebruiker niet gevonden' });
+            res.status(400).send({ message: 'Recept is al niet in je favorieten of iets ging mis' });
         }
     } catch (error) {
-        console.error('Fout bij verwijderen van recept uit favorieten:', error);
-        res.status(500).json({ message: 'Serverfout' });
+        console.error('Fout bij het unliken van recept:', error);
+        res.status(500).send("Server error");
     }
 });
 

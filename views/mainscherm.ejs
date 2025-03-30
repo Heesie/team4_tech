@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Recepten</title>
-        <link rel="stylesheet" href="/styles/beginscherm.css">
+    <link rel="stylesheet" href="/styles/beginscherm.css">
     <link rel="stylesheet" href="/styles/styles.css">
     <link rel="stylesheet" href="/styles/basis.css">
 
@@ -113,49 +113,45 @@
     </main>
 
     <script>
-    // gedeelte like notificatie
-    const notification = document.createElement("div");
+        document.addEventListener("DOMContentLoaded", () => {
+            const notification = document.createElement("div");
+            notification.className = "notification";
+            document.body.appendChild(notification);
 
-    notification.className ="notification";
-    document.body.appendChild(notification);
+            // Functie om een notificatie te tonen
+            function showNotification(message) {
+                notification.textContent = message; // 'success' of 'error'
+                notification.classList.add("show");
+                setTimeout(() => notification.classList.remove("show"), 3000);
+            }
 
-    function showNotification(recipeName, action) {
-        if (action === 'like') {
-            notification.textContent = `"${recipeName}" is toegevoegd aan je favorieten!`;
-        } else if (action === 'unlike') {
-            notification.textContent = `"${recipeName}" is verwijderd uit je favorieten.`;
-        }
-        notification.classList.add("show");
-        setTimeout(() => notification.classList.remove("show"), 3000);
-    }
+            // Event listener voor alle like-checkboxen
+            document.querySelectorAll(".like-checkbox").forEach(box => {
+                box.addEventListener("change", async () => {
+                    const recipeId = box.dataset.recipeId; // Haal het ID van het recept
+                    const recipeName = box.dataset.recipeName; // Haal de naam van het recept
+                    const action = box.checked ? 'like' : 'unlike'; // Actie: 'like' als de checkbox is aangevinkt, anders 'unlike'
+                    
+                    try {
+                        // Stuur een request naar de server voor de actie (like of unlike)
+                        const response = await fetch(`/${action}/${recipeId}`, { method: 'POST' });
+                        const data = await response.json();
 
-    // Functie om recept te liken of unliken
-    function likeRecipe(recipeId, checkbox, recipeName) {
-        const action = checkbox.checked ? 'like' : 'unlike';  // Bepaal de actie op basis van checkbox status
-
-        const url = action === 'like' ? `/like/${recipeId}` : `/unlike/${recipeId}`;
-        
-        fetch(url, { method: 'POST' })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    console.log(`Recept ${action} gevonden!`);
-                    showNotification(recipeName, action);  // Toon notificatie na succesvolle actie
-                } else {
-                    console.error(data.message || `Fout bij het ${action} van het recept`);
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                alert(`Er is een fout opgetreden bij het ${action} van het recept.`);
+                        // Geef de gebruiker feedback
+                        if (data.success) {
+                            showNotification(`Recept ${recipeName} is ${action === 'like' ? 'toegevoegd aan' : 'verwijderd uit'} je favorieten!`);
+                        } else {
+                            showNotification("Er is een fout opgetreden.");
+                            box.checked = !box.checked; // Zet de checkbox terug naar de vorige status
+                        }
+                    } catch (error) {
+                        console.error('Error:', error);
+                        showNotification("Netwerkfout, probeer opnieuw.");
+                        box.checked = !box.checked; // Zet de checkbox terug naar de vorige status
+                    }
+                });
             });
-    }
-
-    // Voeg event listeners toe aan de like-checkboxen
-    document.querySelectorAll(".like-checkbox").forEach(box => 
-            box.addEventListener("change", () => likeRecipe(box.dataset.recipeId, box, box.dataset.recipeName))
-    );
+        });
     </script>
-
 </body>
 </html>

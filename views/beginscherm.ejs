@@ -17,11 +17,13 @@
             <p>Like your favorite recipes and match with others who share your taste. Discover delicious dishes together and cook like a pro!</p>
         </div>
         <img src="/images/cooking.svg" alt="">
+
         <div class="actions">
-      
-            <button><a href="/mainscherm"><span> all Recipes </span> </a> </button>
+            <div class="search-div">
             <input placeholder="Searth here..." type="text" name="text" class="input">
             <input type="submit" id="submit-knop">
+        </div>
+        <button><a href="/mainscherm"><span> Go for all recipes </span> </a> </button>
         </div>
     </section>
     
@@ -78,7 +80,12 @@ function showNotification(recipeName){
 
 
 document.querySelectorAll(".like-checkbox").forEach(box => 
-    box.addEventListener("change", () => box.checked && showNotification(box.closest(".recept").querySelector("h3").textContent))
+    box.addEventListener("change", () => {
+        if (box.checked) {
+            const receptName = box.closest(".recept").querySelector("h2").textContent;
+            showNotification(receptName);
+        }
+    })
 );
 
 // like functie stukje met notificatie  

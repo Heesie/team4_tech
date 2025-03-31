@@ -99,6 +99,9 @@
     height: 90vh;
     width: 100%;
     margin-top: 1em;
+    padding-bottom: 5em;
+    padding-top: 5em;
+    
   }
   
   /* account */
@@ -135,17 +138,27 @@
   }
 
   .mainForm button{
-    background-color: var(--background-color-button);
-    padding: 0.8em;
-    margin-bottom: 1.2em;
+    background-color: var(--background-color-tag-noti);
+width: 50%;
+    margin-bottom: 1em;
     border-radius: var(--border-radius-small);
-    font-size: 1em;
     transition: 0.3s;
     border: none;
+    padding: 10px 20px;
     color: var(--text-color-button);
 
   }
   
+
+
+  
+
+  @media (max-width:700px){
+    .mainForm{
+      width: 70%;
+    }
+  }
+
 
 
   .mainForm input:focus {
@@ -173,6 +186,8 @@
     margin-top: 1.5em;
     color: var(--text-color-gray);
   }
+
+
   
   .mainForm a {
     color: var(--link-color-text);

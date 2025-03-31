@@ -4,27 +4,29 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Recepten</title>
-    <link rel="stylesheet" href="/styles/beginscherm.css">
     <link rel="stylesheet" href="/styles/styles.css">
+    <link rel="stylesheet" href="/styles/mainscherm.css">
     <link rel="stylesheet" href="/styles/basis.css">
-
 </head>
 <body>
     <%- include('header') %>
     <main>
 
         <section class="mainscherm-filter">
-        <div class="search-bar">
-            <form action="/mainscherm" method="GET">
-                <input type="text" name="q" placeholder="Zoek een gerecht op..." required>
-                <button type="submit">Zoeken</button>
-            </form>
+            <div class="search-bar">
+                <h1>What would you like to cook?</h1>
+                <form action="/mainscherm" method="GET">
+                    <input type="text" name="q" placeholder="Zoek een gerecht..." required>
+                    <button type="submit">Zoeken</button>
+                </form>
+            </div>
+        
             <% if (locals.message) { %>
-                <p style="color: red;"><%= locals.message %></p>
+                <p class="error-message"><%= locals.message %></p>
             <% } %>
         
-            <p>Filteren:</p>   
             <ul class="filterbuttons">
+                <p>Filteren:</p>   
                 <li>
                     <div class="dropdown">
                         <button>Hoofdingrediënt</button>
@@ -32,7 +34,6 @@
                             <li><a href="?mainingredient=chicken&q=<%= selectedFilters.q || '' %>&porties=<%= selectedFilters.porties || '' %>&bereidingstijd=<%= selectedFilters.bereidingstijd || '' %>">Kip</a></li>
                             <li><a href="?mainingredient=cheese&q=<%= selectedFilters.q || '' %>&porties=<%= selectedFilters.porties || '' %>&bereidingstijd=<%= selectedFilters.bereidingstijd || '' %>">Kaas</a></li>
                             <li><a href="?mainingredient=shrimp&q=<%= selectedFilters.q || '' %>&porties=<%= selectedFilters.porties || '' %>&bereidingstijd=<%= selectedFilters.bereidingstijd || '' %>">Garnalen</a></li>
-                            
                         </ul>
                     </div>
                     
@@ -43,7 +44,6 @@
                             <li><a href="?porties=4&q=<%= selectedFilters.q || '' %>&mainingredient=<%= selectedFilters.mainingredient || '' %>&bereidingstijd=<%= selectedFilters.bereidingstijd || '' %>">4 porties</a></li>
                             <li><a href="?porties=6&q=<%= selectedFilters.q || '' %>&mainingredient=<%= selectedFilters.mainingredient || '' %>&bereidingstijd=<%= selectedFilters.bereidingstijd || '' %>">6 porties</a></li>
                             <li><a href="?porties=8&q=<%= selectedFilters.q || '' %>&mainingredient=<%= selectedFilters.mainingredient || '' %>&bereidingstijd=<%= selectedFilters.bereidingstijd || '' %>">8 porties</a></li>
-                            
                         </ul>
                     </div>
                     
@@ -56,31 +56,25 @@
                             <li><a href="?bereidingstijd=60&q=<%= selectedFilters.q || '' %>&porties=<%= selectedFilters.porties || '' %>&mainingredient=<%= selectedFilters.mainingredient || '' %>">Ongeveer 60 min</a></li>
                         </ul>
                     </div>
-                    
                 </li>
             </ul>
-
+        
             <div class="selected-filters">
                 <h3>Geselecteerde filters:</h3>
                 <ul>
                     <li><strong>Zoekopdracht:</strong> <%= selectedFilters.q || 'Geen' %></li>
-                    <li><strong>Hoofdingrediënt:</strong> 
-                        <%= selectedFilters.mainingredient || 'Geen' %>
-                    </li>
-                    <li><strong>Porties:</strong> 
-                        <%= selectedFilters.porties || 'Geen' %>
-                    </li>
-                    <li><strong>Bereidingstijd:</strong> 
-                        <%= selectedFilters.bereidingstijd || 'Geen' %>
-                    </li>
+                    <li><strong>Hoofdingrediënt:</strong> <%= selectedFilters.mainingredient || 'Geen' %></li>
+                    <li><strong>Porties:</strong> <%= selectedFilters.porties || 'Geen' %></li>
+                    <li><strong>Bereidingstijd:</strong> <%= selectedFilters.bereidingstijd || 'Geen' %></li>
                 </ul>
-            </div>
-            
+            </div>     
         </section>
 
         
-            <h2>Recepten:</h2>
-
+    
+<div class="recept-grid-h2">
+    <h2>Recepten:</h2>
+</div>
 
             <section class="recept-grid">
                 <% if (recipes && recipes.length > 0) { %> 

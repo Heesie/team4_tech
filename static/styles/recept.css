@@ -59,7 +59,7 @@
   }
 
 
-
+  
 
   main {
     display: grid;
@@ -109,10 +109,62 @@ border-radius: var(--border-radius-small);
 }
 .information{
   grid-column-start: 2;
+  margin-right: 3em;
 }
 }
 
 
+
+
+@media (min-width: 769px) {
+
+  .summary-details ul {
+    display: block; 
+  }
+}
+
+
+@media (min-width: 769px) {
+  .summary-details {
+    display: block;  /* Zorg ervoor dat de details altijd zichtbaar zijn */
+  }
+
+  summary::marker{
+    content: none;
+
+  }
+  summary {
+    pointer-events: none;
+  }
+}
+
+
+@media (max-width: 768px) {
+  .summary-details {
+    display: block;
+  }
+}
+
+
+
+.information li  {
+  font-size: 18px;
+  line-height: 1.8;
+  padding: 8px 0;
+  color: #333;
+  transition: all 0.3s ease;
+}
+
+/* Media query voor grotere schermen */
+@media (min-width: 1024px) {
+  .information li {
+    font-size: 14px;
+    line-height: 1.5;
+    padding: 5px 0;
+    color: unset;
+    transition: unset;
+  }
+}
 
 
 .info {
@@ -122,12 +174,6 @@ border-radius: var(--border-radius-small);
     padding: 15px;
 }
 
-
-.information {
-    padding: 20px;
-    max-width: 800px;
-    margin: 0 auto;
-  }
 
   details {
     margin-bottom: 20px;
@@ -169,14 +215,6 @@ padding: 15px 100px;
   /* ingredeienten en stapelijst styling */
 
 
-  .information li {
-    font-size: 18px;
-    line-height: 1.8;
-    padding: 8px 0;
-    color: #333;
-    transition: all 0.3s ease;
-  }
-  
 
 
 

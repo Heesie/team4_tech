@@ -111,18 +111,6 @@ app.get('/mainscherm', async (req, res) => {
         // Haal resultaten op
         const results = await collection.find(query).toArray();
 
-        // Render de pagina met de resultaten en geselecteerde filters
-        res.render('mainscherm', { recipes: results, selectedFilters: filters });
-    } catch (error) {
-        console.error("Fout bij ophalen van recepten:", error);
-        res.status(500).send("Er is een fout opgetreden bij het ophalen van de recepten.");
-
-        // Verifieer de opgestelde query
-        console.log("Opgebouwde MongoDB query:", JSON.stringify(query, null, 2));
-
-        // Haal de recepten op uit de database op basis van de opgestelde query
-        const recipes = await collection.find(query).toArray();
-
         // Haal de gebruiker op (als ingelogd)
         let likedRecipes = [];
         if (req.session.userId) {
@@ -131,24 +119,30 @@ app.get('/mainscherm', async (req, res) => {
                 if (user && user.likes) {
                     likedRecipes = user.likes;
                 }
-            } catch (error) {
-                console.error("Fout bij ophalen van gebruiker:", error);
+            } catch (userError) {
+                console.error("Fout bij ophalen van gebruiker:", userError);
             }
         }
 
         // Render de pagina met recepten
         res.render('mainscherm', {
-            recipes: recipes.map(recipe => ({
+            recipes: results.map(recipe => ({
                 ...recipe,
                 isLiked: likedRecipes.includes(recipe._id.toString()) // Controleer of recept is geliked
             })),
-            message: recipes.length ? "" : "Geen gerechten gevonden.",
-            selectedFilters: req.query // Voeg geselecteerde filters door aan de view
+            message: results.length ? "" : "Geen gerechten gevonden.",
+            selectedFilters: filters // Voeg geselecteerde filters door aan de view
         });
-        
+
     } catch (error) {
-        console.error("Fout bij ophalen van gerechten:", error);
-        res.render('mainscherm', { recipes: [], message: "Er is een fout opgetreden.", selectedFilters: req.query });
+        console.error("Fout bij ophalen van recepten:", error);
+        
+        // Render fallback pagina met foutmelding
+        res.render('mainscherm', { 
+            recipes: [], 
+            message: "Er is een fout opgetreden bij het ophalen van de recepten.", 
+            selectedFilters: req.query 
+        });
     }
 });
 

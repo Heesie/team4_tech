@@ -25,7 +25,7 @@
             <% } %>
         
             <ul class="filterbuttons">
-                <h3>Filter Options:</h3>
+                <h2>Filter Options:</h2>
                 <li>
                     <div class="dropdown">
                         <button>Mainingredient</button>
@@ -59,26 +59,35 @@
             </ul>
             
             <div class="selected-filters">
-                <h3>Selected filters:</h3>
+                <h2>Selected filters:</h2>
                 <ul>
                     <li>
                         <strong>Search:</strong> <%= selectedFilters.q || 'None' %>
-                        <button class="remove-filter" onclick="removeFilter('q')">×</button>
+                        <button class="remove-filter" onclick="removeFilter('q')">
+                            <img src="/images/x-black.svg" alt="">
+                        </button>
                     </li>
                     <li>
-                        <strong>Mainingredient:</strong> <%= selectedFilters.mainingredient || 'None' %>
-                        <button class="remove-filter" onclick="removeFilter('mainingredient')">×</button>
+                        <strong>Main ingredient:</strong> <%= selectedFilters.mainingredient || 'None' %>
+                        <button class="remove-filter" onclick="removeFilter('mainingredient')">
+                            <img src="/images/x-black.svg" alt="">
+                        </button>
                     </li>
                     <li>
                         <strong>Servings:</strong> <%= selectedFilters.servings || 'None' %>
-                        <button class="remove-filter" onclick="removeFilter('servings')">×</button>
+                        <button class="remove-filter" onclick="removeFilter('servings')">
+                            <img src="/images/x-black.svg" alt="">
+                        </button>
                     </li>
                     <li>
                         <strong>Time:</strong> <%= selectedFilters.preptime || 'None' %>
-                        <button class="remove-filter" onclick="removeFilter('preptime')">×</button>
+                        <button class="remove-filter" onclick="removeFilter('preptime')">
+                            <img src="/images/x-black.svg" alt="">
+                        </button>
                     </li>
                 </ul>
             </div>
+            
             
                
         </section>        
@@ -92,7 +101,7 @@
                     <% recipes.forEach(recipe => { %>
                         <div class="recept">
                             <img src="<%= recipe.thumbnail_url || '/images/default-recipe.jpg' %>" alt="Gerecht afbeelding" class="recept-afbeelding">
-                            <h2><%= recipe.name %></h2>
+                            <h3><%= recipe.name %></h3>
                             <p class="recept-description"><%= recipe.description || "Geen beschrijving beschikbaar" %></p>
             
                             <section class="like">
@@ -205,6 +214,45 @@ function removeFilter(filter) {
                 });
             });
         });
+
+
+
+
+        // gedeelte selected filter 
+        function updateFiltersVisibility() {
+    const filtersContainer = document.querySelector('.selected-filters');
+    const filterItems = document.querySelectorAll('.selected-filters li');
+    
+    let hasFilters = false;
+
+    filterItems.forEach(filter => {
+        // Haal de tekst op en controleer of het geen 'None' is
+        if (!filter.textContent.includes('None')) {
+            filter.style.display = 'list-item'; // Toon alleen de actieve filters
+            hasFilters = true;
+        } else {
+            filter.style.display = 'none'; // Verberg filters zonder waarde
+        }
+    });
+
+    // Toon de container alleen als er filters zijn
+    filtersContainer.style.display = hasFilters ? 'block' : 'none';
+}
+
+// Roep deze functie aan zodra de pagina laadt
+document.addEventListener('DOMContentLoaded', updateFiltersVisibility);
+
+// gedeelte selected filter
+
+
+function removeFilter(filterType) {
+    // Verwijder de waarde uit het object (of je data-opslag)
+    selectedFilters[filterType] = 'None'; 
+    
+    // Update de UI
+    updateFiltersVisibility();
+}
+
     </script>
 </body>
 </html>

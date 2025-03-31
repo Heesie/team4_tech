@@ -4,15 +4,39 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" href="/styles/style.css">
+    <link rel="stylesheet" href="/styles/favorieten.css">
     <link rel="stylesheet" href="/styles/basis.css">
 </head>
 <body>
     
     <%- include('header') %>
 
+    <div class="search-bar">
+        <h1> Your favorites</h1>
+        <form action="/mainscherm" method="GET">
+            <input type="text" name="q" placeholder="Zoek een gerecht..." required>
+            <button type="submit">Zoeken</button>
+        </form>
+    </div>
 
-<main>
-</main>
+
+    <section class="favorites">
+        <ul>
+            <% if (recipe) { %>
+                <li> 
+                    <img src="<%= recipe.thumbnail_url || '/images/default-recipe.jpg' %>" alt="Gerecht afbeelding">
+                    <h2><%= recipe.name %> </h2> 
+                    <button class="remove-favorite">
+                        <img src="/images/x-black.svg" alt="Verwijder favoriet">
+                    </button>
+                </li>
+            <% } else { %>
+                <li>Geen favorieten beschikbaar.</li>
+            <% } %>
+        </ul>
+    </section>
+
+
+<script src="server.js"></script>
 </body>
 </html>

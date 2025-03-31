@@ -110,7 +110,6 @@ border-radius: var(--border-radius-small);
 .information{
   grid-column-start: 2;
 }
-
 }
 
 
@@ -146,7 +145,6 @@ border-radius: var(--border-radius-small);
   }
   
   summary {
-    background-color: #f0f0f0;
     color: #444;
     font-size: 18px;
     font-weight: 600;

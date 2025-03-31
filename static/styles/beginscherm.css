@@ -1,5 +1,65 @@
+/* custom properties */
+:root {
+
+  --font-primary: 'Avenir', sans-serif; 
+  --font-secondary: 'Helvetica', sans-serif; 
+
+  /* colors fonts */
+  --color-text:rgb(37, 37, 37);
+  --color-text-white:white;
 
 
+  /* backgrounds  */
+  --background-page: #FFFDF7;
+  --background-white: white;
+
+  /* inputs */
+  --color-input-border-hover: 2px solid #FF7300;
+  --color-input-border: 1px solid #ccc;
+ 
+  /* heart */
+  --fill-heart-color:#ffc6c6;
+  --fill-heart-color-hover:red;
+
+  /* header */
+  --background-color-header: #ffefca;
+  --background-color-menu:#afc8a1;
+  --color-text-menu-hover: #FF3D00;
+  --color-text-menu: white;
+  --color-text-desktop:#FF3D00;
+
+
+  /* hovers */
+  --background-color-hover-filter: #ffefca;
+
+ /* buttons */
+ --background-color-button: #578A37;
+ --text-color-button:white;
+ --background-color-button-hover:#2C5810;
+
+
+/* tags */
+--background-color-tag-noti:#FF3D00;
+--background-color-tag-noti-hover:#dd3400;
+
+ /* border radius */
+ --border-radius-small: 5px;
+ --border-radius-medium: 8px;
+ --border-radius-big: 10px;
+
+ /* shadows */
+ --box-shadow:0px 6px 24px 2px rgba(0, 0, 0, 0.2);
+
+/* links */
+--link-color-text:#007BFF;
+
+/* error */
+--error-color-text:#ff0000;
+
+/* recept cards */
+--background-recept-cards: white;
+
+}
 
 
   .begin-scherm-h2 {

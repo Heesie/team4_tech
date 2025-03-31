@@ -61,6 +61,13 @@
 /* recept cards */
 --background-recept-cards: white;
 
+
+
+
+/* dark mode */
+
+--color-darkmode-text:rgb(255, 248, 237);
+--color-darkmode-text-black:black;
 }
 
   
@@ -83,4 +90,117 @@
   }
 
 
+
+
+
+  @media (prefers-color-scheme: dark) {
+    body {
+       background-color: rgb(24, 24, 24);
+      
+    }
+  }
+
+
+  @media (prefers-color-scheme: dark) {
+    h2  p {
+        color: rgb(0, 0, 0); /* Witte tekst in dark mode */
+    }
+  }
+    
+
+@media (prefers-color-scheme: dark){
+  h1{
+    color: var(--color-darkmode-text);
+  }
+}
+
+@media (prefers-color-scheme: dark){
+  h2{
+    color: var(--color-darkmode-text);
+  }
+}
+
+
+@media (prefers-color-scheme: dark){
+  .content p {
+    color: var(--color-darkmode-text);
+  }
+}
+
+@media (prefers-color-scheme: dark){
+  .wrapper h2 {
+    color: black;
+  }
+}
+@media (prefers-color-scheme: dark){
+   h3 {
+    color: var(--color-darkmode-text-black);
+  }
+}
+
+
+@media (prefers-color-scheme: dark){
+  .mobile-nav {
+    background-color: rgb(59, 59, 59);
+ }
+}
+
+
+
+@media (prefers-color-scheme: dark) {
+  details {
+      background-color: rgb(76, 76, 76);
+ color: var(--color-darkmode-text);
+    
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  div .info {
+
+ color: var(--color-darkmode-text);
+    
+  }
+}
+
+
+
+@media (prefers-color-scheme: dark){
+  .selected-filters li {
+background-color: rgb(255, 247, 218);
+ }
+}
+
+
+
+@media (prefers-color-scheme: dark){
+  .recept {
+    background-color: rgb(37, 37, 37);
+color: var(--color-darkmode-text);
+ }
+}
+
+
+@media (prefers-color-scheme: dark){
+  .recept h3 {
+color: var(--color-darkmode-text);
+ }
+}
+
+
+@media (prefers-color-scheme: dark) {
+  summary {
+      background-color: rgb(76, 76, 76);
+ color: var(--color-darkmode-text);
+    
+  }}
+
+
+  @media (prefers-color-scheme: dark) {
+    .rating-function h4 {
+  
+   color: var(--color-darkmode-text);
+      
+    }}
+  
   

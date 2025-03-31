@@ -238,17 +238,28 @@ border: var(--color-input-border-hover);
 
 .selected-filters li{
     --background-color-hover-filter: #ffefca;
-    padding: 7px;
+    padding: 10px 8px;
     box-shadow: var(--box-shadow);
     border-radius: var(--border-radius-medium);
 }
 
 
+.selected-filters button{
+ background-color: transparent;
+ border: none;
+}
+.selected-filters img{
+width: 10px;
+   }
+   
 
+.selected-filters {
+    display: none;
+}
 
-
-
-
+.selected-filters li {
+    display: none;
+}
 
 .recepten-grid-h2{
     align-items: center;
@@ -415,3 +426,4 @@ border: var(--color-input-border-hover);
       pointer-events: none; 
     }
     
+

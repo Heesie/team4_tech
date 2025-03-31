@@ -29,7 +29,7 @@
             <a href="/mainscherm">
                  See all recipes
                  <svg width="20px" height="20px" viewBox="0 0 24 24" fill="#007BFF" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M4 12H20M20 12L14 6M20 12L14 18" stroke="#007BFF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M4 12h30M20 12L14 6M20 12L14 18" stroke="#007BFF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                     </svg></a>
         </div>
     </section>
@@ -45,7 +45,7 @@
             <% recipes.slice(0, 5).forEach(recipe => { %>
                 <div class="recept">
                     <img src="<%= recipe.thumbnail_url || '/images/default-recipe.jpg' %>" alt="Gerecht afbeelding" class="recept-afbeelding">
-                    <h2><%= recipe.name %></h2>
+                    <h3><%= recipe.name %></h3>
                     <p class="recept-description"><%= recipe.description || "Geen beschrijving beschikbaar" %></p>
     
                     <section class="like">
@@ -89,7 +89,7 @@ function showNotification(recipeName){
 document.querySelectorAll(".like-checkbox").forEach(box => 
     box.addEventListener("change", () => {
         if (box.checked) {
-            const receptName = box.closest(".recept").querySelector("h2").textContent;
+            const receptName = box.closest(".recept").querySelector("h3").textContent;
             showNotification(receptName);
         }
     })

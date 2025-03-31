@@ -149,11 +149,27 @@ border: var(--color-input--border-hover);
     cursor: pointer;
     border-radius: var(--border-radius-medium);
     transition: background 0.3s ease;
+    position: relative; /* Om het pijltje goed te kunnen positioneren */
+
 }
 
 .dropdown button:hover {
     background-color: var(--background-color-tag-noti-hover);
 }
+
+.dropdown button::after {
+    content: '▼';  /* Unicode teken voor een naar beneden wijzend pijltje */
+    font-size: 12px;
+    margin-left: 10px;  /* Ruimte tussen tekst en pijltje */
+    transition: transform 0.3s ease; /* Animatie voor pijltje */
+}
+
+.dropdown.open button::after {
+    transform: rotate(180deg); 
+    content: '▲';/* Draai het pijltje als de dropdown 'open' is */
+}
+
+
 
 .dropdown .content {
     display: none;
@@ -215,6 +231,13 @@ border: var(--color-input--border-hover);
     list-style: none;
     padding: 0;
     flex-wrap: wrap;
+}
+
+.selected-filters li{
+    --background-color-hover-filter: #ffefca;
+    padding: 7px;
+    box-shadow: var(--box-shadow);
+    border-radius: var(--border-radius-medium);
 }
 
 

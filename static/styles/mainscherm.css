@@ -30,10 +30,7 @@
   
   
     /* hovers */
-  
     --background-color-hover-filter: #ffefca;
-  
-  
   
    /* buttons */
    --background-color-button: #578A37;
@@ -64,6 +61,12 @@
   
   }
   
+
+  .recept-grid-h2{
+    align-items: center;
+    display: flex;
+    justify-content: center;
+  } 
 .mainscherm-filter {
     padding: 40px;
     max-width: 800px;
@@ -95,7 +98,7 @@
 }
 
 .search-bar input:hover {
-border: var(--color-input--border-hover);
+border: var(--color-input-border-hover);
   box-shadow: var(--box-shadow);
   }
   
@@ -104,7 +107,7 @@ border: var(--color-input--border-hover);
   }
   
   .search-bar input:focus {
-    border: var(--color-input--border-hover);
+    border: var(--color-input-border-hover);
   }
 
 
@@ -247,7 +250,12 @@ border: var(--color-input--border-hover);
 
 
 
+.recepten-grid-h2{
+    align-items: center;
+    display: flex;  
+    justify-content: center;
 
+}
 
 
 
@@ -322,7 +330,7 @@ border: var(--color-input--border-hover);
     
     .recept-afbeelding {
       width: 100%;             /* Zorgt ervoor dat de afbeelding de breedte van de container gebruikt */
-      height: 200px;           /* Stel de hoogte in (pas aan naar de gewenste hoogte) */
+      height: 250px;           /* Stel de hoogte in (pas aan naar de gewenste hoogte) */
       object-fit: cover; 
     border-radius: var(--border-radius-big);
     position: relative; }

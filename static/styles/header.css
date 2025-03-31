@@ -1,4 +1,4 @@
-:root {
+\:root {
     --background-page: #FFFDF7;
     --font-primary: 'Avenir', sans-serif; 
     --font-secondary: 'Helvetica', sans-serif; 
@@ -107,7 +107,6 @@ nav.desktop-nav ul {
 
 nav.desktop-nav ul li {
     margin-right: 2em;
-    font-size: 20px;
 }
 
 nav.desktop-nav ul li a {
@@ -115,7 +114,7 @@ nav.desktop-nav ul li a {
     text-decoration: none;
     position: relative;
     transition: color 0.9 ease;
-    font-size: 15px;
+    font-size: 18px;
     }
 
 nav.desktop-nav ul li a:hover {

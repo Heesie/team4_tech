@@ -482,3 +482,14 @@ app.use((err, req, res) => {
 
 
 
+app.get('/favorieten', async (req, res) => {
+    try {
+        // Haal favorieten op uit de database (tijdelijk een lege array als de backend er nog niet is)
+        const favoriteRecipes = []; // Simuleer dat er nog geen recepten zijn
+
+        res.render('favorieten', { recipes: favoriteRecipes }); // Zorg dat 'recipes' bestaat
+    } catch (error) {
+        console.error(error);
+        res.status(500).send("Er is een fout opgetreden.");
+    }
+});

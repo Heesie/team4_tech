@@ -12,17 +12,21 @@
 
     <section class="grid-pagina">
         <div class="content">
-            <h1> Match & Cook: Find Your Perfect Cooking Partner!</h1>
+            <h1>Match & Cook: Find Your Perfect Cooking Partner!</h1>
             <p>Like your favorite recipes and match with others who share your taste. Discover delicious dishes together and cook like a pro!</p>
         </div>
-        <img src="/images/cooking.svg" alt="">
-
+    
+        <img src="/images/cooking.svg" alt="Cooking illustration" class="cooking-image">
+    
         <div class="actions">
             <div class="search-div">
-            <input placeholder="Searth here..." type="text" name="text" class="input">
-            <input type="submit" id="submit-knop">
-        </div>
-        <button><a href="/mainscherm"><span> Go for all recipes </span> </a> </button>
+                <form action="/mainscherm" method="GET">
+                    <input placeholder="Search here..." type="text" name="q" class="input">
+                    <input type="submit" id="submit-knop" value="Zoek">
+                </form>
+            </div>
+    
+            <a href="/mainscherm" class="button">Go for all recipes</a>
         </div>
     </section>
     

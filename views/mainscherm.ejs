@@ -191,20 +191,18 @@ function removeFilter(filter) {
 });
 
                         // Geef de gebruiker feedback
-                        if (data.success) {
-                            showNotification(`Recept ${recipeName} is ${action === 'like' ? 'toegevoegd aan' : 'verwijderd uit'} je favorieten!`);
-                        } else {
-                            showNotification("Er is een fout opgetreden.");
-                            box.checked = !box.checked; // Zet de checkbox terug naar de vorige status
-                        }
-                    } catch (error) {
-                        console.error('Error:', error);
-                        showNotification("You're not signed in yet..");
-                        box.checked = !box.checked; // Zet de checkbox terug naar de vorige status
-                    }
-                });
-            });
-        });
+                        try {
+        if (data.success) {
+            showNotification(`Recept ${recipeName} is ${action === 'like' ? 'toegevoegd aan' : 'verwijderd uit'} je favorieten!`);
+        } else {
+            showNotification("Er is een fout opgetreden.");
+            box.checked = !box.checked;
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        showNotification("You're not signed in yet..");
+        box.checked = !box.checked;
+    }
 
 
 

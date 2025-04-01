@@ -74,11 +74,22 @@ app.get('/logout', (req, res) => {
 
 app.get('/login', login)
 app.get('/account', authMiddleware, account);
-app.get('/favorites', favorites)
-app.get('/favorieten', favorieten) 
+ 
+app.get('/favorites', async (req, res) => {
+    try {
+        // Haal favorieten op uit de database (tijdelijk een lege array als de backend er nog niet is)
+        const favoriteRecipes = []; // Simuleer dat er nog geen recepten zijn
+
+        res.render('favorites', { recipes: favoriteRecipes }); // Zorg dat 'recipes' bestaat
+    } catch (error) {
+        console.error(error);
+        res.status(500).send("Er is een fout opgetreden.");
+    }
+});
+
 app.get('/header', header) 
 app.get('/fetchFromMongo', fetchFromMongo) // Nieuwe route voor API-aanroepen
-app.get('/mainscherm', async (req, res) => {
+app.get('/recipes', async (req, res) => {
     try {
         // Haal alle filters op uit de query, maar negeer de 'removeFilter' parameter
         const filters = { ...req.query };
@@ -141,7 +152,7 @@ app.get('/mainscherm', async (req, res) => {
         }
 
         // Render de pagina met recepten
-        res.render('mainscherm', {
+        res.render('recipes', {
             recipes: results.map(recipe => ({
                 ...recipe,
                 isLiked: likedRecipes.includes(recipe._id.toString()) // Controleer of recept is geliked
@@ -154,7 +165,7 @@ app.get('/mainscherm', async (req, res) => {
         console.error("Fout bij ophalen van recepten:", error);
         
         // Render fallback pagina met foutmelding
-        res.render('mainscherm', { 
+        res.render('recipes', { 
             recipes: [], 
             message: "Er is een fout opgetreden bij het ophalen van de recepten.", 
             selectedFilters: req.query 
@@ -168,17 +179,17 @@ app.get('/mainscherm', async (req, res) => {
 app.get('/recipe/:id', async (req, res) => {
     try {
         const recipeId = req.params.id;
-        const db = client.db(process.env.DB_NAME);
-        const collection = db.collection(process.env.DB_COLLECTION);
 
-        // Zoek het recept op basis van het ID
-        const recipe = await collection.findOne({ _id: new ObjectId(recipeId) });
+        // Gebruik fetchFromMongo om het recept op te halen
+        const recipes = await fetchFromMongo(process.env.DB_COLLECTION, { _id: new ObjectId(recipeId) });
 
-        if (!recipe) {
+        if (recipes.length === 0) {
             return res.status(404).send("Recept niet gevonden");
         }
 
-        res.render('recept', { recipe });
+        const recipe = recipes[0]; // Aangezien we maar één recept ophalen, pakken we het eerste element uit de array
+
+        res.render('recipe', { recipe });
     } catch (error) {
         console.error("Fout bij ophalen van recept:", error);
         res.status(500).send("Er is een fout opgetreden bij het ophalen van het recept.");
@@ -410,19 +421,10 @@ app.post('/login', async (req, res) => {
     }
 });
 
-function favorites(req, res) {
-    res.render('favorites.ejs');
-}
-
-
 async function home(req, res) {
     try {
-        // Maak verbinding met de MongoDB database
-        const db = client.db(process.env.DB_NAME);
-        const collection = db.collection(process.env.DB_COLLECTION);
-
-        // Haal alle recepten op uit de database (limiet op 20 voor prestaties)
-        const recipes = await collection.find().limit(20).toArray();
+        // Gebruik de fetchFromMongo functie om recepten op te halen
+        const recipes = await fetchFromMongo(process.env.DB_COLLECTION, {}, { limit: 20 });
 
         // Zorg ervoor dat de recepten correct worden geformatteerd voor de EJS-weergave
         const formattedRecipes = recipes.map(recipe => ({
@@ -432,17 +434,14 @@ async function home(req, res) {
             thumbnail_url: recipe.thumbnail_url || '/images/default-recipe.jpg' // Standaardafbeelding als er geen beschikbaar is
         }));
 
-        // Render de beginscherm.ejs met de recepten
-        res.render('beginscherm.ejs', { recipes: formattedRecipes });
+        // Render de home.ejs met de recepten
+        res.render('home.ejs', { recipes: formattedRecipes });
     } catch (error) {
         console.error('Fout bij ophalen van recepten uit MongoDB:', error);
-        res.render('beginscherm.ejs', { recipes: [] }); // Render een lege lijst bij een fout
+        res.render('home.ejs', { recipes: [] }); // Render een lege lijst bij een fout
     }
 }
 
-function favorieten (req, res) {
-    res.render('favorieten.ejs');
-}
 
 function header(req, res) {
     res.render('header.ejs');
@@ -461,24 +460,14 @@ app.use((err, req, res) => {
 
 
 
-app.get('/favorieten', async (req, res) => {
-    try {
-        // Haal favorieten op uit de database (tijdelijk een lege array als de backend er nog niet is)
-        const favoriteRecipes = []; // Simuleer dat er nog geen recepten zijn
 
-        res.render('favorieten', { recipes: favoriteRecipes }); // Zorg dat 'recipes' bestaat
-    } catch (error) {
-        console.error(error);
-        res.status(500).send("Er is een fout opgetreden.");
-    }
-});
 
 
 
 
 // search function 
 
-app.get('/beginscherm', async (req, res) => {
+app.get('/home', async (req, res) => {
     try {
         const searchQuery = req.query.q || ""; // Zoekterm (optioneel)
         const ingredientFilter = req.query.mainingredient; // Hoofdingrediënt filter
@@ -526,7 +515,7 @@ app.get('/beginscherm', async (req, res) => {
         const recipes = await collection.find(query).toArray();
      
         // Render de pagina met de recepten (of een bericht als er geen recepten zijn)
-        res.render('mainscherm', {
+        res.render('recipes', {
             recipes,
             message: recipes.length ? "" : "Geen gerechten gevonden.",
             selectedFilters: req.query // Voeg geselecteerde filters door aan de view
@@ -534,6 +523,6 @@ app.get('/beginscherm', async (req, res) => {
      
     } catch (error) {
         console.error("Fout bij ophalen van gerechten:", error);
-        res.render('mainscherm', { recipes: [], message: "Er is een fout opgetreden." });
+        res.render('recipes', { recipes: [], message: "Er is een fout opgetreden." });
     }
     });

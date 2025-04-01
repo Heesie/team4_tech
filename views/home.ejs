@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Begin pagina</title>
-    <link rel="stylesheet" href="/styles/beginscherm.css">
+    <title>Home</title>
+    <link rel="stylesheet" href="/styles/home.css">
     <link rel="stylesheet" href="/static/basis.css">
 </head>
 <body>
@@ -20,13 +20,13 @@
     
         <div class="actions">
             <div class="search-div">
-                <form action="/mainscherm" method="GET">
+                <form action="/recipes" method="GET">
                     <input placeholder="Search here" type="text" name="q" class="input">
                     <input type="submit" id="submit-knop" value="Search">
                 </form>
             </div>
     
-            <a href="/mainscherm">
+            <a href="/recipes">
                  See all recipes
                  <svg width="20px" height="20px" viewBox="0 0 24 24" fill="#007BFF" xmlns="http://www.w3.org/2000/svg">
                     <path d="M4 12h30M20 12L14 6M20 12L14 18" stroke="#007BFF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
@@ -97,6 +97,5 @@ document.querySelectorAll(".like-checkbox").forEach(box =>
 
 // like functie stukje met notificatie  
 </script>
-            <%- include('footer') %>
 </body>
 </html>

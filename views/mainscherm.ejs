@@ -104,14 +104,17 @@
                             <h3><%= recipe.name %></h3>
                             <p class="recept-description"><%= recipe.description || "Geen beschrijving beschikbaar" %></p>
             
-                            <section class="like">
-                                <input type="checkbox" id="like-checkbox-<%= recipe._id %>" data-recipe-name="<%= recipe.name %>" class="like-checkbox" data-recipe-id="<%= recipe._id %>" <%= recipe.isLiked ? 'checked' : '' %>>
-                                <label for="like-checkbox-<%= recipe._id %>">
-                                    <svg width="60px" height="60px" viewBox="0 0 48 48" version="1" xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M34,9c-4.2,0-7.9,2.1-10,5.4C21.9,11.1,18.2,9,14,9C7.4,9,2,14.4,2,21c0,11.9,22,24,22,24s22-12,22-24C46,14.4,40.6,9,34,9z"/>
+                            <form action="/toggle-like/<%= recipe._id %>" method="POST" class="like-form">
+                                <input type="hidden" name="recipeId" value="<%= recipe._id %>">
+                                <input type="hidden" name="recipeName" value="<%= recipe.name %>">
+                                
+                                <button type="submit" class="like-button <%= recipe.isLiked ? 'liked' : '' %>">
+                                    <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M34,9c-4.2,0-7.9,2.1-10,5.4C21.9,11.1,18.2,9,14,9C7.4,9,2,14.4,2,21c0,11.9,22,24,22,24s22-12,22-24
+                                            C46,14.4,40.6,9,34,9z"/>
                                     </svg>
-                                </label>
-                            </section>
+                                </button>
+                            </form>                            
 
                             <a href="/recipe/<%= recipe._id %>">
                                 <button>Full Recipe</button>
@@ -127,39 +130,27 @@
     </main>
 
     <script>
-        document.addEventListener("DOMContentLoaded", () => {
-            const notification = document.createElement("div");
-            notification.className = "notification";
-            document.body.appendChild(notification);
-
-            // Functie om een notificatie te tonen
-            function showNotification(message) {
-                notification.textContent = message; // 'success' of 'error'
-                notification.classList.add("show");
-                setTimeout(() => notification.classList.remove("show"), 3000);
-            }
-
-            // Event listener voor alle like-checkboxen
-            document.querySelectorAll(".like-checkbox").forEach(box => {
-                box.addEventListener("change", async () => {
-                    const recipeId = box.dataset.recipeId; // Haal het ID van het recept
-                    const recipeName = box.dataset.recipeName; // Haal de naam van het recept
-                    const action = box.checked ? 'like' : 'unlike'; // Actie: 'like' als de checkbox is aangevinkt, anders 'unlike'
-                    
-                    try {
-                        // Stuur een request naar de server voor de actie (like of unlike)
-                        const response = await fetch(`/${action}/${recipeId}`, { method: 'POST' });
-                        const data = await response.json();
-
-document.querySelectorAll(".like-checkbox").forEach(box => 
-    box.addEventListener("change", () => {
-        if (box.checked) {
-            const receptName = box.closest(".recept").querySelector("h2").textContent;
-            showNotification(receptName);
+        // gedeelte like notificatie
+        const notification = document.createElement("div");
+        
+        notification.className="notification";
+        document.body.appendChild(notification);
+        
+        function showNotification(recipeName){
+            notification.textContent = `"${recipeName}" is toegevoegd aan je favorieten !`;
+            notification.classList.add("show");
+            setTimeout(() =>notification.classList.remove("show"), 3000 );
         }
-    })
-);
-
+        
+        document.querySelectorAll(".like-checkbox").forEach(box => 
+            box.addEventListener("change", () => {
+                if (box.checked) {
+                    const receptName = box.closest(".recept").querySelector("h2").textContent;
+                    showNotification(receptName);
+                }
+            })
+        );
+        
 function removeFilter(filter) {
             // Haal de huidige query parameters op
             const urlParams = new URLSearchParams(window.location.search);
@@ -252,7 +243,6 @@ function removeFilter(filterType) {
     // Update de UI
     updateFiltersVisibility();
 }
-
     </script>
 </body>
 </html>

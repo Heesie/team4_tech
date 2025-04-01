@@ -58,6 +58,13 @@ app.set('view engine', 'ejs')
 app.set('views', 'views')
 app.get('/', home)
 app.get('/createAccount', createAccount)
+app.get('/favorites', favorites)
+app.get('/recipes', allrecipes);
+app.get('/header', header) 
+app.get('/fetchFromMongo', fetchFromMongo) // Nieuwe route voor API-aanroepen
+app.get('/login', login)
+app.get('/account', authMiddleware, account);
+app.get('/recipe/:id', getRecipe);
 
 // Route om uit te loggen
 app.get('/logout', (req, res) => {
@@ -72,24 +79,29 @@ app.get('/logout', (req, res) => {
     });
 });
 
-app.get('/login', login)
-app.get('/account', authMiddleware, account);
- 
-app.get('/favorites', async (req, res) => {
+async function home(req, res) {
     try {
-        // Haal favorieten op uit de database (tijdelijk een lege array als de backend er nog niet is)
-        const favoriteRecipes = []; // Simuleer dat er nog geen recepten zijn
+        // Gebruik de fetchFromMongo functie om recepten op te halen
+        const recipes = await fetchFromMongo(process.env.DB_COLLECTION, {}, { limit: 20 });
 
-        res.render('favorites', { recipes: favoriteRecipes }); // Zorg dat 'recipes' bestaat
+        // Zorg ervoor dat de recepten correct worden geformatteerd voor de EJS-weergave
+        const formattedRecipes = recipes.map(recipe => ({
+            _id: recipe._id.toString(), // ObjectId naar string converteren
+            name: recipe.name,
+            description: recipe.description || 'Geen beschrijving beschikbaar',
+            thumbnail_url: recipe.thumbnail_url || '/images/default-recipe.jpg' // Standaardafbeelding als er geen beschikbaar is
+        }));
+
+        // Render de home.ejs met de recepten
+        res.render('home.ejs', { recipes: formattedRecipes });
     } catch (error) {
-        console.error(error);
-        res.status(500).send("Er is een fout opgetreden.");
+        console.error('Fout bij ophalen van recepten uit MongoDB:', error);
+        res.render('home.ejs', { recipes: [] }); // Render een lege lijst bij een fout
     }
-});
+} 
 
-app.get('/header', header) 
-app.get('/fetchFromMongo', fetchFromMongo) // Nieuwe route voor API-aanroepen
-app.get('/recipes', async (req, res) => {
+
+async function allrecipes(req, res) {
     try {
         // Haal alle filters op uit de query, maar negeer de 'removeFilter' parameter
         const filters = { ...req.query };
@@ -171,12 +183,9 @@ app.get('/recipes', async (req, res) => {
             selectedFilters: req.query 
         });
     }
-});
+}
 
-
-
-
-app.get('/recipe/:id', async (req, res) => {
+async function getRecipe(req, res) {
     try {
         const recipeId = req.params.id;
 
@@ -194,7 +203,33 @@ app.get('/recipe/:id', async (req, res) => {
         console.error("Fout bij ophalen van recept:", error);
         res.status(500).send("Er is een fout opgetreden bij het ophalen van het recept.");
     }
-});
+}
+
+async function favorites(req, res) {
+    try {
+        if (!req.session.userId) {
+            return res.redirect('/login'); // Redirect als gebruiker niet is ingelogd
+        }
+
+        const user = await usersCollection.findOne({ _id: new ObjectId(req.session.userId) });
+
+        if (!user || !user.likes || user.likes.length === 0) {
+            return res.render('favorites', { recipes: [], message: "Je hebt nog geen favorieten." });
+        }
+
+        // Haal de recepten op die geliket zijn
+        const favoriteRecipes = await recipesCollection.find({
+            _id: { $in: user.likes.map(id => new ObjectId(id)) }
+        }).toArray();
+
+        res.render('favorites', { recipes: favoriteRecipes, message: "" });
+    } catch (error) {
+        console.error("Fout bij ophalen van favorieten:", error);
+        res.status(500).send("Er is een fout opgetreden.");
+    }
+}
+
+
 
 app.post('/toggle-like/:recipeId', authMiddleware, async (req, res) => {
     const recipeId = req.params.recipeId;
@@ -421,26 +456,7 @@ app.post('/login', async (req, res) => {
     }
 });
 
-async function home(req, res) {
-    try {
-        // Gebruik de fetchFromMongo functie om recepten op te halen
-        const recipes = await fetchFromMongo(process.env.DB_COLLECTION, {}, { limit: 20 });
 
-        // Zorg ervoor dat de recepten correct worden geformatteerd voor de EJS-weergave
-        const formattedRecipes = recipes.map(recipe => ({
-            _id: recipe._id.toString(), // ObjectId naar string converteren
-            name: recipe.name,
-            description: recipe.description || 'Geen beschrijving beschikbaar',
-            thumbnail_url: recipe.thumbnail_url || '/images/default-recipe.jpg' // Standaardafbeelding als er geen beschikbaar is
-        }));
-
-        // Render de home.ejs met de recepten
-        res.render('home.ejs', { recipes: formattedRecipes });
-    } catch (error) {
-        console.error('Fout bij ophalen van recepten uit MongoDB:', error);
-        res.render('home.ejs', { recipes: [] }); // Render een lege lijst bij een fout
-    }
-}
 
 
 function header(req, res) {

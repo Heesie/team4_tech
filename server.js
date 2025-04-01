@@ -3,11 +3,27 @@ dotenv.config();
 
 const express = require('express');
 const session = require('express-session')
+const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb')
 const bcrypt = require('bcryptjs');
 const xss = require('xss')
 const validator = require('validator');
 const app = express();
 app.use(express.static('public'));
+
+// Maak de verbindingstring voor MongoDB met gegevens uit de .env file
+const uri = `mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@${process.env.DB_HOST}/${process.env.DB_NAME}?retryWrites=true&w=majority`
+// Maak een nieuwe MongoClient aan om verbinding te maken met de MongoDB-database
+const client = new MongoClient(uri, {
+    serverApi: {
+      version: ServerApiVersion.v1,
+      strict: true,
+      deprecationErrors: true,
+    }
+})
+
+const db = client.db(process.env.DB_NAME);
+const recipesCollection = db.collection(process.env.DB_COLLECTION);
+const usersCollection = db.collection('users');
 
 // BodyParser instellen om formuliergegevens te verwerken
 const bodyParser = require('body-parser');
@@ -215,19 +231,6 @@ app.post('/toggle-like/:recipeId', authMiddleware, async (req, res) => {
 });
 
 app.listen(2000, () => console.log("De server draait op host 2000"));
-
-// Verbind met MongoDB database
-const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb')
-// Maak de verbindingstring voor MongoDB met gegevens uit de .env file
-const uri = `mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@${process.env.DB_HOST}/${process.env.DB_NAME}?retryWrites=true&w=majority`
-// Maak een nieuwe MongoClient aan om verbinding te maken met de MongoDB-database
-const client = new MongoClient(uri, {
-    serverApi: {
-      version: ServerApiVersion.v1,
-      strict: true,
-      deprecationErrors: true,
-    }
-})
 
 ////zoekfunctie////
 async function fetchFromMongo(collectionRecepten, query = {}, options = {}) {

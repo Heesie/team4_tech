@@ -27,17 +27,19 @@
             <img src="<%= recipe.thumbnail_url || '/images/default-recipe.jpg' %>" alt="Gerecht afbeelding" class="recept-afbeelding">
             <h2><%= recipe.name %></h2>
 
-    <section class="like">
-        <input type="checkbox" id="like-checkbox-<%= recipe.id %>" class="like-checkbox">
-        <label for="like-checkbox-<%= recipe.id %>">
-            <svg width="60px" height="60px" viewBox="0 0 48 48" version="1" xmlns="http://www.w3.org/2000/svg">
-                <path d="M34,9c-4.2,0-7.9,2.1-10,5.4C21.9,11.1,18.2,9,14,9C7.4,9,2,14.4,2,21c0,11.9,22,24,22,24s22-12,22-24C46,14.4,40.6,9,34,9z"/>
-            </svg>
-        </label>
-    </section>
-    </div>
-        
+            <form action="/toggle-like/<%= recipe._id %>" method="POST" class="like-form">
+                <input type="hidden" name="recipeId" value="<%= recipe._id %>">
+                <input type="hidden" name="recipeName" value="<%= recipe.name %>">
+                
+                <button type="submit" class="like-button <%= recipe.isLiked ? 'liked' : '' %>">
+                    <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M34,9c-4.2,0-7.9,2.1-10,5.4C21.9,11.1,18.2,9,14,9C7.4,9,2,14.4,2,21c0,11.9,22,24,22,24s22-12,22-24
+                            C46,14.4,40.6,9,34,9z"/>
+                    </svg>
+                </button>
+            </form>        
 
+    </div>
         <div class="info">
                 <span><%= recipe.total_time_minutes %> Minutes</span>
                 <span><%= recipe.num_servings %> Servings</span>
@@ -91,25 +93,25 @@
 
 <script>
     // gedeelte like notificatie
-const notification = document.createElement("div");
-
-notification.className ="notification";
-document.body.appendChild(notification);
-
-function showNotification(recipeName){
-notification.textContent = `"${recipeName}" is toegevoegd aan je favorieten !`;
-notification.classList.add("show");
-setTimeout(() =>notification.classList.remove("show"), 3000 );
-}
-
-document.querySelectorAll(".like-checkbox").forEach(box => 
-box.addEventListener("change", () => {
-    if (box.checked) {
-        const receptName = box.closest(".recept").querySelector("h2").textContent;
-        showNotification(receptName);
+    const notification = document.createElement("div");
+    
+    notification.className="notification";
+    document.body.appendChild(notification);
+    
+    function showNotification(recipeName){
+        notification.textContent = `"${recipeName}" is toegevoegd aan je favorieten !`;
+        notification.classList.add("show");
+        setTimeout(() =>notification.classList.remove("show"), 3000 );
     }
-})
-);
+    
+    document.querySelectorAll(".like-checkbox").forEach(box => 
+        box.addEventListener("change", () => {
+            if (box.checked) {
+                const receptName = box.closest(".recept").querySelector("h2").textContent;
+                showNotification(receptName);
+            }
+        })
+    );
 </script>
 </body>
 </html>

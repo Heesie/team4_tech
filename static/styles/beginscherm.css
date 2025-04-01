@@ -1,4 +1,64 @@
+:root {
 
+  --font-primary: 'Avenir', sans-serif; 
+  --font-secondary: 'Helvetica', sans-serif; 
+
+  /* colors fonts */
+  --color-text:rgb(37, 37, 37);
+  --color-text-white:white;
+
+
+  /* backgrounds  */
+  --background-page: #FFFDF7;
+  --background-white: white;
+
+  /* inputs */
+  --color-input-border-hover: 2px solid #FF7300;
+  --color-input-border: 1px solid #ccc;
+ 
+  /* heart */
+  --fill-heart-color:#ffc6c6;
+  --fill-heart-color-hover:red;
+
+  /* header */
+  --background-color-header: #ffefca;
+  --background-color-menu:#afc8a1;
+  --color-text-menu-hover: #FF3D00;
+  --color-text-menu: white;
+  --color-text-desktop:#FF3D00;
+
+
+  /* hovers */
+  --background-color-hover-filter: #ffefca;
+
+ /* buttons */
+ --background-color-button: #578A37;
+ --text-color-button:white;
+ --background-color-button-hover:#2C5810;
+
+
+/* tags */
+--background-color-tag-noti:#FF3D00;
+--background-color-tag-noti-hover:#dd3400;
+
+ /* border radius */
+ --border-radius-small: 5px;
+ --border-radius-medium: 8px;
+ --border-radius-big: 10px;
+
+ /* shadows */
+ --box-shadow:0px 6px 24px 2px rgba(0, 0, 0, 0.2);
+
+/* links */
+--link-color-text:#007BFF;
+
+/* error */
+--error-color-text:#ff0000;
+
+/* recept cards */
+--background-recept-cards: white;
+
+}
 
 
 
@@ -35,8 +95,7 @@
 }
 
 .search-div {
-  display: flex;
-  margin-bottom: 1em;
+  margin-bottom: 2em;
   gap: 1em;
 }
 
@@ -49,103 +108,77 @@ margin-right: 10em;
 
   }
 
-
-  .actions .input {
-    width: 100%;
-    max-width: 220px;
-    padding: 12px;
-   border-radius: var(--border-radius-big);
-   border: var(--color-input-border);
-    outline: none;
-    transition: all 0.5s ease;
-    box-shadow: var(--box-shadow);
-    cursor: pointer;
-  }
-  
-  .actions .input:hover {
-    border: var(--color-input--border-hover);
-  box-shadow: var(--box-shadow);
-  }
-  
-.actions .input:active {
-    transform: scale(1.20);
-  }
-  
-  .actions .input:focus {
-    border: var(--color-input--border-hover);
-  }
-
-.actions #submit-knop{
-  background-color: var(--background-color-tag-noti);
-  color: var(--color-text-white);
-  border: none;
-  box-shadow: var(--box-shadow);
-  border-radius: var(--border-radius-small);
-  width: 150px;
-}
-.actions #submit-knop:hover{
-  background-color: var(--background-color-tag-noti-hover);
-}
-
-
-.actions button {
-  position: relative;
-  padding: 10px 20px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: var(--border-radius-small);
-  background: var(--background-color-button);
-  box-shadow: var(--box-shadow);
-  overflow: hidden;
-  cursor: pointer;
-  border: none;
-}
-
-
-.actions button:after {
-  content: " ";
-  width: 0%;
-  height: 100%;
-  background: var(--background-color-button-hover);
-  position: absolute;
-  transition: all 0.4s ease-in-out;
-  right: 0;
-}
-
-.actions button:hover::after {
-  right: auto;
-  left: 0;
+/* Zoekinvoer en submitknop behouden */
+.actions .input {
   width: 100%;
+  max-width: 220px;
+  padding: 12px;
+  border-radius: var(--border-radius-big);
+  border: var(--color-input-border);
+  outline: none;
+  transition: all 0.5s ease;
+  box-shadow: var(--box-shadow);
+  cursor: pointer;
 }
 
-.actions button span {
+.actions .input:hover {
+  border: var(--color-input-border-hover);
+  box-shadow: var(--box-shadow);
+}
+
+.actions .input:active {
+  transform: scale(1.20);
+
+}
+
+.actions input::placeholder {
+  color: gray;
+  transition: color 0.3s ease-in-out;
+}
+
+input:hover::placeholder,
+input:focus::placeholder {
+  color:#FF7300; /* Kies hier je gewenste kleur */
+}
+
+.actions .input:focus {
+  border: var(--color-input-border-hover);
+
+}
+
+.actions #submit-knop {
+  border: none;
+  background-color: var(--background-color-button);
+  color: var(--color-text-white);
+  border-radius: var(--border-radius-small);
+  cursor: pointer;
+  padding: 10px 15px;
+  transition: background 0.3s ease;
+}
+
+.actions #submit-knop:hover {
+background-color: var(--background-color-button-hover);
+}
+
+
+
+
+
+/* Toegevoegde CSS voor de 'Go for all recipes' link */
+
+
+
+
+.actions a{
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.actions a {
   text-decoration: none;
-  padding: 15px 50px;
-  color: var(--text-color-button);
-  z-index: 20;
-  transition: all 0.3s ease-in-out;
+  color: var(--link-color-text);
 }
-
-.actions button:hover span {
-  color: var(--background-white);
-  animation: scaleUp 0.3s ease-in-out;
-}
-
-@keyframes scaleUp {
-  0% {
-    transform: scale(1);
-  }
-
-  50% {
-    transform: scale(0.95);
-  }
-
-  100% {
-    transform: scale(1);
-  }
-}
-
 
 
 /* rate functie van recept */
@@ -227,8 +260,10 @@ padding: 40px;
       height: 200px;           /* Stel de hoogte in (pas aan naar de gewenste hoogte) */
       object-fit: cover; 
     border-radius: var(--border-radius-big);
-    position: relative; }
-    
+    position: relative; 
+  
+  }
+
     
     /* einde recept grid */
     /* Like functtie */
@@ -308,127 +343,4 @@ padding: 40px;
       opacity: 0;   
       pointer-events: none; 
     }
-    
-
-
-
-     /* main scherm hier onder */
-     .search-bar form button{
-      padding: 15px 5px;
-      border: none;
-      background-color: var(--background-color-button);
-      color: var(--color-text-white);
-      border-radius: var(--border-radius-small);
-      cursor: pointer;
-      width: 30%;
-
-     }
-
-   .search-bar form button:hover {
-      background-color:var(--background-color-button-hover);
-
-     }
-.search-bar form{
- display: flex;
- flex-direction: column;
- align-items: center;
- justify-content: center;
- margin-top: 5em;
- gap: 1em;
-}   
-
-.search-bar input ::placeholder{
-  font-size: 10px;
-
-}
-    
-     .search-bar input {
-         width: 30%;
-         padding: 10px 5px;
-         border-radius: var(--border-radius-small);
-         border: var(--color-input-border);
-     }
-
-     .search-bar button {
-         padding: 5px 10px;
-         border: none;
-         background-color: var(--background-color-button);
-         color: var(--text-color-button);
-         border-radius: var(--border-radius-small);
-         cursor: pointer;
-
-     }
-
-
-     .filterbuttons {
-         list-style-type: none;
-         display: flex;
-         justify-content: center;
-         gap: 20px;
-         padding: 0;
-
-     }
      
-     .dropdown {
- position: relative;
- display: inline-block;
-}
-
-.dropdown button {
- background-color: var(--background-color-tag-noti);
- color: var(--color-text-white);
- padding: 10px 15px;
- border: none;
- cursor: pointer;
- border-radius: var(--border-radius-medium);
- transition: background 0.3s ease;
-}
-
-.dropdown button:hover {
- background-color: var(--background-color-tag-noti-hover);
-}
-
-.dropdown .content {
- display: none;
- position: absolute;
- top: 100%;
- left: 0;
- min-width: 160px;
- border-radius: var(--border-radius-medium);
- background-color: var(--background-white);
- box-shadow: var(--box-shadow);
- padding: 5px 0;
- opacity: 0;
- transform: translateY(-5px);
- transition: opacity 0.3s ease, transform 0.3s ease;
- z-index: 2;
-}
-
-.dropdown .content li {
- list-style-type: none;
- padding: 0;
-}
-
-.dropdown .content a {
- display: block;
- text-decoration: none;
- padding: 10px;
- color: var(--color-text);
- background-color: var(back --background-white);
- transition: background 0.3s ease;
- border-radius: var(--border-radius-small);
- margin: 2px 10px;
-}
-
-.dropdown .content a:hover {
- background-color: var(--background-color-hover-filter);
-}
-
-.dropdown:focus-within .content {
- display: block;
- opacity: 1;
- transform: translateY(0);
-}   
- 
-
-/* button design */ 

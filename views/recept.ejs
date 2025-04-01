@@ -49,27 +49,32 @@
 
         <section class="information">
             <section class="ingredients">
-                <details>
+                <details class="summary-details">
+
                     <summary>Ingredients</summary>
                     <ul>
                         <% recipe.ingredients.forEach(function(ingredient) { %>
-                            <li><%= ingredient.quantity %></li>
+                            <li><%= ingredient.quantity %> <%= ingredient.name %></li>
                         <% }); %>
                     </ul>
                 </details>
             </section>
+
             <section class="instructions">
-                <details>
-                    <summary>Recipe</summary>
-                    <ol>
-                        <% recipe.instructions.forEach(function(step) { %>
-                            <li><%= step.text %></li>
-                        <% }); %>
-                    </ol>
+                <details class="summary-details">
+
+                  <summary>Recipe</summary>
+                  <ol>
+                    <% recipe.instructions.forEach(function(step) { %>
+                      <li><%= step.text %></li>
+                    <% }); %>
+                  </ol>
                 </details>
-            </section>
+              </section>
         </section>
     </div>
+
+
 
 
 
@@ -112,6 +117,32 @@
             }
         })
     );
+
+// function for open summary or not 
+
+const detailsList = document.querySelectorAll('.summary-details');  // Selecteer alle details elementen
+
+if (window.innerWidth > 768) {
+  detailsList.forEach(details => {
+    details.setAttribute('open', 'true');
+  });
+} else {
+  detailsList.forEach(details => {
+    details.removeAttribute('open');
+  });
+}
+
+window.addEventListener('resize', function() {
+  if (window.innerWidth > 768) {
+    detailsList.forEach(details => {
+      details.setAttribute('open', 'true');
+    });
+  } else {
+    detailsList.forEach(details => {
+      details.removeAttribute('open');
+    });
+  }
+});
 </script>
 </body>
 </html>

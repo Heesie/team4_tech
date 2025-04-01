@@ -30,10 +30,7 @@
   
   
     /* hovers */
-  
     --background-color-hover-filter: #ffefca;
-  
-  
   
    /* buttons */
    --background-color-button: #578A37;
@@ -64,6 +61,12 @@
   
   }
   
+
+  .recept-grid-h2{
+    align-items: center;
+    display: flex;
+    justify-content: center;
+  } 
 .mainscherm-filter {
     padding: 40px;
     max-width: 800px;
@@ -95,7 +98,7 @@
 }
 
 .search-bar input:hover {
-border: var(--color-input--border-hover);
+border: var(--color-input-border-hover);
   box-shadow: var(--box-shadow);
   }
   
@@ -104,7 +107,7 @@ border: var(--color-input--border-hover);
   }
   
   .search-bar input:focus {
-    border: var(--color-input--border-hover);
+    border: var(--color-input-border-hover);
   }
 
 
@@ -149,11 +152,27 @@ border: var(--color-input--border-hover);
     cursor: pointer;
     border-radius: var(--border-radius-medium);
     transition: background 0.3s ease;
+    position: relative; /* Om het pijltje goed te kunnen positioneren */
+
 }
 
 .dropdown button:hover {
     background-color: var(--background-color-tag-noti-hover);
 }
+
+.dropdown button::after {
+    content: '▼';  /* Unicode teken voor een naar beneden wijzend pijltje */
+    font-size: 12px;
+    margin-left: 10px;  /* Ruimte tussen tekst en pijltje */
+    transition: transform 0.3s ease; /* Animatie voor pijltje */
+}
+
+.dropdown.open button::after {
+    transform: rotate(180deg); 
+    content: '▲';/* Draai het pijltje als de dropdown 'open' is */
+}
+
+
 
 .dropdown .content {
     display: none;
@@ -217,6 +236,37 @@ border: var(--color-input--border-hover);
     flex-wrap: wrap;
 }
 
+.selected-filters li{
+    --background-color-hover-filter: #ffefca;
+    padding: 10px 8px;
+    box-shadow: var(--box-shadow);
+    border-radius: var(--border-radius-medium);
+}
+
+.selected-filters button{
+ background-color: transparent;
+ border: none;
+}
+.selected-filters img{
+width: 10px;
+   }
+   
+
+.selected-filters {
+    display: none;
+}
+
+.selected-filters li {
+    display: none;
+}
+
+.recepten-grid-h2{
+    align-items: center;
+    display: flex;  
+    justify-content: center;
+
+}
+
 /* Like functie */
 .like-form {
     position: absolute;
@@ -258,13 +308,6 @@ border: var(--color-input--border-hover);
     fill: var(--fill-heart-color-hover);
     transform: scale(1.1);
 }
-
-
-
-
-
-
-
 
 
 
@@ -339,7 +382,7 @@ border: var(--color-input--border-hover);
     
     .recept-afbeelding {
       width: 100%;             /* Zorgt ervoor dat de afbeelding de breedte van de container gebruikt */
-      height: 200px;           /* Stel de hoogte in (pas aan naar de gewenste hoogte) */
+      height: 250px;           /* Stel de hoogte in (pas aan naar de gewenste hoogte) */
       object-fit: cover; 
     border-radius: var(--border-radius-big);
     position: relative; }
@@ -424,3 +467,4 @@ border: var(--color-input--border-hover);
       pointer-events: none; 
     }
     
+

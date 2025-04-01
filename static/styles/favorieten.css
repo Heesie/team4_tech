@@ -64,44 +64,109 @@
   }
 
 
-.favorieten ul {
+  .favorites {
+    max-width: 400px;
+    margin: auto;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+}
+
+.favorites ul {
     list-style: none;
-      padding: 0;
-  }
-  
-  .favorieten li {
-    background: #fff;
-    margin: 10px 0;
+    padding: 0;
+}
+
+.favorites li {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #f8f8f8;
     padding: 15px;
-    border-radius: 8px;
+    margin-bottom: 10px;
+    border-radius: 10px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    transition: transform 0.2s ease-in-out;
-  }
-  
-  .favorieten li:hover{
-    transform: scale(1.02);
-  }
-  
-  .favorieten img {
-    width: 100%;
-    max-width: 200px;
-    height: auto;
-    border-radius: 8px;
-    margin-top: 10px;
-  }
-  
-  .favorieten a {
-    display: inline-block;
-    margin-top: 20px;
-    padding: 10px 15px;
-    background: #ff6600;
-    color: white;
-    text-decoration: none;
-    border-radius: 5px;
-    font-weight: bold;
-    transition: background 0.3s;
-  }
-  
-  .favorieten a:hover {
-    background: #e55a00;
-  }
+}
+
+.favorites h2 {
+    font-size: 18px;
+    margin: 0;
+}
+
+.favorites p {
+    font-size: 14px;
+    color: #666;
+    margin: 5px 0 0;
+}
+
+.remove-favorite {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 5px;
+}
+
+.remove-favorite img {
+    width: 24px;
+    height: 24px;
+    transition: transform 0.2s;
+}
+
+.remove-favorite:hover img {
+    transform: scale(1.1);
+}
+
+
+
+
+/* search bar favorites */
+
+.search-bar form {
+  display: flex;
+  gap: 1em;
+  justify-content: center;
+  align-items: center;
+  margin-top: 3em;
+}
+
+.search-bar input {
+  width: 30%;
+  padding: 10px;
+  border-radius: var(--border-radius-small);
+  border: var(--color-input-border);
+  outline: none;
+  transition: all 0.5s ease;
+  box-shadow: var(--box-shadow);
+  cursor: pointer;
+}
+
+.search-bar input:hover {
+border: var(--color-input--border-hover);
+box-shadow: var(--box-shadow);
+}
+
+.search-bar input:active {
+  transform: scale(1.20);
+}
+
+.search-bar input:focus {
+  border: var(--color-input--border-hover);
+}
+
+
+.search-bar input::placeholder {
+  font-size: 14px;
+}
+
+.search-bar button {
+  border: none;
+  background-color: var(--background-color-button);
+  color: var(--color-text-white);
+  border-radius: var(--border-radius-small);
+  cursor: pointer;
+  padding: 10px 15px;
+  transition: background 0.3s ease;
+}
+
+.search-bar button:hover {
+  background-color: var(--background-color-button-hover);
+}

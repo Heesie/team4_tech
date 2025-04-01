@@ -15,8 +15,8 @@
             <div class="search-bar">
                 <h1>What would you like to cook?</h1>
                 <form action="/mainscherm" method="GET">
-                    <input type="text" name="q" placeholder="Zoek een gerecht..." required>
-                    <button type="submit">Zoeken</button>
+                    <input type="text" name="q" placeholder="Search for recipe" required>
+                    <button type="submit">Search</button>
                 </form>
             </div>
         
@@ -25,54 +25,75 @@
             <% } %>
         
             <ul class="filterbuttons">
-                <p>Filteren:</p>   
+                <h2>Filter Options:</h2>
                 <li>
                     <div class="dropdown">
-                        <button>Hoofdingrediënt</button>
+                        <button>Mainingredient</button>
                         <ul class="content">
-                            <li><a href="?mainingredient=chicken&q=<%= selectedFilters.q || '' %>&porties=<%= selectedFilters.porties || '' %>&bereidingstijd=<%= selectedFilters.bereidingstijd || '' %>">Kip</a></li>
-                            <li><a href="?mainingredient=cheese&q=<%= selectedFilters.q || '' %>&porties=<%= selectedFilters.porties || '' %>&bereidingstijd=<%= selectedFilters.bereidingstijd || '' %>">Kaas</a></li>
-                            <li><a href="?mainingredient=shrimp&q=<%= selectedFilters.q || '' %>&porties=<%= selectedFilters.porties || '' %>&bereidingstijd=<%= selectedFilters.bereidingstijd || '' %>">Garnalen</a></li>
+                            <li><a href="?mainingredient=chicken&q=<%= selectedFilters.q || '' %>&servings=<%= selectedFilters.servings || '' %>&preptime=<%= selectedFilters.preptime || '' %>">Chicken</a></li>
+                            <li><a href="?mainingredient=cheese&q=<%= selectedFilters.q || '' %>&servings=<%= selectedFilters.servings || '' %>&preptime=<%= selectedFilters.preptime || '' %>">Cheese</a></li>
+                            <li><a href="?mainingredient=shrimp&q=<%= selectedFilters.q || '' %>&servings=<%= selectedFilters.servings || '' %>&preptime=<%= selectedFilters.preptime || '' %>">Shrimp</a></li>
                         </ul>
                     </div>
                     
                     <div class="dropdown">
-                        <button>Porties</button>
+                        <button>Servings</button>
                         <ul class="content">
-                            <li><a href="?porties=2&q=<%= selectedFilters.q || '' %>&mainingredient=<%= selectedFilters.mainingredient || '' %>&bereidingstijd=<%= selectedFilters.bereidingstijd || '' %>">2 porties</a></li>
-                            <li><a href="?porties=4&q=<%= selectedFilters.q || '' %>&mainingredient=<%= selectedFilters.mainingredient || '' %>&bereidingstijd=<%= selectedFilters.bereidingstijd || '' %>">4 porties</a></li>
-                            <li><a href="?porties=6&q=<%= selectedFilters.q || '' %>&mainingredient=<%= selectedFilters.mainingredient || '' %>&bereidingstijd=<%= selectedFilters.bereidingstijd || '' %>">6 porties</a></li>
-                            <li><a href="?porties=8&q=<%= selectedFilters.q || '' %>&mainingredient=<%= selectedFilters.mainingredient || '' %>&bereidingstijd=<%= selectedFilters.bereidingstijd || '' %>">8 porties</a></li>
+                            <li><a href="?servings=2&q=<%= selectedFilters.q || '' %>&mainingredient=<%= selectedFilters.mainingredient || '' %>&preptime=<%= selectedFilters.preptime || '' %>">2 Servings</a></li>
+                            <li><a href="?servings=4&q=<%= selectedFilters.q || '' %>&mainingredient=<%= selectedFilters.mainingredient || '' %>&preptime=<%= selectedFilters.preptime || '' %>">4 Servings</a></li>
+                            <li><a href="?servings=6&q=<%= selectedFilters.q || '' %>&mainingredient=<%= selectedFilters.mainingredient || '' %>&preptime=<%= selectedFilters.preptime || '' %>">6 Servings</a></li>
+                            <li><a href="?servings=8&q=<%= selectedFilters.q || '' %>&mainingredient=<%= selectedFilters.mainingredient || '' %>&preptime=<%= selectedFilters.preptime || '' %>">8 Servings</a></li>
                         </ul>
                     </div>
                     
                     <div class="dropdown">
-                        <button>Bereidingstijd</button>
+                        <button>Prep Time</button>
                         <ul class="content">
-                            <li><a href="?bereidingstijd=15&q=<%= selectedFilters.q || '' %>&porties=<%= selectedFilters.porties || '' %>&mainingredient=<%= selectedFilters.mainingredient || '' %>">Ongeveer 15 min</a></li>
-                            <li><a href="?bereidingstijd=30&q=<%= selectedFilters.q || '' %>&porties=<%= selectedFilters.porties || '' %>&mainingredient=<%= selectedFilters.mainingredient || '' %>">Ongeveer 30 min</a></li>
-                            <li><a href="?bereidingstijd=45&q=<%= selectedFilters.q || '' %>&porties=<%= selectedFilters.porties || '' %>&mainingredient=<%= selectedFilters.mainingredient || '' %>">Ongeveer 45 min</a></li>
-                            <li><a href="?bereidingstijd=60&q=<%= selectedFilters.q || '' %>&porties=<%= selectedFilters.porties || '' %>&mainingredient=<%= selectedFilters.mainingredient || '' %>">Ongeveer 60 min</a></li>
+                            <li><a href="?preptime=15&q=<%= selectedFilters.q || '' %>&servings=<%= selectedFilters.servings || '' %>&mainingredient=<%= selectedFilters.mainingredient || '' %>">About 15 min</a></li>
+                            <li><a href="?preptime=30&q=<%= selectedFilters.q || '' %>&servings=<%= selectedFilters.servings || '' %>&mainingredient=<%= selectedFilters.mainingredient || '' %>">About 30 min</a></li>
+                            <li><a href="?preptime=45&q=<%= selectedFilters.q || '' %>&servings=<%= selectedFilters.servings || '' %>&mainingredient=<%= selectedFilters.mainingredient || '' %>">About 45 min</a></li>
+                            <li><a href="?preptime=60&q=<%= selectedFilters.q || '' %>&servings=<%= selectedFilters.servings || '' %>&mainingredient=<%= selectedFilters.mainingredient || '' %>">About 60 min</a></li>
                         </ul>
                     </div>
                 </li>
             </ul>
-        
+            
             <div class="selected-filters">
-                <h3>Geselecteerde filters:</h3>
+                <h2>Selected filters:</h2>
                 <ul>
-                    <li><strong>Zoekopdracht:</strong> <%= selectedFilters.q || 'Geen' %></li>
-                    <li><strong>Hoofdingrediënt:</strong> <%= selectedFilters.mainingredient || 'Geen' %></li>
-                    <li><strong>Porties:</strong> <%= selectedFilters.porties || 'Geen' %></li>
-                    <li><strong>Bereidingstijd:</strong> <%= selectedFilters.bereidingstijd || 'Geen' %></li>
+                    <li>
+                        <strong>Search:</strong> <%= selectedFilters.q || 'None' %>
+                        <button class="remove-filter" onclick="removeFilter('q')">
+                            <img src="/images/x-black.svg" alt="">
+                        </button>
+                    </li>
+                    <li>
+                        <strong>Main ingredient:</strong> <%= selectedFilters.mainingredient || 'None' %>
+                        <button class="remove-filter" onclick="removeFilter('mainingredient')">
+                            <img src="/images/x-black.svg" alt="">
+                        </button>
+                    </li>
+                    <li>
+                        <strong>Servings:</strong> <%= selectedFilters.servings || 'None' %>
+                        <button class="remove-filter" onclick="removeFilter('servings')">
+                            <img src="/images/x-black.svg" alt="">
+                        </button>
+                    </li>
+                    <li>
+                        <strong>Time:</strong> <%= selectedFilters.preptime || 'None' %>
+                        <button class="remove-filter" onclick="removeFilter('preptime')">
+                            <img src="/images/x-black.svg" alt="">
+                        </button>
+                    </li>
                 </ul>
-            </div>     
-        </section>
-
-        
+            </div>
+            
+            
+               
+        </section>        
     
 <div class="recept-grid-h2">
-    <h2>Recepten:</h2>
+    <h2>Recipes:</h2>
 </div>
 
             <section class="recept-grid">
@@ -80,7 +101,7 @@
                     <% recipes.forEach(recipe => { %>
                         <div class="recept">
                             <img src="<%= recipe.thumbnail_url || '/images/default-recipe.jpg' %>" alt="Gerecht afbeelding" class="recept-afbeelding">
-                            <h2><%= recipe.name %></h2>
+                            <h3><%= recipe.name %></h3>
                             <p class="recept-description"><%= recipe.description || "Geen beschrijving beschikbaar" %></p>
             
                             <form action="/toggle-like/<%= recipe._id %>" method="POST" class="like-form">
@@ -96,13 +117,13 @@
                             </form>                            
 
                             <a href="/recipe/<%= recipe._id %>">
-                                <button>Bekijk Recept</button>
+                                <button>Full Recipe</button>
                             </a>
                         
                         </div>
                     <% }) %>
                 <% } else { %>
-                    <p>Geen recepten gevonden.</p>
+                    <p>No Recipes found.</p>
                 <% } %>
             </section>
             
@@ -129,6 +150,99 @@
                 }
             })
         );
+        
+function removeFilter(filter) {
+            // Haal de huidige query parameters op
+            const urlParams = new URLSearchParams(window.location.search);
+
+            // Verwijder de opgegeven filter uit de query parameters
+            urlParams.delete(filter);
+
+            // Update de URL met de gewijzigde query parameters
+            const newUrl = window.location.pathname + '?' + urlParams.toString();
+
+            // Laad de nieuwe URL om de filters toe te passen
+            window.location.href = newUrl;
+        }
+
+        document.addEventListener("DOMContentLoaded", function () {
+    document.querySelectorAll('.dropdown button').forEach(button => {
+        button.addEventListener('click', function () {
+            const dropdown = this.closest('.dropdown');
+            
+            // Sluit alle dropdowns behalve degene waarop geklikt is
+            document.querySelectorAll('.dropdown').forEach(d => {
+                if (d !== dropdown) {
+                    d.classList.remove('open');
+                }
+            });
+
+            // Toggle de huidige dropdown
+            dropdown.classList.toggle('open');
+        });
+    });
+
+    // Sluit de dropdown als je ergens anders klikt
+    document.addEventListener('click', function (event) {
+        if (!event.target.closest('.dropdown')) {
+            document.querySelectorAll('.dropdown').forEach(d => d.classList.remove('open'));
+        }
+    });
+});
+
+                        // Geef de gebruiker feedback
+                        if (data.success) {
+                            showNotification(`Recept ${recipeName} is ${action === 'like' ? 'toegevoegd aan' : 'verwijderd uit'} je favorieten!`);
+                        } else {
+                            showNotification("Er is een fout opgetreden.");
+                            box.checked = !box.checked; // Zet de checkbox terug naar de vorige status
+                        }
+                    } catch (error) {
+                        console.error('Error:', error);
+                        showNotification("You're not signed in yet..");
+                        box.checked = !box.checked; // Zet de checkbox terug naar de vorige status
+                    }
+                });
+            });
+        });
+
+
+
+
+        // gedeelte selected filter 
+        function updateFiltersVisibility() {
+    const filtersContainer = document.querySelector('.selected-filters');
+    const filterItems = document.querySelectorAll('.selected-filters li');
+    
+    let hasFilters = false;
+
+    filterItems.forEach(filter => {
+        // Haal de tekst op en controleer of het geen 'None' is
+        if (!filter.textContent.includes('None')) {
+            filter.style.display = 'list-item'; // Toon alleen de actieve filters
+            hasFilters = true;
+        } else {
+            filter.style.display = 'none'; // Verberg filters zonder waarde
+        }
+    });
+
+    // Toon de container alleen als er filters zijn
+    filtersContainer.style.display = hasFilters ? 'block' : 'none';
+}
+
+// Roep deze functie aan zodra de pagina laadt
+document.addEventListener('DOMContentLoaded', updateFiltersVisibility);
+
+// gedeelte selected filter
+
+
+function removeFilter(filterType) {
+    // Verwijder de waarde uit het object (of je data-opslag)
+    selectedFilters[filterType] = 'None'; 
+    
+    // Update de UI
+    updateFiltersVisibility();
+}
     </script>
 </body>
 </html>

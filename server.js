@@ -75,23 +75,21 @@ app.get('/logout', (req, res) => {
 app.get('/login', login)
 app.get('/account', authMiddleware, account);
 app.get('/favorites', favorites)
-app.get('/koelkast', koelkast)
-app.get('/pop-up', popup)
-app.get('/allergie', allergie)
-app.get('/kookniveau', kookniveau)
 app.get('/favorieten', favorieten) 
 app.get('/header', header) 
-app.get('/footer', footer) 
-app.get('/intro', tomaat) 
 app.get('/fetchFromMongo', fetchFromMongo) // Nieuwe route voor API-aanroepen
 app.get('/mainscherm', async (req, res) => {
     try {
-        const searchQuery = req.query.q || ""; // Zoekterm (optioneel)
-        const ingredientFilter = req.query.mainingredient; // Hoofdingrediënt filter
-        const servingsFilter = req.query.porties; // Aantal porties filter
-        const bereidingstijdFilter = req.query.bereidingstijd; // Bereidingstijd filter
+        // Haal alle filters op uit de query, maar negeer de 'removeFilter' parameter
+        const filters = { ...req.query };
+        delete filters.removeFilter; // Verwijder 'removeFilter' als het in de query zit
 
-        console.log("Zoekopdracht en filters:", req.query);
+        const searchQuery = filters.q || ""; // Zoekterm (optioneel)
+        const ingredientFilter = filters.mainingredient; // Hoofdingrediënt filter
+        const servingsFilter = filters.servings; // Aantal porties filter
+        const preptimeFilter = filters.preptime; // Bereidingstijd filter
+
+        console.log("Zoekopdracht en filters:", filters);
 
         const db = client.db(process.env.DB_NAME);
         const collection = db.collection(process.env.DB_COLLECTION);
@@ -113,24 +111,21 @@ app.get('/mainscherm', async (req, res) => {
         }
 
         if (servingsFilter) {
-            const porties = parseInt(servingsFilter, 10);
-            if (!isNaN(porties)) {
-                query["num_servings"] = porties;
+            const servings = parseInt(servingsFilter, 10);
+            if (!isNaN(servings)) {
+                query["num_servings"] = servings;
             }
         }
 
-        if (bereidingstijdFilter) {
-            const tijd = parseInt(bereidingstijdFilter, 10);
-            if (!isNaN(tijd)) {
-                query["total_time_minutes"] = { $lte: tijd };
+        if (preptimeFilter) {
+            const time = parseInt(preptimeFilter, 10);
+            if (!isNaN(time)) {
+                query["total_time_minutes"] = { $lte: time };
             }
         }
 
-        // Verifieer de opgestelde query
-        console.log("Opgebouwde MongoDB query:", JSON.stringify(query, null, 2));
-
-        // Haal de recepten op uit de database op basis van de opgestelde query
-        const recipes = await collection.find(query).toArray();
+        // Haal resultaten op
+        const results = await collection.find(query).toArray();
 
         // Haal de gebruiker op (als ingelogd)
         let likedRecipes = [];
@@ -140,26 +135,35 @@ app.get('/mainscherm', async (req, res) => {
                 if (user && user.likes) {
                     likedRecipes = user.likes;
                 }
-            } catch (error) {
-                console.error("Fout bij ophalen van gebruiker:", error);
+            } catch (userError) {
+                console.error("Fout bij ophalen van gebruiker:", userError);
             }
         }
 
         // Render de pagina met recepten
         res.render('mainscherm', {
-            recipes: recipes.map(recipe => ({
+            recipes: results.map(recipe => ({
                 ...recipe,
                 isLiked: likedRecipes.includes(recipe._id.toString()) // Controleer of recept is geliked
             })),
-            message: recipes.length ? "" : "Geen gerechten gevonden.",
-            selectedFilters: req.query // Voeg geselecteerde filters door aan de view
+            message: results.length ? "" : "Geen gerechten gevonden.",
+            selectedFilters: filters // Voeg geselecteerde filters door aan de view
         });
 
     } catch (error) {
-        console.error("Fout bij ophalen van gerechten:", error);
-        res.render('mainscherm', { recipes: [], message: "Er is een fout opgetreden.", selectedFilters: req.query });
+        console.error("Fout bij ophalen van recepten:", error);
+        
+        // Render fallback pagina met foutmelding
+        res.render('mainscherm', { 
+            recipes: [], 
+            message: "Er is een fout opgetreden bij het ophalen van de recepten.", 
+            selectedFilters: req.query 
+        });
     }
 });
+
+
+
 
 app.get('/recipe/:id', async (req, res) => {
     try {
@@ -436,40 +440,13 @@ async function home(req, res) {
     }
 }
 
-
-
-function koelkast(req, res) {
-    res.render('koelkast.ejs');
-}
-
 function favorieten (req, res) {
     res.render('favorieten.ejs');
-}
-
-
-function popup(req, res) {
-    res.render('pop-up.ejs');
 }
 
 function header(req, res) {
     res.render('header.ejs');
 }
-
-function footer(req, res) {
-    res.render('footer.ejs');
-}
-function allergie(req, res) {
-    res.render('allergie.ejs');
-}
-
-function kookniveau(req, res) {
-    res.render('kookniveau.ejs');
-}
-
-function tomaat(req, res) {
-    res.render('intro.ejs');
-}
-
 
 // 404-foutafhandelingsmiddleware
 app.use((req, res) => {
@@ -484,3 +461,79 @@ app.use((err, req, res) => {
 
 
 
+app.get('/favorieten', async (req, res) => {
+    try {
+        // Haal favorieten op uit de database (tijdelijk een lege array als de backend er nog niet is)
+        const favoriteRecipes = []; // Simuleer dat er nog geen recepten zijn
+
+        res.render('favorieten', { recipes: favoriteRecipes }); // Zorg dat 'recipes' bestaat
+    } catch (error) {
+        console.error(error);
+        res.status(500).send("Er is een fout opgetreden.");
+    }
+});
+
+
+
+
+// search function 
+
+app.get('/beginscherm', async (req, res) => {
+    try {
+        const searchQuery = req.query.q || ""; // Zoekterm (optioneel)
+        const ingredientFilter = req.query.mainingredient; // Hoofdingrediënt filter
+        const servingsFilter = req.query.porties; // Aantal porties filter
+        const bereidingstijdFilter = req.query.bereidingstijd; // Bereidingstijd filter
+     
+        console.log("Zoekopdracht en filters:", req.query);
+     
+        const db = client.db(process.env.DB_NAME);
+        const collection = db.collection(process.env.DB_COLLECTION);
+     
+        // Bouw de zoekopdracht
+        let query = {};
+     
+        if (searchQuery) {
+            const searchRegex = new RegExp(searchQuery, 'i');
+            query.$or = [
+                { description: searchRegex },
+                { keywords: searchRegex }
+            ];
+        }
+     
+        if (ingredientFilter) {
+            query["ingredients.name"] = { $regex: new RegExp(ingredientFilter, "i") };
+        }
+     
+        if (servingsFilter) {
+            const porties = parseInt(servingsFilter, 10);
+            if (!isNaN(porties)) {
+                query["num_servings"] = porties;
+            }
+        }
+     
+        if (bereidingstijdFilter) {
+            const tijd = parseInt(bereidingstijdFilter, 10);
+            if (!isNaN(tijd)) {
+                query["total_time_minutes"] = { $lte: tijd };
+            }
+        }
+     
+        // Verifieer de opgestelde query
+        console.log("Opgebouwde MongoDB query:", JSON.stringify(query, null, 2));
+     
+        // Haal de recepten op uit de database op basis van de opgestelde query
+        const recipes = await collection.find(query).toArray();
+     
+        // Render de pagina met de recepten (of een bericht als er geen recepten zijn)
+        res.render('mainscherm', {
+            recipes,
+            message: recipes.length ? "" : "Geen gerechten gevonden.",
+            selectedFilters: req.query // Voeg geselecteerde filters door aan de view
+        });
+     
+    } catch (error) {
+        console.error("Fout bij ophalen van gerechten:", error);
+        res.render('mainscherm', { recipes: [], message: "Er is een fout opgetreden." });
+    }
+    });

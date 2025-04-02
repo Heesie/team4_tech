@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Log in</title>
+    <link rel="stylesheet" href="/styles/basis.css">
+
+</head>
+<body>
+
+        <%- include('header') %>
+    
+    <section class="wrapper">
+        <main class="mainForm">
+            <h2>Log in</h2>
+        
+            <form action="/login" method="POST">
+                <% if (errorMessage) { %>
+                    <div class="error">
+                        <%= errorMessage %>
+                    </div>
+                <% } %>
+
+                <label for="email">Email address</label>
+                <input type="email" id="email" name="email" placeholder="Email address" required>
+
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" placeholder="Password" required>
+
+                <input type="submit" value="Log in" id="button-login">
+            </form>
+
+            <p>No account yet? <a href="/createaccount">Create account</a></p>
+
+        </main>
+    </section>
+    <style>
+
+  #button-login {
+    background: var(--background-color-button);
+    color: var(--text-color-button);
+    border: var(--color-input-border);
+    padding: 12px;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: var(--border-radius-big);
+    cursor: pointer;
+    transition: background 0.3s;
+  }
+  
+  #button-login:hover {
+    background: var(--background-color-button-hover);
+  }
+  
+
+  .wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 90vh;
+    width: 100%;
+    margin-top: 1em}
+
+
+    .mainForm {
+        width: 100%;
+        max-width: 400px;
+        background: var(--background-recept-cards);
+        padding: 2em;
+        border-radius: var(--border-radius-big);
+        box-shadow: var(--box-shadow);
+        
+      }
+
+      @media (max-width:700px){
+        .mainForm{
+          width: 70%;
+        }
+      }
+
+      
+      .mainForm form {
+        display: flex;
+        flex-direction: column;
+      }
+      
+      .mainForm label {
+        font-size: 1em;
+        margin-bottom: 0.5em;
+        font-weight: bold;
+      }
+      
+
+      .mainForm input {
+        padding: 0.8em;
+        margin-bottom: 1.2em;
+        border: var(--color-input--border);
+        border-radius: var(--border-radius-small);
+        border: var(--color-input-border);
+        font-size: 1em;
+        transition: 0.3s;
+      }
+      
+      .mainForm input:focus {
+        outline: none;
+        border-color: var(--color-input-border);
+      }
+      
+      .mainForminput[type="submit"] {
+        background-color: var(--background-color-button);
+        color: #fff;
+        cursor: pointer;
+        font-weight: bold;
+        transition: 0.3s;
+      }
+      
+
+  
+      .mainForm input:focus::placeholder {
+        color: var(--color-text-desktop);
+      }
+    
+      .mainForm input:hover::placeholder{
+        color: var(--color-text-desktop);
+      }
+      .mainForm input:hover {
+        color: var(--color-text-desktop);
+        border: var(--color-input-border-hover);
+      }
+    
+    
+      
+
+
+      
+      .mainForm input[type="submit"]:hover {
+        background-color: var(--background-color-button-hover);
+      }
+
+
+      
+      .mainForm button {
+        margin-bottom: 1em;
+      }
+      
+      .mainForm p {
+        text-align: center;
+        font-size: 0.9em;
+        margin-top: 1.5em;
+      }
+      
+      .mainForm a {
+        color: var(--link-color-text);
+        text-decoration: none;
+        font-weight: bold;
+      }
+      
+      .mainForm a:hover {
+        text-decoration: underline;
+      }
+      
+      .mainForm .error {
+        color: var(--error-color-text);
+        text-align: center;
+        margin-bottom: 1em;
+        font-weight: bold;
+      } 
+
+
+      /* animation bounche for fun */
+
+
+      @keyframes slowBounce {
+        0%, 100% {
+            transform: translateY(0);
+        }
+        50% {
+            transform: translateY(-8px);
+        }
+    }
+    
+    .wrapper {
+        animation: slowBounce 3s ease-in-out infinite;
+    }
+
+
+    </style>
+</body>
+</html>

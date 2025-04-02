@@ -294,7 +294,7 @@ app.post('/toggle-like/:recipeId', authMiddleware, async (req, res) => {
         );
  
         // Redirect terug naar de vorige pagina
-        res.redirect('back');
+        res.location(req.get("Referrer") || "/");
     } catch (error) {
         console.error("Fout bij het toggelen van like status:", error);
         res.status(500).send("Er is een serverfout opgetreden");

@@ -9,8 +9,6 @@
   /* colors fonts */
   --color-text:rgb(37, 37, 37);
   --color-text-white:white;
-
-
   /* backgrounds  */
   --background-page: #FFFDF7;
   --background-white: white;
@@ -68,6 +66,10 @@
 
 --color-darkmode-text:rgb(255, 248, 237);
 --color-darkmode-text-black:black;
+--background-color-darkmode:#1f1f1f;
+--background-color-darkmode-header:#A35D20;
+--background-color-darkmode-cards:#292929;
+
 }
 
   
@@ -95,7 +97,7 @@
 
   @media (prefers-color-scheme: dark) {
     body {
-       background-color: rgb(24, 24, 24);
+       background-color: var(--background-color-darkmode);
       
     }
   }
@@ -127,6 +129,7 @@
   }
 }
 
+
 @media (prefers-color-scheme: dark){
   .wrapper h2 {
     color: black;
@@ -141,7 +144,7 @@
 
 @media (prefers-color-scheme: dark){
   .mobile-nav {
-    background-color: rgb(59, 59, 59);
+  background-color:var(--background-color-darkmode-header);
  }
 }
 
@@ -173,20 +176,6 @@ background-color: rgb(255, 247, 218);
 
 
 
-@media (prefers-color-scheme: dark){
-  .recept {
-    background-color: rgb(37, 37, 37);
-color: var(--color-darkmode-text);
- }
-}
-
-
-@media (prefers-color-scheme: dark){
-  .recept h3 {
-color: var(--color-darkmode-text);
- }
-}
-
 
 @media (prefers-color-scheme: dark) {
   summary {
@@ -200,7 +189,26 @@ color: var(--color-darkmode-text);
     .rating-function h4 {
   
    color: var(--color-darkmode-text);
-      
+    
     }}
   
+
+    @media (prefers-color-scheme: dark) {
+      .recipe-grid .recipe {
+    
+   background-color: var(--background-color-darkmode-cards);
+      
+      }}
   
+    
+      @media (prefers-color-scheme: dark){
+        .recipe h3 {
+      color: var(--color-darkmode-text);
+       }
+      }
+      @media (prefers-color-scheme: dark){
+        .recipe p {
+      color: var(--color-darkmode-text);
+       }
+      }
+      

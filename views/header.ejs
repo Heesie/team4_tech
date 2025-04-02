@@ -1,5 +1,4 @@
-   
-   <link rel="stylesheet" href="/styles/header.css">
+
    <link rel="stylesheet" href="/styles/basis.css">
    <header>
         <div class="nav-placeholder"></div>
@@ -9,11 +8,11 @@
                 <img src="/images/logo-desktop.svg" alt="Logo" class="logo-desktop">
             </a>
         </div>
-        <nav class="desktop-nav">
+        <nav class="desktop-nav">   
             <ul>
                 <li><a href="/">Home</a></li>
                 <li><a href="/recipes">Recipes</a></li>
-                <li><a href="/favorieten">Favorieten</a></li>
+                <li><a href="/favorites">Favorites</a></li>
                 <% if (typeof username !== 'undefined' && username) { %>
                     <li><a href="/account"><%= username %></a></li>
                 <% } else { %>
@@ -29,12 +28,12 @@
 
 
     <nav class="mobile-nav">
-        <button class="close-menu" aria-label="Sluit menu"><img src="/images/x.svg" alt="">
+        <button class="close-menu" aria-label="close menu"><img src="/images/x.svg" alt="">
         </button> 
         <ul>
             <li><a href="/">Home</a></li>
             <li><a href="/recipes">Recipes</a></li>
-            <li><a href="/favorites">Favorieten</a></li>
+            <li><a href="/favorites">Favorites</a></li>
             <% if (typeof username !== 'undefined' && username) { %>
                 <li><a href="/account"><%= username %></a></li>
             <% } else { %>
@@ -44,10 +43,230 @@
     </nav>
 </header>
 
+<style>
+
+header {
+    padding: 1rem;
+    display: flex;
+    justify-content: space-between; 
+    align-items: center;
+    position: relative;
+    background-color: var(--background-color-header);
+}
 
 
+.logo a {
+    display: inline-block;
+    text-decoration: none;
+}
+
+.logo-mobile {
+    display: block;
+  }
+  .logo-desktop {
+    display: none;
+  }
+  
+  /* desktop format shows other logo */
+  @media (min-width: 768px) {
+    .logo-mobile {
+      display: none;
+    }
+    .logo-desktop {
+      display: block;
+    }
+  }
+
+.logo img {
+    width: 60px;
+}
+
+.logo {
+    display: flex;
+    justify-content: center;
+    position: absolute; 
+    left: 50%; 
+    transform: translateX(-50%); 
+}
+
+
+@media screen and (max-width: 767px) {
+    header {
+        justify-content: flex-start;
+    }
+    
+    .logo {
+        position: static; 
+        left: auto; 
+        transform: none; 
+    }
+}
+
+nav.desktop-nav ul {
+    display: flex;
+    list-style: none;
+    margin-left: 17em;
+}
+
+nav.desktop-nav ul li {
+    margin-right: 2em;
+}
+
+nav.desktop-nav ul li a {
+   color: var(--color-text-desktop);
+    text-decoration: none;
+    position: relative;
+    transition: color 0.9 ease;
+    font-size: 18px;
+    }
+
+nav.desktop-nav ul li a:hover {
+    color: var(--color-text-menu-hover); 
+  }
+  
+
+
+  nav.desktop-nav ul li a:after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    bottom: -5px;
+    width: 0;
+    height: 3px;
+    background-color: var(--color-text-menu-hover); 
+    transition: width 0.3s ease, left 0.3s ease;
+      }
+
+
+    nav.desktop-nav ul li a:hover::after{
+        width: 100%;
+        left: 0;
+    }
+
+
+
+.hamburger-menu {
+    display: none;
+    cursor: pointer;
+    background: none;
+    border: none;
+    padding: 0.5rem;
+}
+
+.hamburger-menu img {
+    width: 24px;
+    height: 24px;
+}
+
+
+
+
+/* header function with hamburger menu  */
+
+.mobile-nav {
+    position: absolute;
+    z-index: 99;
+    right: 0;
+    top: 100%;
+    width: 40%;
+    background-color: var(--background-color-menu);
+    max-height: 0px;
+    overflow: hidden;
+    transition: max-height 0.5s ease;
+border-radius: var(--border-radius-small);
+    box-shadow: var(--box-shadow);
+}
+
+.mobile-nav.active {
+    max-height: 1000px;
+}
+
+.mobile-nav ul {
+    list-style: none;
+    padding: 1rem;
+
+    margin-top: 2em;
+}
+
+.mobile-nav ul li {
+    margin-bottom: 1rem;
+}
+
+.mobile-nav ul li a {
+    color: var(--color-text-menu);
+    text-decoration: none;
+    font-size: 1.2rem;
+    display: block;
+    padding: 10px;
+    transition: all 0.3s ease-in-out;
+}
+
+.mobile-nav ul li a:hover {
+color: var(--color-text-menu-hover);
+transform: scale(1.05);
+}
+
+.nav-placeholder {
+    visibility: hidden;
+    width: 50%; 
+}
+
+/* responsive for different screen formats */
+
+
+@media screen and (max-width: 950px) {
+    nav.desktop-nav {
+        display: none;
+    }
+
+    .hamburger-menu {
+        display: block;
+        margin-left: auto; 
+    }
+    
+    .nav-placeholder {
+        display: none;
+    }
+}
+
+
+@media (max-width: 600px) {
+    .input-field {
+        width: 80%;
+    }}
+
+
+    @media (max-width: 600px) {
+        header {
+            justify-content: flex-start;
+        }
+    }
+
+
+
+
+
+/* Button close image*/
+.close-menu {
+    position: absolute;
+    top: 15px;
+    right: 10px;
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+.close-menu img{
+    width: 30px;
+}
+
+
+
+
+</style>
     <script>
-                /* header uitklap menu */
+                /* header function hamburger menu */
 const closeBtn = document.querySelector(".mobile-nav button");
 const openBtn = document.querySelector(".hamburger-menu");
 const nav = document.querySelector(".mobile-nav");
@@ -65,7 +284,6 @@ function closeMenu() {
     nav.classList.remove("active");
 }
 
-/* header uitklap menu */
     </script>
 </body>
 </html>

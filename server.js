@@ -22,7 +22,7 @@ const client = new MongoClient(uri, {
 })
  
 const db = client.db(process.env.DB_NAME);
-const recipesCollection = db.collection('recepten');
+const recipesCollection = db.collection('recipes');
 const usersCollection = db.collection('users');
  
 // BodyParser instellen om formuliergegevens te verwerken
@@ -97,7 +97,7 @@ connectDB();
 async function home(req, res) {
     try {
         // Gebruik de fetchFromMongo functie om recepten op te halen
-      const recipes = await fetchFromMongo('recepten', {}, { limit: 20 });
+      const recipes = await fetchFromMongo('recipes', {}, { limit: 20 });
 
         // Haal de gebruiker op (als ingelogd) om liked recipes te controleren
         let likedRecipes = [];
@@ -216,7 +216,7 @@ async function getRecipe(req, res) {
         const recipeId = req.params.id;
  
         // Gebruik fetchFromMongo om het recept op te halen
-        const recipes = await fetchFromMongo('recepten', { _id: new ObjectId(recipeId) });
+        const recipes = await fetchFromMongo('recipes', { _id: new ObjectId(recipeId) });
 
         if (recipes.length === 0) {
             return res.status(404).send("Recept niet gevonden");
@@ -273,7 +273,7 @@ app.post('/toggle-like/:recipeId', authMiddleware, async (req, res) => {
  
         // Controleer of het recept al geliked is
         const isLiked = user.likes.includes(recipeId);
- 
+
         // Toggle de like status in de gebruikerslijst
         if (isLiked) {
             // Verwijder het recept uit de favorieten
@@ -289,7 +289,7 @@ app.post('/toggle-like/:recipeId', authMiddleware, async (req, res) => {
             );
         }
  
-        // Update de 'isLiked' status van het recept (optioneel)
+        // Update de 'isLiked' status van het recept voor pagina van het recept
         await recipesCollection.updateOne(
             { _id: new ObjectId(recipeId) },
             { $set: { isLiked: !isLiked } }
@@ -310,9 +310,6 @@ app.get('/users-who-liked/:recipeId', authMiddleware, async (req, res) => {
  
   
     try {
-      const db = client.db(process.env.DB_NAME);
-      const recipesCollection = db.collection(process.env.DB_COLLECTION);
-      const usersCollection = db.collection('users');
   
       // Zoek gebruikers die het recept hebben geliked
       console.log("Zoekopdracht en filters:", { likes: { $in: [recipeId] } });
@@ -335,9 +332,9 @@ app.get('/users-who-liked/:recipeId', authMiddleware, async (req, res) => {
   });
 
 ////zoekfunctie////
-async function fetchFromMongo(collectionRecepten, query = {}, options = {}) {
+async function fetchFromMongo(collectionRecipes, query = {}, options = {}) {
     try {
-        const collection = db.collection(collectionRecepten); // Selecteer de collectie
+        const collection = db.collection(collectionRecipes); // Selecteer de collectie
  
         // Voer de query uit met eventuele opties (bijv. limiet, sortering)
         const results = await collection.find(query, options).toArray();
@@ -364,8 +361,6 @@ function login(req, res) {
 function account(req, res) {
     res.render('account');
 }
-
-
  
 function authMiddleware(req, res, next) {
     if (!req.session || !req.session.userId) {
@@ -417,10 +412,6 @@ app.post('/createAccount', async (req, res) => {
     }
  
     try {
-        // Verkrijg toegang tot de gebruikersverzameling in de database
-        const database = client.db(process.env.DB_NAME);
-        const usersCollection = database.collection('users');
- 
         // Controleer of e-mail al bestaat
         const existingUser = await usersCollection.findOne({ email });
         if (existingUser) return res.render('createAccount', { errorMessage: 'E-mail is al geregistreerd' });
@@ -462,10 +453,6 @@ app.post('/login', async (req, res) => {
     }
  
     try {
-        // Verkrijg toegang tot de gebruikersverzameling in de database
-        const database = client.db(process.env.DB_NAME);
-        const usersCollection = database.collection('users');
-    
         // Zoek de gebruiker op e-mail
         const user = await usersCollection.findOne({ email });
         if (!user) {

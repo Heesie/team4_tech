@@ -5,7 +5,6 @@
     <title>Account</title>
 
     <link rel="stylesheet" href="/styles/basis.css">
-    <link rel="stylesheet" href="/styles/account.css">
 </head>
 <body>
 
@@ -24,6 +23,83 @@
             <p class="logout"><a href="/logout">Log out</a></p>
         </main>
     </section>
+<style>
+    .wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 90vh;
+    width: 100%;
 
+
+  }
+
+
+  .mainaccount {
+    width: 80%;
+    max-width: 400px;
+    background: var(--background-white);
+    padding: 2em;
+    border-radius: var(--border-radius-big);
+    box-shadow: var(--box-shadow);
+    
+  }
+  
+  .mainaccount form {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .mainaccount label {
+    font-size: 1em;
+    margin-bottom: 0.5em;
+    font-weight: bold;
+  }
+  
+  .mainaccount input {
+    padding: 0.8em;
+    margin-bottom: 1.2em;
+    border: var(--color-input-border);
+    border-radius: var(--border-radius-small);
+    font-size: 1em;
+    transition: 0.3s;
+  }
+
+  .mainaccount button{
+    background-color: var(--background-color-button);
+    padding: 0.8em;
+    margin-bottom: 1.2em;
+    border-radius: var(--border-radius-small);
+    font-size: 1em;
+    transition: 0.3s;
+    border: none;
+    color: var(--text-color-button);
+
+  }
+
+  .mainaccount a {
+    color: var(--link-color-text);
+    text-decoration: none;
+    font-weight: bold;
+  }
+
+
+      /* animation bounche for fun */
+
+      @keyframes slowBounce {
+        0%, 100% {
+            transform: translateY(0);
+        }
+        50% {
+            transform: translateY(-8px);
+        }
+    }
+    
+    .wrapper {
+        animation: slowBounce 3s ease-in-out infinite;
+    }
+
+
+</style>
 </body>
 </html>

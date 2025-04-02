@@ -23,7 +23,7 @@
     <div class="recipe">
         <section class="grid-wrap">
         <div class="image-container">
-            <img src="<%= recipe.thumbnail_url || '/images/default-recipe.jpg' %>" alt="image of the recipe" class="recipe-afbeelding">
+            <img loading="lazy" src="<%= recipe.thumbnail_url || '/images/default-recipe.jpg' %>" alt="image of the recipe" class="recipe-afbeelding">
             <h2><%= recipe.name %></h2>
 
             <form action="/toggle-like/<%= recipe._id %>" method="POST" class="like-form">

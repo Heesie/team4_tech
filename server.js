@@ -332,9 +332,6 @@ app.get('/users-who-liked/:recipeId', authMiddleware, async (req, res) => {
     }
   });
 
-
-app.listen(2000, () => console.log("De server draait op host 2000"));
- 
 ////zoekfunctie////
 async function fetchFromMongo(collectionRecepten, query = {}, options = {}) {
     try {

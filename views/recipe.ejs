@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Recipe</title>
     <link rel="stylesheet" href="/styles/basis.css">
-    <link rel="stylesheet" href="/styles/recipe.css">
     <style>
    
     </style>
@@ -21,10 +20,10 @@
     </div>
 
 
-    <div class="recept">
+    <div class="recipe">
         <section class="grid-wrap">
-        <div class="afbeelding">
-            <img src="<%= recipe.thumbnail_url || '/images/default-recipe.jpg' %>" alt="Gerecht afbeelding" class="recept-afbeelding">
+        <div class="image-container">
+            <img src="<%= recipe.thumbnail_url || '/images/default-recipe.jpg' %>" alt="image of the recipe" class="recipe-afbeelding">
             <h2><%= recipe.name %></h2>
 
             <form action="/toggle-like/<%= recipe._id %>" method="POST" class="like-form">
@@ -95,16 +94,324 @@
       </div>
     </section>
 </main>
+<style>
+   main {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
 
+.back{
+    padding: 20px;
+}
+
+.back button{ 
+border: none;
+background-color: var(--background-color-button);
+color: var(--color-text-white);
+padding: 5px 10px;
+border-radius: var(--border-radius-small);
+}
+
+.recipe {
+    max-width: 100%;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.image-container {
+    position: relative;
+    text-align: center;
+}
+
+.image-container img {
+    width: 100%;
+    border-radius: var(--border-radius-small);
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+@media (min-width: 1000px) {
+  .image-container img {
+      width: 500px;
+      height: 500px; 
+  }
+.recipe {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+.grid-wrap{
+  grid-column-start: 1;
+}
+.information{
+  grid-column-start: 2;
+  margin-right: 3em;
+}
+}
+
+
+
+
+@media (min-width: 769px) {
+
+  .summary-details ul {
+    display: block; 
+  }
+}
+
+
+@media (min-width: 769px) {
+  .summary-details {
+    display: block;  /* detils are always shown */
+  }
+
+  summary::marker{
+    content: none;
+
+  }
+  summary {
+    pointer-events: none;
+  }
+}
+
+
+@media (max-width: 768px) {
+  .summary-details {
+    display: block;
+  }
+}
+
+
+
+.information li  {
+  font-size: 18px;
+  line-height: 1.8;
+  padding: 8px 0;
+  color: #333;
+  transition: all 0.3s ease;
+}
+
+/* responsive for other screen formats */
+@media (min-width: 1024px) {
+  .information li {
+    font-size: 14px;
+    line-height: 1.5;
+    padding: 5px 0;
+    color: unset;
+    transition: unset;
+  }
+}
+
+
+.info {
+    display: flex;
+    justify-content: space-around;
+    text-align: center;
+    padding: 15px;
+}
+
+
+  details {
+    margin-bottom: 20px;
+    border: var(--color-input-border);
+    border-radius: var(--border-radius-medium);
+    overflow: hidden;
+    transition: box-shadow 0.2s ease, transform 0.3s ease;
+    box-shadow: var(--box-shadow);
+
+  }
+
+  details:hover {
+    box-shadow: var(--box-shadow);
+    transform: scale(1.02);
+  }
+  
+  summary {
+    color: #444;
+    font-size: 18px;
+    font-weight: 600;
+padding: 15px 100px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    user-select: none;
+    border: none;
+    outline: none;
+  }
+  
+  summary:hover {
+    background-color: #e0e0e0;
+  }
+
+  details[open] summary {
+    background-color: var(--background-color-tag-noti);
+    color: var(--color-text-white);
+  }
+
+
+  /* rating function */
+
+
+.rating-function {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 5em;
+}
+.rating-function h4{
+    font-size: 20px;
+}
+
+  .rating {
+    display: inline-block;
+  }
+  
+  .rating input {
+    display: none;
+  }
+  
+  .rating label {
+    float: right;
+    cursor: pointer;
+    color: #ccc;
+    transition: color 0.3s;
+  }
+  
+  .rating label:before {
+    content: '\2605';
+    font-size: 30px;
+  }
+  
+  .rating input:checked ~ label,
+  .rating label:hover,
+  .rating label:hover ~ label {
+    color: #f4d913;
+    transition: color 0.3s;
+  }
+  
+
+/* like function */
+.like-form {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  z-index: 10;
+}
+
+/* Style for like button */
+.like-button {
+  background-color: var(--background-recept-cards);
+  border: none;
+  cursor: pointer;
+  border-radius: var(--border-radius-small);
+  transition: transform 0.3s ease, fill 0.3s ease;
+}
+
+/* Static heart */
+.like-button svg {
+  cursor: pointer;
+  width: 40px;
+  height: 40px;
+  fill: var(--fill-heart-color);
+  transition: transform 0.3s ease, fill 0.3s ease;
+  background-color: var(--background-recept-cards);
+  padding: 5px;
+  border-radius: var(--border-radius-medium);
+}
+
+/* animation when liking */
+.like-button:active svg {
+  fill: var(--fill-heart-color-hover);
+  transform: scale(1.2);
+  transition: 700ms;
+}
+
+/* if recipe is liked */
+.like-button.liked svg {
+  fill: var(--fill-heart-color-hover);
+  transform: scale(1.1);
+}
+
+  /* .like {
+    position: absolute;
+    top: 20px; 
+    right: 20px;
+    z-index: 10; 
+    
+    }
+    
+    .like svg {
+    cursor: pointer;
+    width: 40px;
+    height: 40px;
+    fill: var(--fill-heart-color);
+    transition: transform 0.3s ease, fill 0.3s ease;
+    background-color: var(--background-recept-cards);
+    padding: 5px;
+    border-radius: var(--border-radius-medium);
+    }
+    
+    
+    .like:active svg {
+    fill: var(--fill-heart-color-hover);
+    transform: scale(1.2);
+    transition: 700ms;
+    }
+    
+    .like-checkbox {
+    display: none;
+    }
+    
+    .like-checkbox:checked + label svg {
+    fill: var(--fill-heart-color-hover);
+    transform: scale(1.1);
+    transition: transform 0.5s ease, fill 0.5s ease;
+    }
+    
+    .like-checkbox:not(:checked) + label svg {
+    transform: scale(1);
+    transition: transform 0.5s ease, fill 0.5s ease;
+    } */
+
+
+    /* notifiction for liked recipe */
+
+    .notification {
+        position: fixed;  
+        top: 100px;
+        right: -400px; 
+        background: var(--background-color-tag-noti);
+        color: var(--color-text-white);
+        border-radius:var(--border-radius-small);
+        font-size: 14px;
+        padding-top: 15px;
+        padding-left: 10px;
+        padding-right: 10px;
+        padding-bottom: 15px;
+        transition: right 0.5s ease-in-out, opacity 0.5s ease-in-out;  
+        box-shadow: var(--box-shadow);
+        z-index: 9999;  
+        opacity: 0; 
+        margin-left: 3em;
+      }
+      
+      .notification.show {
+        right: 20px;  
+        opacity: 1;  
+      }
+      
+      .notification.hide {
+        right: -400px; 
+        opacity: 0;   
+        pointer-events: none; 
+      }
+</style>
 <script>
-    // gedeelte like notificatie
+  //  like function
     const notification = document.createElement("div");
     
     notification.className="notification";
     document.body.appendChild(notification);
     
     function showNotification(recipeName){
-        notification.textContent = `"${recipeName}" is toegevoegd aan je favorieten !`;
+        notification.textContent = `"${recipeName}" added to your favorites`;
         notification.classList.add("show");
         setTimeout(() =>notification.classList.remove("show"), 3000 );
     }
@@ -120,7 +427,7 @@
 
 // function for open summary or not 
 
-const detailsList = document.querySelectorAll('.summary-details');  // Selecteer alle details elementen
+const detailsList = document.querySelectorAll('.summary-details');  // selected details
 
 if (window.innerWidth > 768) {
   detailsList.forEach(details => {

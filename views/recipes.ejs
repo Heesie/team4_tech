@@ -123,7 +123,7 @@
                         </div>
                     <% }) %>
                 <% } else { %>
-                    <p>No Recipes found.</p>
+                    <p>No recipes found.</p>
                 <% } %>
             </section>
     </main>
@@ -203,6 +203,7 @@ border: var(--color-input-border-hover);
     list-style-type: none;
     display: flex;
     justify-content: center;
+    align-items: center;
     gap: 15px;
     padding: 20px 0;
     flex-wrap: wrap;
@@ -456,17 +457,7 @@ width: 10px;
 }
 </style>
 <script>
-    // gedeelte like notificatie
-    const notification = document.createElement("div");
-    
-    notification.className="notification";
-    document.body.appendChild(notification);
-    
-    function showNotification(recipeName){
-        notification.textContent = `"${recipeName}" is toegevoegd aan je favorieten !`;
-        notification.classList.add("show");
-        setTimeout(() =>notification.classList.remove("show"), 3000 );
-    }
+
     
     document.querySelectorAll(".like-checkbox").forEach(box =>
         box.addEventListener("change", () => {
@@ -516,6 +507,7 @@ document.addEventListener('click', function (event) {
 });
 });
 
+
 document.addEventListener("DOMContentLoaded", function () {
     const selectedFilters = document.querySelector(".selected-filters");
     const filterItems = selectedFilters.querySelectorAll("li");
@@ -535,10 +527,6 @@ document.addEventListener("DOMContentLoaded", function () {
     // Hele sectie verbergen als geen filters actief zijn
     selectedFilters.style.display = hasActiveFilter ? "block" : "none";
 });
-
-
-
- 
 
 
 

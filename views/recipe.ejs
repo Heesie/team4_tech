@@ -93,6 +93,14 @@
         <label for="star1"></label>
       </div>
     </section>
+
+    <div class="user-likes-container">
+      <h3 class="like-heading">Dit zijn gebruikers die dit recept ook leuk vinden:</h3>
+      <div id="users-who-liked" data-recipe-id="<%= recipe._id %>" class="user-list"></div>
+      <div class="chat-icon">
+        <img src="https://cdn-icons-png.flaticon.com/512/1384/1384023.png" alt="Chat icoon" width="40">
+      </div>
+    </div>
 </main>
 <style>
    main {
@@ -329,49 +337,47 @@ padding: 15px 100px;
   transform: scale(1.1);
 }
 
-  /* .like {
-    position: absolute;
-    top: 20px; 
-    right: 20px;
-    z-index: 10; 
-    
-    }
-    
-    .like svg {
-    cursor: pointer;
-    width: 40px;
-    height: 40px;
-    fill: var(--fill-heart-color);
-    transition: transform 0.3s ease, fill 0.3s ease;
-    background-color: var(--background-recept-cards);
-    padding: 5px;
-    border-radius: var(--border-radius-medium);
-    }
-    
-    
-    .like:active svg {
-    fill: var(--fill-heart-color-hover);
-    transform: scale(1.2);
-    transition: 700ms;
-    }
-    
-    .like-checkbox {
-    display: none;
-    }
-    
-    .like-checkbox:checked + label svg {
-    fill: var(--fill-heart-color-hover);
-    transform: scale(1.1);
-    transition: transform 0.5s ease, fill 0.5s ease;
-    }
-    
-    .like-checkbox:not(:checked) + label svg {
-    transform: scale(1);
-    transition: transform 0.5s ease, fill 0.5s ease;
-    } */
+.user-likes-container {
+  border: 1px solid #e0e0e0;
+  padding: 20px;
+  border-radius: 8px;
+  max-width: 300px;
+  position: relative;
+}
+
+.like-heading {
+  color: #2c3e50;
+  margin-bottom: 15px;
+  font-size: 1.2em;
+}
+
+.user-list {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.user-list li {
+  padding: 8px 0;
+  border-bottom: 1px solid #eee;
+  display: flex;
+  align-items: center;
+}
+
+.chat-icon {
+  position: absolute;
+  bottom: -20px;
+  right: -20px;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.chat-icon:hover {
+  transform: scale(1.1);
+}
 
 
-    /* notifiction for liked recipe */
+
 
     .notification {
         position: fixed;  
@@ -404,6 +410,10 @@ padding: 15px 100px;
       }
 </style>
 <script>
+
+
+
+
   //  like function
     const notification = document.createElement("div");
     
@@ -450,6 +460,40 @@ window.addEventListener('resize', function() {
     });
   }
 });
+
+
+async function fetchUsersWhoLiked(recipeId) {
+    try {
+      console.log("Gebruikte recipeId:", recipeId); // Debugging
+ 
+      const response = await fetch(`/users-who-liked/${recipeId}`);
+      if (!response.ok) {
+        throw new Error('Fout bij het ophalen van gebruikers');
+      }
+      const users = await response.json();
+ 
+      const usersList = document.getElementById('users-who-liked');
+      usersList.innerHTML = users.map(user => `
+        <div class="user">
+          <img src="${user.avatarUrl}" alt="Avatar" class="avatar">
+          <span>${user.username}</span>
+        </div>
+      `).join('');
+    } catch (error) {
+      console.error("Fout bij het ophalen van gebruikers:", error);
+    }
+  }
+ 
+  document.addEventListener("DOMContentLoaded", function () {
+    const usersList = document.getElementById('users-who-liked');
+    const recipeId = usersList.dataset.recipeId; // Haal recipeId op
+ 
+    if (recipeId) {
+      fetchUsersWhoLiked(recipeId);
+    }
+  });
+
+
 </script>
 </body>
 </html>

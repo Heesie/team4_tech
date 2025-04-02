@@ -83,15 +83,29 @@ async function home(req, res) {
     try {
         // Gebruik de fetchFromMongo functie om recepten op te halen
         const recipes = await fetchFromMongo(process.env.DB_COLLECTION, {}, { limit: 20 });
- 
+
+        // Haal de gebruiker op (als ingelogd) om liked recipes te controleren
+        let likedRecipes = [];
+        if (req.session.userId) {
+            try {
+                const user = await usersCollection.findOne({ _id: new ObjectId(req.session.userId) });
+                if (user && user.likes) {
+                    likedRecipes = user.likes;
+                }
+            } catch (userError) {
+                console.error("Fout bij ophalen van gebruiker:", userError);
+            }
+        }
+
         // Zorg ervoor dat de recepten correct worden geformatteerd voor de EJS-weergave
         const formattedRecipes = recipes.map(recipe => ({
             _id: recipe._id.toString(), // ObjectId naar string converteren
             name: recipe.name,
             description: recipe.description || 'Geen beschrijving beschikbaar',
-            thumbnail_url: recipe.thumbnail_url || '/images/default-recipe.jpg' // Standaardafbeelding als er geen beschikbaar is
+            thumbnail_url: recipe.thumbnail_url || '/images/default-recipe.jpg', // Standaardafbeelding als er geen beschikbaar is
+            isLiked: likedRecipes.includes(recipe._id.toString()) // Controleer of recept is geliked
         }));
- 
+
         // Render de home.ejs met de recepten
         res.render('home.ejs', { recipes: formattedRecipes });
     } catch (error) {
@@ -280,6 +294,38 @@ app.post('/toggle-like/:recipeId', authMiddleware, async (req, res) => {
     }
 });
  
+
+app.get('/users-who-liked/:recipeId', authMiddleware, async (req, res) => {
+    const recipeId = req.params.recipeId;
+    const userId = req.session.userId;  // Haal de ingelogde gebruiker uit de sessie
+ 
+  
+    try {
+      const db = client.db(process.env.DB_NAME);
+      const recipesCollection = db.collection(process.env.DB_COLLECTION);
+      const usersCollection = db.collection('users');
+  
+      // Zoek gebruikers die het recept hebben geliked
+      console.log("Zoekopdracht en filters:", { likes: { $in: [recipeId] } });
+      const users = await usersCollection.find({ likes: { $in: [recipeId] } }).toArray();
+      console.log(users);
+  
+      if (!users.length) {
+        return res.status(404).send("Geen gebruikers gevonden die dit recept hebben geliked");
+      }
+  
+      // Stuur de lijst van gebruikers terug
+      res.json(users.map(user => ({
+        username: user.username,
+      })));
+    } catch (error) {
+      console.error("Fout bij het vinden van gebruikers die het recept hebben geliked:", error);
+      res.status(500).send("Er is een serverfout opgetreden");
+      console.log("Ontvangen recipeId:", recipeId);
+    }
+  });
+
+
 app.listen(2000, () => console.log("De server draait op host 2000"));
  
 ////zoekfunctie////
@@ -475,11 +521,7 @@ app.use((err, req, res) => {
 });
  
  
- 
- 
- 
- 
- 
+
  
 // search function
  

@@ -60,9 +60,7 @@
 
 }
 
-
-
-  .begin-scherm-h2 {
+  .home-screen-h2 {
     align-items: center;
     display: flex;
     justify-content: center;
@@ -70,26 +68,26 @@
 
 
 
-  .grid-pagina img {
+  .grid-page img {
     width: 50em;
     max-width: 100%;
   }
   
 
-  .grid-pagina content {
+  .grid-page content {
     grid-column-start: 1/2;
 
   }
 
-  .grid-pagina h1 {
+  .grid-page h1 {
     font-size: clamp(1.5rem, 3vw, 4rem);
 }
 
-.grid-pagina p {
+.grid-page p {
     font-size: clamp(1rem, 1.5vw, 2.5rem);
 }
 
-.grid-pagina .actions {
+.grid-page .actions {
   grid-column-start: 2/3;
   align-self: start;
 }
@@ -99,7 +97,7 @@
   gap: 1em;
 }
 
-  .grid-pagina {
+  .grid-page {
     display: grid;
     grid-template-columns: 1fr 1fr;
     align-items: center;
@@ -108,7 +106,7 @@ margin-right: 10em;
 
   }
 
-/* Zoekinvoer en submitknop behouden */
+/* search input and submit buttons  */
 .actions .input {
   width: 100%;
   max-width: 220px;
@@ -138,7 +136,7 @@ margin-right: 10em;
 
 input:hover::placeholder,
 input:focus::placeholder {
-  color:#FF7300; /* Kies hier je gewenste kleur */
+  color:var(--color-text-desktop);
 }
 
 .actions .input:focus {
@@ -146,7 +144,7 @@ input:focus::placeholder {
 
 }
 
-.actions #submit-knop {
+.actions #submit-button {
   border: none;
   background-color: var(--background-color-button);
   color: var(--color-text-white);
@@ -156,15 +154,11 @@ input:focus::placeholder {
   transition: background 0.3s ease;
 }
 
-.actions #submit-knop:hover {
+.actions #submit-button:hover {
 background-color: var(--background-color-button-hover);
 }
 
 
-
-
-
-/* Toegevoegde CSS voor de 'Go for all recipes' link */
 
 
 
@@ -181,13 +175,11 @@ background-color: var(--background-color-button-hover);
 }
 
 
-/* rate functie van recept */
 
-
-
+/* responsive home screen */
 
 @media (max-width: 768px){
-  .grid-pagina {
+  .grid-page {
     grid-template-columns: 1fr;
     margin: 0;
 padding: 40px;
@@ -202,21 +194,18 @@ padding: 40px;
 
 
 
-   /* Responsieve aanpassingen voor ipad-formaat */
 
 
-  /* gedeelte recept grid */
+/* grid for the recipe template */
 
-
-
-.recept-grid {
+.recipe-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     gap: 50px;
     padding: 20px;
     }
     
-    .recept {
+    .recipe {
     position: relative;
     display: flex;
     flex-direction: column;
@@ -225,22 +214,22 @@ padding: 40px;
     border-radius: 10px;
     box-shadow: var(--box-shadow);
     }
-    
-    .recept h3 {
+
+    .recipe h3 {
     margin-top: 20px;
     font-size: 18px;
     font-weight: bold;
     }
     
-    .recept-description {
+    .recipe-description {
     font-size: 14px;
     display: -webkit-box;
     -webkit-box-orient: vertical;
-    -webkit-line-clamp: 2; /* Laat alleen maar  regels zien (van chat) */
+    -webkit-line-clamp: 2; /* Let us see 2 rows of text from the API */
     overflow: hidden;
     }
     
-    .recept button {
+    .recipe button {
     background-color: var(--background-color-button);
     color: var(--text-color-button);
     border: none;
@@ -251,22 +240,21 @@ padding: 40px;
     margin-top: auto;
     }
     
-    .recept button:hover {
+    .recipe button:hover {
     background-color: var(--background-color-button-hover);
     }
     
-    .recept-afbeelding {
-      width: 100%;             /* Zorgt ervoor dat de afbeelding de breedte van de container gebruikt */
-      height: 200px;           /* Stel de hoogte in (pas aan naar de gewenste hoogte) */
+    .recipe-image {
+      width: 100%;            
+      height: 200px;          
       object-fit: cover; 
     border-radius: var(--border-radius-big);
     position: relative; 
   
   }
-
     
-    /* einde recept grid */
-    /* Like functtie */
+    /* End of the recipe grid */
+    /* Like function */
     .like {
     position: absolute;
     top: 20px; 
@@ -308,10 +296,10 @@ padding: 40px;
     transform: scale(1);
     transition: transform 0.5s ease, fill 0.5s ease;
     }
-    /* einde like functie */
+    /* end like function */
     
     
-    /* media grid 1e pagina naast elkaar */
+
     
     /* notifcation  */
     .notification {

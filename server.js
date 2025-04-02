@@ -22,7 +22,7 @@ const client = new MongoClient(uri, {
 })
  
 const db = client.db(process.env.DB_NAME);
-const recipesCollection = db.collection(process.env.DB_COLLECTION);
+const recipesCollection = db.collection('recepten');
 const usersCollection = db.collection('users');
  
 // BodyParser instellen om formuliergegevens te verwerken
@@ -78,12 +78,25 @@ app.get('/logout', (req, res) => {
         console.log("Uitgelogd!")
     });
 });
- 
+
+app.listen(2000, () => console.log("De server draait op host 2000"));
+
+async function connectDB() {
+    try {
+        await client.connect();
+        console.log("Verbonden met MongoDB");
+    } catch (error) {
+        console.error("MongoDB verbinding mislukt:", error);
+    }
+}
+
+connectDB();
+
 async function home(req, res) {
     try {
         // Gebruik de fetchFromMongo functie om recepten op te halen
-        const recipes = await fetchFromMongo(process.env.DB_COLLECTION, {}, { limit: 20 });
- 
+        const recipes = await fetchFromMongo('recepten', {}, { limit: 20 });
+
         // Zorg ervoor dat de recepten correct worden geformatteerd voor de EJS-weergave
         const formattedRecipes = recipes.map(recipe => ({
             _id: recipe._id.toString(), // ObjectId naar string converteren
@@ -98,9 +111,10 @@ async function home(req, res) {
         console.error('Fout bij ophalen van recepten uit MongoDB:', error);
         res.render('home.ejs', { recipes: [] }); // Render een lege lijst bij een fout
     }
-}
+} 
+
  
- 
+
 async function allrecipes(req, res) {
     try {
         // Haal alle filters op uit de query, maar negeer de 'removeFilter' parameter
@@ -113,11 +127,7 @@ async function allrecipes(req, res) {
         const preptimeFilter = filters.preptime; // Bereidingstijd filter
  
         console.log("Zoekopdracht en filters:", filters);
- 
-        const db = client.db(process.env.DB_NAME);
-        const collection = db.collection(process.env.DB_COLLECTION);
-        const usersCollection = db.collection('users');
- 
+
         // Bouw de zoekopdracht
         let query = {};
  
@@ -148,8 +158,8 @@ async function allrecipes(req, res) {
         }
  
         // Haal resultaten op
-        const results = await collection.find(query).toArray();
- 
+        const results = await recipesCollection.find(query).toArray();
+
         // Haal de gebruiker op (als ingelogd)
         let likedRecipes = [];
         if (req.session.userId) {
@@ -190,8 +200,8 @@ async function getRecipe(req, res) {
         const recipeId = req.params.id;
  
         // Gebruik fetchFromMongo om het recept op te halen
-        const recipes = await fetchFromMongo(process.env.DB_COLLECTION, { _id: new ObjectId(recipeId) });
- 
+        const recipes = await fetchFromMongo('recepten', { _id: new ObjectId(recipeId) });
+
         if (recipes.length === 0) {
             return res.status(404).send("Recept niet gevonden");
         }
@@ -236,9 +246,6 @@ app.post('/toggle-like/:recipeId', authMiddleware, async (req, res) => {
     const userId = req.session.userId;  // Haal de ingelogde gebruiker uit de sessie
  
     try {
-        const db = client.db(process.env.DB_NAME);
-        const recipesCollection = db.collection(process.env.DB_COLLECTION);
-        const usersCollection = db.collection('users');
         
         // Zoek het recept op basis van het recipeId
         const recipe = await recipesCollection.findOne({ _id: new ObjectId(recipeId) });
@@ -279,13 +286,10 @@ app.post('/toggle-like/:recipeId', authMiddleware, async (req, res) => {
         res.status(500).send("Er is een serverfout opgetreden");
     }
 });
- 
-app.listen(2000, () => console.log("De server draait op host 2000"));
- 
+
 ////zoekfunctie////
 async function fetchFromMongo(collectionRecepten, query = {}, options = {}) {
     try {
-        const db = client.db(process.env.DB_NAME); // Verbind met de database
         const collection = db.collection(collectionRecepten); // Selecteer de collectie
  
         // Voer de query uit met eventuele opties (bijv. limiet, sortering)
@@ -296,18 +300,7 @@ async function fetchFromMongo(collectionRecepten, query = {}, options = {}) {
         throw error; // Gooi de fout opnieuw om deze hogerop te behandelen
     }
 }
- 
- 
-// Probeer verbinding te maken met de database
-client.connect()
-  .then(() => {
-    console.log('Verbinding met de database succesvol opgezet');
-  })
-  .catch((err) => {
-    console.error(`Fout bij het verbinden met de database: ${err}`);
-    console.error(`Gebruikte URI: ${uri}`);
-  });
- 
+
   function createAccount(req, res) {
     res.render('createAccount', {
         errorMessage: '',
@@ -455,10 +448,7 @@ app.post('/login', async (req, res) => {
         res.status(500).send("Server error");
     }
 });
- 
- 
- 
- 
+
 function header(req, res) {
     res.render('header.ejs');
 }
@@ -491,9 +481,6 @@ app.get('/home', async (req, res) => {
         const bereidingstijdFilter = req.query.bereidingstijd; // Bereidingstijd filter
      
         console.log("Zoekopdracht en filters:", req.query);
-     
-        const db = client.db(process.env.DB_NAME);
-        const collection = db.collection(process.env.DB_COLLECTION);
      
         // Bouw de zoekopdracht
         let query = {};
@@ -528,7 +515,7 @@ app.get('/home', async (req, res) => {
         console.log("Opgebouwde MongoDB query:", JSON.stringify(query, null, 2));
      
         // Haal de recepten op uit de database op basis van de opgestelde query
-        const recipes = await collection.find(query).toArray();
+        const recipes = await usersCollection.find(query).toArray();
      
         // Render de pagina met de recepten (of een bericht als er geen recepten zijn)
         res.render('recipes', {

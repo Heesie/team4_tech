@@ -65,7 +65,9 @@ app.get('/fetchFromMongo', fetchFromMongo) // Nieuwe route voor API-aanroepen
 app.get('/login', login)
 app.get('/account', authMiddleware, account);
 app.get('/recipe/:id', getRecipe);
- 
+
+
+
 // Route om uit te loggen
 app.get('/logout', (req, res) => {
     // Verwijder de sessie van de gebruiker
@@ -357,10 +359,13 @@ async function fetchFromMongo(collectionRecepten, query = {}, options = {}) {
 function login(req, res) {
     res.render('login', { errorMessage: '' });
 }
+
  
 function account(req, res) {
     res.render('account');
 }
+
+
  
 function authMiddleware(req, res, next) {
     if (!req.session || !req.session.userId) {

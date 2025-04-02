@@ -26,19 +26,20 @@
             <img loading="lazy" src="<%= recipe.thumbnail_url || '/images/default-recipe.jpg' %>" alt="image of the recipe" class="recipe-afbeelding">
             <h2><%= recipe.name %></h2>
 
-            <form action="/toggle-like/<%= recipe._id %>" method="POST" class="like-form">
-                <input type="hidden" name="recipeId" value="<%= recipe._id %>">
-                <input type="hidden" name="recipeName" value="<%= recipe.name %>">
-                
-                <button type="submit" class="like-button <%= recipe.isLiked ? 'liked' : '' %>">
-                    <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M34,9c-4.2,0-7.9,2.1-10,5.4C21.9,11.1,18.2,9,14,9C7.4,9,2,14.4,2,21c0,11.9,22,24,22,24s22-12,22-24
-                            C46,14.4,40.6,9,34,9z"/>
-                    </svg>
-                </button>
-            </form>        
-
+                <form action="/toggle-like/<%= recipe._id %>" method="POST" class="like-form">
+                    <input type="hidden" name="recipeId" value="<%= recipe._id %>">
+                    <input type="hidden" name="recipeName" value="<%= recipe.name %>">
+                    
+        
+                    <button type="submit" class="like-button <%= recipe.isLiked ? 'liked' : '' %>">
+                        <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M34,9c-4.2,0-7.9,2.1-10,5.4C21.9,11.1,18.2,9,14,9C7.4,9,2,14.4,2,21c0,11.9,22,24,22,24s22-12,22-24
+                                C46,14.4,40.6,9,34,9z"/>
+                        </svg>
+                    </button>
+                </form>     
     </div>
+
         <div class="info">
                 <span><%= recipe.total_time_minutes %> Minutes</span>
                 <span><%= recipe.num_servings %> Servings</span>
@@ -78,31 +79,84 @@
 
 
 
-    <section class="rating-function">
-        <h4> What do you think of this recipe?</h4>
-    <div class="rating">
-        <input value="5" name="rating" id="star5" type="radio">
-        <label for="star5"></label>
-        <input value="4" name="rating" id="star4" type="radio">
-        <label for="star4"></label>
-        <input value="3" name="rating" id="star3" type="radio">
-        <label for="star3"></label>
-        <input value="2" name="rating" id="star2" type="radio">
-        <label for="star2"></label>
-        <input value="1" name="rating" id="star1" type="radio">
-        <label for="star1"></label>
-      </div>
-    </section>
 
-    <div class="user-likes-container">
-      <h3 class="like-heading">Dit zijn gebruikers die dit recept ook leuk vinden:</h3>
-      <div id="users-who-liked" data-recipe-id="<%= recipe._id %>" class="user-list"></div>
-      <div class="chat-icon">
-        <img src="https://cdn-icons-png.flaticon.com/512/1384/1384023.png" alt="Chat icoon" width="40">
+
+    <section class="liked-users">
+      <div class="information-liked-users">
+        <h5>Users that liked this recipe:</h5>
+        <p>Make a match and a connection</p>
       </div>
-    </div>
+      <div id="users-who-liked" data-recipe-id="<%= recipe._id %>" class="user-list"></div>
+    </section>
+    
+
 </main>
 <style>
+/* user liked recipe */
+
+
+.liked-users {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background-color: var(--background-recept-cards);
+  border-radius: var(--border-radius-small);
+  box-shadow: var(--box-shadow);
+  margin: 2em;
+}
+
+.information-liked-users {
+  text-align: center;
+}
+
+.information-liked-users h5 {
+  font-size: 20px;
+  margin: 0;
+}
+
+.information-liked-users p {
+  font-size: 16px;
+  margin-top: 5px;
+}
+
+#users-who-liked {
+  display: flex;
+  justify-content: center; 
+  gap: 60px;
+  flex-wrap: wrap;
+}
+
+.user-list .user {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 18px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.user-list .user:hover {
+  transform: scale(1.1);
+}
+
+@media (max-width: 768px) {
+  #users-who-liked {
+    flex-direction: column; 
+    gap: 20px;
+  }
+}
+
+
+@media (min-width: 769px) {
+  #users-who-liked {
+    flex-direction: row;
+  }
+}
+
+
    main {
     display: grid;
     grid-template-columns: 1fr;
@@ -245,7 +299,7 @@ padding: 15px 100px;
   }
   
   summary:hover {
-    background-color: #e0e0e0;
+    background-color: var(--background-recept-cards);
   }
 
   details[open] summary {
@@ -253,88 +307,54 @@ padding: 15px 100px;
     color: var(--color-text-white);
   }
 
+/* users who liked the recipe */
 
-  /* rating function */
-
-
-.rating-function {
-    align-items: center;
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 5em;
-}
-.rating-function h4{
-    font-size: 20px;
-}
-
-  .rating {
-    display: inline-block;
-  }
-  
-  .rating input {
-    display: none;
-  }
-  
-  .rating label {
-    float: right;
-    cursor: pointer;
-    color: #ccc;
-    transition: color 0.3s;
-  }
-  
-  .rating label:before {
-    content: '\2605';
-    font-size: 30px;
-  }
-  
-  .rating input:checked ~ label,
-  .rating label:hover,
-  .rating label:hover ~ label {
-    color: #f4d913;
-    transition: color 0.3s;
-  }
-  
 
 /* like function */
+
 .like-form {
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  z-index: 10;
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    z-index: 10;
+    
 }
 
-/* Style for like button */
+/* style for the like function */
 .like-button {
-  background-color: var(--background-recept-cards);
-  border: none;
-  cursor: pointer;
-  border-radius: var(--border-radius-small);
-  transition: transform 0.3s ease, fill 0.3s ease;
+    background-color: var(--background-recept-cards);
+    border: none;
+    cursor: pointer;
+    border-radius: var(--border-radius-small);
+    transition: transform 0.9s ease, fill 0.3s ease;
 }
 
-/* Static heart */
+/* static heart */
 .like-button svg {
-  cursor: pointer;
-  width: 40px;
-  height: 40px;
-  fill: var(--fill-heart-color);
-  transition: transform 0.3s ease, fill 0.3s ease;
-  background-color: var(--background-recept-cards);
-  padding: 5px;
-  border-radius: var(--border-radius-medium);
+    cursor: pointer;
+    width: 24px;
+    height: 24px;
+    fill: var(--fill-heart-color);
+    transition: transform 0.3s ease, fill 0.3s ease;
+    padding: 5px;
+    border-radius: var(--border-radius-medium);
 }
 
-/* animation when liking */
+/* animation effect by liking */
+
+.like-button svg:hover{
+    fill: var(--background-color-tag-noti);
+    transform: scale(1.3);
+    transition: 500ms;
+}
 .like-button:active svg {
-  fill: var(--fill-heart-color-hover);
-  transform: scale(1.2);
-  transition: 700ms;
+    fill: var(--fill-heart-color-hover);
+    transition: 700ms;
 }
-
-/* if recipe is liked */
+ 
 .like-button.liked svg {
-  fill: var(--fill-heart-color-hover);
-  transform: scale(1.1);
+    fill: var(--fill-heart-color-hover);
+    transform: scale(1.1);
 }
 
 .user-likes-container {
@@ -351,30 +371,6 @@ padding: 15px 100px;
   font-size: 1.2em;
 }
 
-.user-list {
-  list-style-type: none;
-  padding: 0;
-  margin: 0;
-}
-
-.user-list li {
-  padding: 8px 0;
-  border-bottom: 1px solid #eee;
-  display: flex;
-  align-items: center;
-}
-
-.chat-icon {
-  position: absolute;
-  bottom: -20px;
-  right: -20px;
-  cursor: pointer;
-  transition: transform 0.3s ease;
-}
-
-.chat-icon:hover {
-  transform: scale(1.1);
-}
 
 
 
@@ -475,7 +471,6 @@ async function fetchUsersWhoLiked(recipeId) {
       const usersList = document.getElementById('users-who-liked');
       usersList.innerHTML = users.map(user => `
         <div class="user">
-          <img src="${user.avatarUrl}" alt="Avatar" class="avatar">
           <span>${user.username}</span>
         </div>
       `).join('');

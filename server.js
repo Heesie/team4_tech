@@ -67,10 +67,6 @@ app.get('/account', authMiddleware, account);
 app.get('/recipe/:id', getRecipe);
 
 
-app.get('/match-chat', (req, res) => {
-    res.render('match-chat');
-});
-
 
 // Route om uit te loggen
 app.get('/logout', (req, res) => {

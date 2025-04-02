@@ -99,7 +99,7 @@
                 <% if (recipes && recipes.length > 0) { %> 
                     <% recipes.forEach(recipe => { %>
                         <div class="recipe">
-                            <img src="<%= recipe.thumbnail_url || '/images/default-recipe.jpg' %>" alt="Image of the recipe" class="recipe-image">
+                            <img loading="lazy" src="<%= recipe.thumbnail_url || '/images/default-recipe.jpg' %>" alt="Image of the recipe" class="recipe-image">
                             <h3><%= recipe.name %></h3>
                             <p class="recipe-description"><%= recipe.description || "No discription available" %></p>
             
@@ -288,6 +288,7 @@ border: var(--color-input-border-hover);
 .selected-filters {
     text-align: center;
     margin-top: 20px;
+    display: none;
 }
 
 .selected-filters h3 {
@@ -514,6 +515,28 @@ document.addEventListener('click', function (event) {
     }
 });
 });
+
+document.addEventListener("DOMContentLoaded", function () {
+    const selectedFilters = document.querySelector(".selected-filters");
+    const filterItems = selectedFilters.querySelectorAll("li");
+
+    let hasActiveFilter = false; // Gaat checken of er filters actief zijn
+
+    filterItems.forEach(item => {
+        const filterText = item.querySelector("strong").nextSibling.textContent.trim();
+        if (filterText !== "None") { 
+            item.style.display = "flex"; // Alleen tonen als er een waarde is
+            hasActiveFilter = true;
+        } else {
+            item.style.display = "none"; // Verbergen als het "None" is
+        }
+    });
+
+    // Hele sectie verbergen als geen filters actief zijn
+    selectedFilters.style.display = hasActiveFilter ? "block" : "none";
+});
+
+
 
  
 

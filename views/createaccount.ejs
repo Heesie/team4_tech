@@ -31,12 +31,12 @@
                     <input type="email" id="email" name="email" placeholder="Email address" value="<%= email %>" required/>
 
                     <label for="password">Password</label>
-                    <input type="password" id="password" name="password" placeholder="Password." required>
+                    <input type="password" id="password" name="password" placeholder="Password" required>
 
                     <label for="passwordConfirm">Confirm password</label>
                     <input type="password" id="passwordConfirm" name="passwordConfirm" placeholder="Confirm password" required>
 
-                    <input type="submit" value="Create account">
+                    <input type="submit" value="Create account" id="button-create">
                 </form>
 
                 <p>Already have an account? <a href="/login">Log in</a></p>
@@ -47,27 +47,24 @@
 <style>
 
 
-#button-login {
-    background: #578A37;
-    color: white;
-    border: none;
+
+
+#button-create {
+    background: var(--background-color-button);
+    color: var(--text-color-button);
+    border: var(--color-input-border);
     padding: 12px;
     font-size: 16px;
     font-weight: bold;
-    border-radius: 5px;
+    border-radius: var(--border-radius-big);
     cursor: pointer;
     transition: background 0.3s;
   }
   
   #button-login:hover {
-    background: #2C5810;
+    background: var(--background-color-button-hover);
   }
   
-  
-  
-  
-  
-
   
   .wrapper {
     display: flex;
@@ -224,6 +221,11 @@ width: 50%;
             const username = 'user' + Math.floor(Math.random() * 1000);
             document.getElementById('username').value = username;
         }
+
+
+
+
+
     </script>
 </body>
 </html>

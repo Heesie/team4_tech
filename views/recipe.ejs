@@ -87,59 +87,135 @@
         <p>Make a match and a connection</p>
       </div>
       <div id="users-who-liked" data-recipe-id="<%= recipe._id %>" class="user-list"></div>
+      <%_const userLoggedIn = typeof user !== 'undefined' && user; %>
+      <% if (userlogged) { %>
+        <div class="chat-container">
+            <button id="close-chat" class="close-chat-btn">Close chat</button>
+            <div id="chat-box" class="chat-box"></div>
+            <input type="text" id="chat-input" placeholder="Typ een bericht...">
+            <button id="send-message">Send</button>
+        </div>
+    <% } else { %>
+        <p>You have to <a href="/login">log</a> in to see the chat.</p>
+    <% } %>
+    </div>
     </section>
-    
-
 </main>
 <style>
 /* user liked recipe */
 
-
 .liked-users {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 20px;
-  background-color: var(--background-recept-cards);
-  border-radius: var(--border-radius-small);
-  box-shadow: var(--box-shadow);
-  margin: 2em;
+    padding: 20px;
 }
 
 .information-liked-users {
-  text-align: center;
+    text-align: center;
 }
 
 .information-liked-users h5 {
-  font-size: 20px;
-  margin: 0;
+    font-size: 20px;
+    margin: 0;
 }
 
 .information-liked-users p {
-  font-size: 16px;
-  margin-top: 5px;
+    font-size: 16px;
+    margin-top: 5px;
 }
 
 #users-who-liked {
-  display: flex;
-  justify-content: center; 
-  gap: 60px;
-  flex-wrap: wrap;
+    display: flex;
+    justify-content: center; 
+    gap: 40px;
+    flex-wrap: wrap;
 }
 
 .user-list .user {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 18px;
-  font-weight: bold;
-  cursor: pointer;
-  transition: transform 0.2s;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: transform 0.2s;
 }
 
 .user-list .user:hover {
-  transform: scale(1.1);
+    transform: scale(1.1);
+}
+
+.chat-container {
+    border-radius: var(--border-radius-medium);
+    padding: 20px;
+    max-width: 400px;
+    margin: 20px auto;
+    background-color: #B4C7A4;
+    box-shadow: var(--box-shadow);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+}
+
+.chat-container h3 {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.chat-box {
+    height: 220px;
+    overflow-y: auto;
+    padding: 12px;
+    background: var(--background-recept-cards);
+    box-shadow: var(--box-shadow);
+    border-radius: var(--border-radius-small);
+    width: 100%;
+}
+
+.chat-input-container {
+    display: flex;
+    width: 100%;
+    gap: 10px;
+}
+
+#chat-input {
+    flex-grow: 1;
+    padding: 10px;
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius-small);
+    font-size: 14px;
+}
+
+#send-message {
+    padding: 10px 15px;
+    background: var(--background-color-button);
+    color: var(--color-text-white);
+    border: none;
+    border-radius: var(--border-radius-small);
+    cursor: pointer;
+    font-weight: bold;
+    transition: background 0.3s;
+}
+
+#send-message:hover {
+    background: var(--background-color-button-hover);
+}
+
+.close-chat-btn {
+    background-color: var(--background-color-tag-noti);
+    color: var(--color-text-white);
+    border: none;
+    box-shadow: var(--box-shadow);
+    padding: 8px 20px;
+    border-radius: var(--border-radius-medium);
+    cursor: pointer;
+    align-self: flex-end;
+    transition: background 0.3s, transform 0.2s;
+}
+
+.close-chat-btn:hover {
+    background-color: var(--background-color-tag-noti-hover);
+    transform: scale(1.05);
 }
 
 @media (max-width: 768px) {
@@ -155,6 +231,7 @@
     flex-direction: row;
   }
 }
+
 
 
    main {
@@ -247,7 +324,6 @@ border-radius: var(--border-radius-small);
   font-size: 18px;
   line-height: 1.8;
   padding: 8px 0;
-  color: #333;
   transition: all 0.3s ease;
 }
 
@@ -287,7 +363,6 @@ border-radius: var(--border-radius-small);
   }
   
   summary {
-    color: #444;
     font-size: 18px;
     font-weight: 600;
 padding: 15px 100px;
@@ -300,6 +375,7 @@ padding: 15px 100px;
   
   summary:hover {
     background-color: var(--background-recept-cards);
+    color: var(--color-text-desktop);
   }
 
   details[open] summary {
@@ -372,44 +448,8 @@ padding: 15px 100px;
 }
 
 
-
-
-
-    .notification {
-        position: fixed;  
-        top: 100px;
-        right: -400px; 
-        background: var(--background-color-tag-noti);
-        color: var(--color-text-white);
-        border-radius:var(--border-radius-small);
-        font-size: 14px;
-        padding-top: 15px;
-        padding-left: 10px;
-        padding-right: 10px;
-        padding-bottom: 15px;
-        transition: right 0.5s ease-in-out, opacity 0.5s ease-in-out;  
-        box-shadow: var(--box-shadow);
-        z-index: 9999;  
-        opacity: 0; 
-        margin-left: 3em;
-      }
-      
-      .notification.show {
-        right: 20px;  
-        opacity: 1;  
-      }
-      
-      .notification.hide {
-        right: -400px; 
-        opacity: 0;   
-        pointer-events: none; 
-      }
 </style>
 <script>
-
-
-
-
   //  like function
     const notification = document.createElement("div");
     
@@ -488,6 +528,61 @@ async function fetchUsersWhoLiked(recipeId) {
     }
   });
 
+  document.addEventListener("DOMContentLoaded", function () {
+    const usersList = document.getElementById('users-who-liked');
+    const recipeId = usersList.dataset.recipeId; // Haal recipeId op
+ 
+    if (recipeId) {
+      fetchUsersWhoLiked(recipeId);
+    }
+  });
+</script>
+<script src="/socket.io/socket.io.js"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+      const socket = io();
+      const username = "<%= username %>"; // Of gebruik je methoden om de username te krijgen (JWT of sessie)
+ 
+      const recipeId = "<%= recipe._id %>";
+      const chatBox = document.getElementById("chat-box");
+      const chatInput = document.getElementById("chat-input");
+      const sendMessageButton = document.getElementById("send-message");
+ 
+      socket.emit("joinRoom", recipeId);
+ 
+      socket.on("previousMessages", (messages) => {
+          messages.forEach((msg) => appendMessage(msg));
+      });
+ 
+      socket.on("newMessage", (msg) => {
+          appendMessage(msg);
+      });
+ 
+      sendMessageButton.addEventListener("click", () => {
+          const message = chatInput.value.trim();
+          if (message) {
+              socket.emit("sendMessage", {
+                  recipeId,
+                  username: username, // gebruik de naam van de ingelogde gebruiker
+                  message
+              });
+              chatInput.value = "";
+          }
+      });
+ 
+      function appendMessage(msg) {
+          const msgDiv = document.createElement("div");
+          msgDiv.innerHTML = `<strong>${msg.username}:</strong> ${msg.message} <small>${msg.timestamp}</small>`;
+          chatBox.appendChild(msgDiv);
+          chatBox.scrollTop = chatBox.scrollHeight;
+      }
+ 
+      document.getElementById('close-chat').addEventListener('click', () => {
+    const chatContainer = document.querySelector('.chat-container');
+    chatContainer.style.display = 'none';  // Verbergt de chatcontainer
+});
+ 
+  });
 
 </script>
 </body>

@@ -4,10 +4,10 @@ dotenv.config();
  
 // Externe libraries
 const express = require('express');
-const session = require('express-session')
-const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb')
+const session = require('express-session');
+const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 const bcrypt = require('bcryptjs');
-const xss = require('xss')
+const xss = require('xss');
 const validator = require('validator');
 
 // Express applicatie
@@ -25,20 +25,24 @@ app.use(session({
     }
 }))
 
+const http = require('http');
+const socketIo = require('socket.io');
+const server = http.createServer(app);
+const io = socketIo(server);
+
 // Statische bestanden
 app.use(express.static('public'));
 app.use(express.static("static"));
 
 // Maak de verbindingstring voor MongoDB met gegevens uit de .env file
-const uri = `mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@${process.env.DB_HOST}/${process.env.DB_NAME}?retryWrites=true&w=majority`
-// Maak een nieuwe MongoClient aan om verbinding te maken met de MongoDB-database
+const uri = `mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@${process.env.DB_HOST}/${process.env.DB_NAME}?retryWrites=true&w=majority`;
 const client = new MongoClient(uri, {
     serverApi: {
       version: ServerApiVersion.v1,
       strict: true,
       deprecationErrors: true,
     }
-})
+});
 
 async function connectDB() {
     try {
@@ -55,7 +59,8 @@ connectDB();
 const db = client.db(process.env.DB_NAME);
 const recipesCollection = db.collection('recipes');
 const usersCollection = db.collection('users');
- 
+const chatCollection = db.collection('chats');  // MongoDB collecties
+
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use((req, res, next) => {
@@ -85,15 +90,75 @@ app.post('/toggle-like/:recipeId', authMiddleware, async (req, res) => {
 });
 app.post('/createAccount', processRegistration);
 app.post('/login', processLogin);
-
-app.listen(2000, () => console.log("Server running on port 2000"));
+  
+app.get('/chat/:userId', authMiddleware, async (req, res) => {
+    try {
+        const userId = req.params.userId;
+        const currentUserId = req.session.userId;
+ 
+        if (!currentUserId) {
+            return res.redirect('/login');
+        }
+ 
+        const messages = await chatCollection.find({
+            $or: [
+                { senderId: currentUserId, receiverId: userId },
+                { senderId: userId, receiverId: currentUserId }
+            ]
+        }).sort({ timestamp: 1 }).toArray();
+ 
+        res.render('recipe.ejs', { messages });
+    } catch (error) {
+        console.error("Fout bij ophalen van chatberichten:", error);
+        res.status(500).send("Er is een fout opgetreden bij het ophalen van de chat.");
+    }
+});
+ 
+server.listen(2000, () => console.log("Server running on port 2000"));
+ 
+ 
+io.on("connection", (socket) => {
+    console.log("A user connected");
+ 
+ 
+    socket.on("joinRoom", async (recipeId) => {
+        socket.join(recipeId);
+ 
+        try {
+        
+            const messages = await chatCollection.find({ recipeId }).toArray();
+            socket.emit("previousMessages", messages);  
+        } catch (error) {
+            console.error("Fout bij ophalen berichten:", error);
+        }
+    });
+ 
+ 
+    socket.on("sendMessage", async ({ recipeId, username, message }) => {
+        const timestamp = new Date().toISOString();
+        const chatMessage = { recipeId, username, message, timestamp };
+ 
+        try {
+    
+            await chatCollection.insertOne(chatMessage);
+           
+            io.to(recipeId).emit("newMessage", chatMessage);
+        } catch (error) {
+            console.error("Fout bij opslaan bericht:", error);
+        }
+    });
+ 
+    socket.on("disconnect", () => {
+        console.log("A user disconnected");
+    });
+});
 
 async function home(req, res) {
     try {
-        // Gebruik de fetchFromMongo functie om recepten op te halen
-      const recipes = await fetchFromMongo('recipes', {}, { limit: 20 });
-
-        // Haal de gebruiker op (als ingelogd) om liked recipes te controleren
+    
+        const recipes = await fetchFromMongo('recipes', {}, { limit: 20 });
+ 
+   
         let likedRecipes = [];
         if (req.session.userId) {
             try {
@@ -105,25 +170,23 @@ async function home(req, res) {
                 console.error("Error fetching user:", userError);
             }
         }
-
-        // Zorg ervoor dat de recepten correct worden geformatteerd voor de EJS-weergave
+ 
+    
         const formattedRecipes = recipes.map(recipe => ({
-            _id: recipe._id.toString(), // ObjectId naar string converteren
+            _id: recipe._id.toString(),
             name: recipe.name,
             description: recipe.description || 'No description available',
-            thumbnail_url: recipe.thumbnail_url || '/images/default-recipe.jpg', // Standaardafbeelding als er geen beschikbaar is
-            isLiked: likedRecipes.includes(recipe._id.toString()) // Controleer of recept is geliked
+            thumbnail_url: recipe.thumbnail_url || '/images/default-recipe.jpg',
+            isLiked: likedRecipes.includes(recipe._id.toString())
         }));
-
-        // Render de home.ejs met de recepten
+ 
+ 
         res.render('home.ejs', { recipes: formattedRecipes });
     } catch (error) {
         console.error('Error fetching recipes from MongoDB:', error);
-        res.render('home.ejs', { recipes: [] }); // Render een lege lijst bij een fout
+        res.render('home.ejs', { recipes: [] });
     }
-} 
-
- 
+}
 
 async function allrecipes(req, res) {
     try {
@@ -210,18 +273,19 @@ async function getRecipe(req, res) {
         const recipeId = req.params.id;
  
         // Gebruik fetchFromMongo om het recept op te halen
-        const recipes = await fetchFromMongo('recipes', { _id: new ObjectId(recipeId) });
-
+        const recipes = await fetchFromMongo('recepten', { _id: new ObjectId(recipeId) });
+ 
         if (recipes.length === 0) {
             return res.status(404).send("Recipe not found");
         }
  
         const recipe = recipes[0]; // Aangezien we maar één recept ophalen, pakken we het eerste element uit de array
- 
-        res.render('recipe', { recipe });
+        console.log("LIKES", recipe)
+        let userlogged = req.session.userId;
+        res.render('recipe', { recipe, userlogged });
     } catch (error) {
-        console.error("Error fetching recipe:", error);
-        res.status(500).send("An error occurred while fetching the recipe.");
+        console.error("Error fetching recipes:", error);
+        res.status(500).send("An error occurred while fetching the recipe");
     }
 }
  

@@ -275,7 +275,7 @@ async function getRecipe(req, res) {
         const recipes = await fetchFromMongo('recepten', { _id: new ObjectId(recipeId) });
  
         if (recipes.length === 0) {
-            return res.status(404).send("Recept niet gevonden");
+            return res.status(404).send("Recipe not found");
         }
  
         const recipe = recipes[0]; // Aangezien we maar één recept ophalen, pakken we het eerste element uit de array
@@ -283,8 +283,8 @@ async function getRecipe(req, res) {
         let userlogged = req.session.userId;
         res.render('recipe', { recipe, userlogged });
     } catch (error) {
-        console.error("Fout bij ophalen van recept:", error);
-        res.status(500).send("Er is een fout opgetreden bij het ophalen van het recept.");
+        console.error("Error fetching recipes:", error);
+        res.status(500).send("An error occurred while fetching the recipe");
     }
 }
  

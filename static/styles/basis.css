@@ -221,3 +221,13 @@ background-color: rgb(255, 247, 218);
        }
       }
       
+
+      @media (prefers-color-scheme: dark) {
+        .liked-users h5 {
+          color: var(--color-darkmode-text); 
+        }
+      
+        .liked-users p {
+          color: var(--color-darkmode-text);
+        }
+      }

@@ -109,4 +109,4 @@ Deze feedback biedt handvatten voor verbeteringen in toekomstige versies van de 
 ## **Conclusie en Toekomstige Richtingen**
 
 
-De applicatie is goed gestructureerd en biedt een robuuste set van functies, maar er zijn verschillende gebieden waar de prestaties kunnen worden verbeterd en de beveiliging kan worden aangescherpt. Toekomstige iteraties kunnen focussen op het optimaliseren van databasezoekopdrachten, het toevoegen van uitgebreide tests, en het verbeteren van de gebruikerservaring door bijvoorbeeld een real-time benadering voor favorieten en recepten toe te voegen.
+De applicatie is goed opgebouwd en heeft veel handige functies, maar er zijn nog verbeterpunten voor de prestaties. Toekomstige versies kunnen zich richten op het sneller maken van zoekopdrachten in de database en het verbeteren van de gebruikerservaring. Bijvoorbeeld door een real-time systeem toe te voegen voor het beheren van favorieten en recepten.

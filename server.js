@@ -2,32 +2,33 @@ const dotenv = require('dotenv');
 dotenv.config();
  
 const express = require('express');
-const session = require('express-session')
-const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb')
+const session = require('express-session');
+const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 const bcrypt = require('bcryptjs');
-const xss = require('xss')
+const xss = require('xss');
 const validator = require('validator');
 const app = express();
 const http = require('http');
 const socketIo = require('socket.io');
 const server = http.createServer(app);
 const io = socketIo(server);
+ 
 app.use(express.static('public'));
  
 // Maak de verbindingstring voor MongoDB met gegevens uit de .env file
-const uri = `mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@${process.env.DB_HOST}/${process.env.DB_NAME}?retryWrites=true&w=majority`
-// Maak een nieuwe MongoClient aan om verbinding te maken met de MongoDB-database
+const uri = `mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@${process.env.DB_HOST}/${process.env.DB_NAME}?retryWrites=true&w=majority`;
 const client = new MongoClient(uri, {
     serverApi: {
       version: ServerApiVersion.v1,
       strict: true,
       deprecationErrors: true,
     }
-})
+});
  
 const db = client.db(process.env.DB_NAME);
 const recipesCollection = db.collection('recipes');
 const usersCollection = db.collection('users');
+const chatCollection = db.collection('chats');  // MongoDB collecties
  
 // BodyParser instellen om formuliergegevens te verwerken
 const bodyParser = require('body-parser');
@@ -35,70 +36,60 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(express.static("static"));
  
-app.use(express.json())
-app.use(express.urlencoded({ extended: true }))
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
  
 app.use(session({
-    resave: false, // De sessie wordt niet opnieuw opgeslagen op elke aanvraag
-    saveUninitialized: true, // Nieuwe sessie wordt altijd opgeslagen
-    secret: process.env.SESSION_SECRET, // De geheime sleutel om de sessie-id te ondertekenen en te versleutelen
+    resave: false,
+    saveUninitialized: true,
+    secret: process.env.SESSION_SECRET,
     cookie: {
-        httpOnly: true, // Beveiligt tegen XSS
-        secure: process.env.NODE_ENV === 'production', // Alleen HTTPS in productie
-        maxAge: 1000 * 60 * 60 * 24 // Sessieduur: 24 uur
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        maxAge: 1000 * 60 * 60 * 24
     }
-}))
+}));
  
 app.use((req, res, next) => {
-    // Gebruikersgegevens uit de sessie beschikbaar voor de views
-    res.locals.username = req.session.username || null; // Gebruikersnaam
-    res.locals.email = req.session.email || null;       // E-mailadres
- 
-    next(); // Ga verder naar de volgende route
+    res.locals.username = req.session.username || null;
+    res.locals.email = req.session.email || null;
+    next();
 });
  
-app.use('/', express.static('static'))
-app.set('view engine', 'ejs')
-app.set('views', 'views')
-app.get('/', home)
-app.get('/createAccount', createAccount)
-app.get('/favorites', favorites)
+app.use('/', express.static('static'));
+app.set('view engine', 'ejs');
+app.set('views', 'views');
+app.get('/', home);
+app.get('/createAccount', createAccount);
+app.get('/favorites', favorites);
 app.get('/recipes', allrecipes);
-app.get('/header', header)
-app.get('/fetchFromMongo', fetchFromMongo) // Nieuwe route voor API-aanroepen
-app.get('/login', login)
+app.get('/header', header);
+app.get('/fetchFromMongo', fetchFromMongo);
+app.get('/login', login);
 app.get('/account', authMiddleware, account);
 app.get('/recipe/:id', getRecipe);
-
-
-
-// Route om uit te loggen
+ 
 app.get('/logout', (req, res) => {
-    // Verwijder de sessie van de gebruiker
     req.session.destroy((err) => {
         if (err) {
             return res.status(500).send('Error logging out');
         }
-        // Sessie is succesvol verwijderd, stuur door naar de loginpagina
         res.redirect('/login');
-        console.log("Logged out!")
+        console.log("Logged out!");
     });
 });
-
-
-
-
+ 
+ 
 app.get('/chat/:userId', authMiddleware, async (req, res) => {
     try {
-        const userId = req.params.userId; //
-        const currentUserId = req.session.userId; // Ingelogde gebruiker
+        const userId = req.params.userId;
+        const currentUserId = req.session.userId;
  
         if (!currentUserId) {
             return res.redirect('/login');
         }
  
-        
-        const messages = await db.collection('chats').find({
+        const messages = await chatCollection.find({
             $or: [
                 { senderId: currentUserId, receiverId: userId },
                 { senderId: userId, receiverId: currentUserId }
@@ -115,30 +106,43 @@ app.get('/chat/:userId', authMiddleware, async (req, res) => {
 server.listen(2000, () => console.log("Server running on port 2000"));
  
  
-const chatRooms = {}; // Store messages per recipe
- 
 io.on("connection", (socket) => {
     console.log("A user connected");
  
-    socket.on("joinRoom", (recipeId) => {
+ 
+    socket.on("joinRoom", async (recipeId) => {
         socket.join(recipeId);
-        if (!chatRooms[recipeId]) chatRooms[recipeId] = [];
-        socket.emit("previousMessages", chatRooms[recipeId]); // Send chat history
+ 
+        try {
+        
+            const messages = await chatCollection.find({ recipeId }).toArray();
+            socket.emit("previousMessages", messages);  
+        } catch (error) {
+            console.error("Fout bij ophalen berichten:", error);
+        }
     });
  
-    socket.on("sendMessage", ({ recipeId, username, message }) => {
-        const timestamp = new Date().toLocaleTimeString();
-        const chatMessage = { username, message, timestamp };
  
-        chatRooms[recipeId].push(chatMessage);
-        io.to(recipeId).emit("newMessage", chatMessage);
+    socket.on("sendMessage", async ({ recipeId, username, message }) => {
+        const timestamp = new Date().toISOString();
+        const chatMessage = { recipeId, username, message, timestamp };
+ 
+        try {
+    
+            await chatCollection.insertOne(chatMessage);
+           
+            io.to(recipeId).emit("newMessage", chatMessage);
+        } catch (error) {
+            console.error("Fout bij opslaan bericht:", error);
+        }
     });
  
     socket.on("disconnect", () => {
         console.log("A user disconnected");
     });
 });
-
+ 
+ 
 async function connectDB() {
     try {
         await client.connect();
@@ -147,15 +151,15 @@ async function connectDB() {
         console.error("MongoDB connection failed:", error);
     }
 }
-
+ 
 connectDB();
-
+ 
 async function home(req, res) {
     try {
-        // Gebruik de fetchFromMongo functie om recepten op te halen
-      const recipes = await fetchFromMongo('recipes', {}, { limit: 20 });
-
-        // Haal de gebruiker op (als ingelogd) om liked recipes te controleren
+    
+        const recipes = await fetchFromMongo('recipes', {}, { limit: 20 });
+ 
+   
         let likedRecipes = [];
         if (req.session.userId) {
             try {
@@ -167,25 +171,23 @@ async function home(req, res) {
                 console.error("Error fetching user:", userError);
             }
         }
-
-        // Zorg ervoor dat de recepten correct worden geformatteerd voor de EJS-weergave
+ 
+    
         const formattedRecipes = recipes.map(recipe => ({
-            _id: recipe._id.toString(), // ObjectId naar string converteren
+            _id: recipe._id.toString(),
             name: recipe.name,
             description: recipe.description || 'No description available',
-            thumbnail_url: recipe.thumbnail_url || '/images/default-recipe.jpg', // Standaardafbeelding als er geen beschikbaar is
-            isLiked: likedRecipes.includes(recipe._id.toString()) // Controleer of recept is geliked
+            thumbnail_url: recipe.thumbnail_url || '/images/default-recipe.jpg',
+            isLiked: likedRecipes.includes(recipe._id.toString())
         }));
-
-        // Render de home.ejs met de recepten
+ 
+ 
         res.render('home.ejs', { recipes: formattedRecipes });
     } catch (error) {
         console.error('Error fetching recipes from MongoDB:', error);
-        res.render('home.ejs', { recipes: [] }); // Render een lege lijst bij een fout
+        res.render('home.ejs', { recipes: [] });
     }
-} 
-
- 
+}
 
 async function allrecipes(req, res) {
     try {

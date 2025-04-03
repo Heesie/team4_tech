@@ -8,6 +8,10 @@ const bcrypt = require('bcryptjs');
 const xss = require('xss')
 const validator = require('validator');
 const app = express();
+const http = require('http');
+const socketIo = require('socket.io');
+const server = http.createServer(app);
+const io = socketIo(server);
 app.use(express.static('public'));
  
 // Maak de verbindingstring voor MongoDB met gegevens uit de .env file
@@ -81,7 +85,59 @@ app.get('/logout', (req, res) => {
     });
 });
 
-app.listen(2000, () => console.log("Server running on port 2000"));
+
+
+
+app.get('/chat/:userId', authMiddleware, async (req, res) => {
+    try {
+        const userId = req.params.userId; //
+        const currentUserId = req.session.userId; // Ingelogde gebruiker
+ 
+        if (!currentUserId) {
+            return res.redirect('/login');
+        }
+ 
+        
+        const messages = await db.collection('chats').find({
+            $or: [
+                { senderId: currentUserId, receiverId: userId },
+                { senderId: userId, receiverId: currentUserId }
+            ]
+        }).sort({ timestamp: 1 }).toArray();
+ 
+        res.render('recipe.ejs', { messages });
+    } catch (error) {
+        console.error("Fout bij ophalen van chatberichten:", error);
+        res.status(500).send("Er is een fout opgetreden bij het ophalen van de chat.");
+    }
+});
+ 
+server.listen(2000, () => console.log("Server running on port 2000"));
+ 
+ 
+const chatRooms = {}; // Store messages per recipe
+ 
+io.on("connection", (socket) => {
+    console.log("A user connected");
+ 
+    socket.on("joinRoom", (recipeId) => {
+        socket.join(recipeId);
+        if (!chatRooms[recipeId]) chatRooms[recipeId] = [];
+        socket.emit("previousMessages", chatRooms[recipeId]); // Send chat history
+    });
+ 
+    socket.on("sendMessage", ({ recipeId, username, message }) => {
+        const timestamp = new Date().toLocaleTimeString();
+        const chatMessage = { username, message, timestamp };
+ 
+        chatRooms[recipeId].push(chatMessage);
+        io.to(recipeId).emit("newMessage", chatMessage);
+    });
+ 
+    socket.on("disconnect", () => {
+        console.log("A user disconnected");
+    });
+});
 
 async function connectDB() {
     try {
@@ -216,18 +272,19 @@ async function getRecipe(req, res) {
         const recipeId = req.params.id;
  
         // Gebruik fetchFromMongo om het recept op te halen
-        const recipes = await fetchFromMongo('recipes', { _id: new ObjectId(recipeId) });
-
+        const recipes = await fetchFromMongo('recepten', { _id: new ObjectId(recipeId) });
+ 
         if (recipes.length === 0) {
-            return res.status(404).send("Recipe not found");
+            return res.status(404).send("Recept niet gevonden");
         }
  
         const recipe = recipes[0]; // Aangezien we maar één recept ophalen, pakken we het eerste element uit de array
- 
-        res.render('recipe', { recipe });
+        console.log("LIKES", recipe)
+        let userlogged = req.session.userId;
+        res.render('recipe', { recipe, userlogged });
     } catch (error) {
-        console.error("Error fetching recipe:", error);
-        res.status(500).send("An error occurred while fetching the recipe.");
+        console.error("Fout bij ophalen van recept:", error);
+        res.status(500).send("Er is een fout opgetreden bij het ophalen van het recept.");
     }
 }
  

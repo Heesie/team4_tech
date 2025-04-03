@@ -1,20 +1,39 @@
+// Laad omgevingsvariabelen
 const dotenv = require('dotenv');
 dotenv.config();
  
+// Externe libraries
 const express = require('express');
 const session = require('express-session');
 const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 const bcrypt = require('bcryptjs');
 const xss = require('xss');
 const validator = require('validator');
+
+// Express applicatie
 const app = express();
+
+// Configureer sessie-instellingen
+app.use(session({
+    resave: false, // De sessie wordt niet opnieuw opgeslagen op elke aanvraag
+    saveUninitialized: true, // Nieuwe sessie wordt altijd opgeslagen
+    secret: process.env.SESSION_SECRET, // De geheime sleutel om de sessie-id te ondertekenen en te versleutelen
+    cookie: {
+        httpOnly: true, // Beveiligt tegen XSS
+        secure: process.env.NODE_ENV === 'production', // Alleen HTTPS in productie
+        maxAge: 1000 * 60 * 60 * 24 // Sessieduur: 24 uur
+    }
+}))
+
 const http = require('http');
 const socketIo = require('socket.io');
 const server = http.createServer(app);
 const io = socketIo(server);
- 
+
+// Statische bestanden
 app.use(express.static('public'));
- 
+app.use(express.static("static"));
+
 // Maak de verbindingstring voor MongoDB met gegevens uit de .env file
 const uri = `mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@${process.env.DB_HOST}/${process.env.DB_NAME}?retryWrites=true&w=majority`;
 const client = new MongoClient(uri, {
@@ -24,62 +43,54 @@ const client = new MongoClient(uri, {
       deprecationErrors: true,
     }
 });
+
+async function connectDB() {
+    try {
+        await client.connect();
+        console.log("Connected to MongoDB");
+    } catch (error) {
+        console.error("MongoDB connection failed:", error);
+    }
+}
+
+connectDB();
  
+// Verbind met de MongoDB-database
 const db = client.db(process.env.DB_NAME);
 const recipesCollection = db.collection('recipes');
 const usersCollection = db.collection('users');
 const chatCollection = db.collection('chats');  // MongoDB collecties
- 
-// BodyParser instellen om formuliergegevens te verwerken
-const bodyParser = require('body-parser');
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
-app.use(express.static("static"));
- 
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
- 
-app.use(session({
-    resave: false,
-    saveUninitialized: true,
-    secret: process.env.SESSION_SECRET,
-    cookie: {
-        httpOnly: true,
-        secure: process.env.NODE_ENV === 'production',
-        maxAge: 1000 * 60 * 60 * 24
-    }
-}));
- 
+
+app.use(express.json())
+app.use(express.urlencoded({ extended: true }))
 app.use((req, res, next) => {
-    res.locals.username = req.session.username || null;
-    res.locals.email = req.session.email || null;
-    next();
-});
+    // Gebruikersgegevens uit de sessie beschikbaar voor de views
+    res.locals.username = req.session.username || '';
+    res.locals.email = req.session.email || '';
  
-app.use('/', express.static('static'));
-app.set('view engine', 'ejs');
-app.set('views', 'views');
-app.get('/', home);
-app.get('/createAccount', createAccount);
-app.get('/favorites', favorites);
+    next(); // Ga verder naar de volgende route
+});
+app.use('/', express.static('static'))
+
+app.set('view engine', 'ejs')
+app.set('views', 'views')
+app.get('/', home)
+app.get('/createAccount', createAccount)
+app.get('/favorites', favorites)
 app.get('/recipes', allrecipes);
-app.get('/header', header);
-app.get('/fetchFromMongo', fetchFromMongo);
-app.get('/login', login);
+app.get('/header', header)
+app.get('/fetchFromMongo', fetchFromMongo) // Nieuwe route voor API-aanroepen
+app.get('/login', login)
+app.get('/logout', logout)
 app.get('/account', authMiddleware, account);
 app.get('/recipe/:id', getRecipe);
- 
-app.get('/logout', (req, res) => {
-    req.session.destroy((err) => {
-        if (err) {
-            return res.status(500).send('Error logging out');
-        }
-        res.redirect('/login');
-        console.log("Logged out!");
-    });
+
+app.post('/toggle-like/:recipeId', authMiddleware, async (req, res) => {
+    await toggleLikeStatus(req, res);  // Roep de toggleLikeStatus functie aan
 });
- 
- 
+app.post('/createAccount', processRegistration);
+app.post('/login', processLogin);
+  
 app.get('/chat/:userId', authMiddleware, async (req, res) => {
     try {
         const userId = req.params.userId;
@@ -141,19 +152,7 @@ io.on("connection", (socket) => {
         console.log("A user disconnected");
     });
 });
- 
- 
-async function connectDB() {
-    try {
-        await client.connect();
-        console.log("Connected to MongoDB");
-    } catch (error) {
-        console.error("MongoDB connection failed:", error);
-    }
-}
- 
-connectDB();
- 
+
 async function home(req, res) {
     try {
     
@@ -314,22 +313,20 @@ async function favorites(req, res) {
     }
 }
  
- 
- 
-app.post('/toggle-like/:recipeId', authMiddleware, async (req, res) => {
+// Functie voor het toggelen van de like-status van een recept
+async function toggleLikeStatus(req, res) {
     const recipeId = req.params.recipeId;
     const userId = req.session.userId;  // Haal de ingelogde gebruiker uit de sessie
- 
+
     try {
-        
         // Zoek het recept op basis van het recipeId
         const recipe = await recipesCollection.findOne({ _id: new ObjectId(recipeId) });
         if (!recipe) return res.status(404).send("Recipe not found");
- 
+
         // Zoek de gebruiker in de gebruikerscollectie
         const user = await usersCollection.findOne({ _id: new ObjectId(userId) });
         if (!user) return res.status(404).send("User not found");
- 
+
         // Controleer of het recept al geliked is
         const isLiked = user.likes.includes(recipeId);
 
@@ -347,21 +344,20 @@ app.post('/toggle-like/:recipeId', authMiddleware, async (req, res) => {
                 { $addToSet: { likes: recipeId } }  // Voeg het recept toe aan de lijst van likes
             );
         }
- 
+
         // Update de 'isLiked' status van het recept voor pagina van het recept
         await recipesCollection.updateOne(
             { _id: new ObjectId(recipeId) },
             { $set: { isLiked: !isLiked } }
         );
- 
+
         // Redirect terug naar de vorige pagina
         res.redirect(req.get("Referrer") || "/");
     } catch (error) {
         console.error("Error toggling like status:", error);
         res.status(500).send("A server error occurred");
     }
-});
- 
+};
 
 app.get('/users-who-liked/:recipeId', authMiddleware, async (req, res) => {
     const recipeId = req.params.recipeId;
@@ -404,18 +400,29 @@ async function fetchFromMongo(collectionRecipes, query = {}, options = {}) {
     }
 }
 
-  function createAccount(req, res) {
+// Functie om de registratiepagina weer te geven
+function createAccount(req, res) {
     res.render('createAccount', {
         errorMessage: '',
-        email: '',
-        username: ''
+        email: '',        
+        username: ''      
     });
 }
  
 function login(req, res) {
-    res.render('login', { errorMessage: '' });
+    res.render('login', { 
+        errorMessage: '' });
 }
 
+function logout(req, res) {
+    req.session.destroy((err) => {
+        if (err) {
+            return res.status(500).send('Error logging out');
+        }
+        res.redirect('/login');
+        console.log("Logged out!");
+    });
+}
  
 function account(req, res) {
     res.render('account');
@@ -429,23 +436,23 @@ function authMiddleware(req, res, next) {
     next(); // Gebruiker is ingelogd, ga door naar de volgende functie
 }
  
-// Endpoint om (registratie)formuliergegevens te verwerken
-app.post('/createAccount', async (req, res) => {
+// Functie voor het verwerken van registratiegegevens
+async function processRegistration(req, res) {
     let { email, username, password, passwordConfirm } = req.body;
- 
+
     // Sanitizeer de invoer om XSS-aanvallen te voorkomen
     email = xss(email);
     username = xss(username);
     password = xss(password);
     passwordConfirm = xss(passwordConfirm);
- 
+
     // Lege array om foutmeldingen op te slaan
     const errors = [];
- 
+
     if (!validator.isEmail(email)) {
         errors.push('Invalid email address');
     }
- 
+
     // Valideer wachtwoord
     if (!password || password.length === 0) {
         errors.push('Password cannot be empty');
@@ -460,77 +467,80 @@ app.post('/createAccount', async (req, res) => {
     if (password !== passwordConfirm) {
         errors.push('Passwords do not match');
     }
- 
+
     // Als er fouten zijn, geef ze terug aan de gebruiker
     if (errors.length > 0) {
         return res.render('createAccount', {
             errorMessage: errors.join(', '),
-            email: email ,       // E-mail wordt doorgegeven
+            email: email,       // E-mail wordt doorgegeven
             username: username   // Username wordt doorgegeven
         });
     }
- 
+
     try {
         // Controleer of e-mail al bestaat
         const existingUser = await usersCollection.findOne({ email });
         if (existingUser) return res.render('createAccount', { errorMessage: 'E-mail is al geregistreerd' });
- 
+
         // Wachtwoord hashen
         const hashedPassword = await bcrypt.hash(password, 10);
- 
+
         // Voeg gebruiker toe aan database
         await usersCollection.insertOne({ username, email, password: hashedPassword });
- 
+
         console.log("User created:", { username, email });
         res.redirect('/account');
     } catch (err) {
         console.error("Error during registration:", err);
         res.status(500).send("Server error");
     }
-});
+};
  
-// Endpoint om (inlog)formuliergegevens te verwerken
-app.post('/login', async (req, res) => {
+// Functie voor het verwerken van inloggegevens
+async function processLogin(req, res) {
     let { email, password } = req.body;
- 
+
     // Sanitizeer de invoer om XSS-aanvallen te voorkomen
-    email = xss(email);  
+    email = xss(email);
     password = xss(password);
- 
+
     const errors = [];
- 
+
+    // Valideer e-mailadres
     if (!validator.isEmail(email)) {
         errors.push('Invalid email address');
     }
- 
+
+    // Valideer wachtwoord
     if (!password || password.length === 0) {
         errors.push('Password cannot be empty');
     }
- 
+
+    // Als er fouten zijn, geef ze terug aan de gebruiker
     if (errors.length > 0) {
         return res.render('login', { errorMessage: errors.join(', ') });
     }
- 
+
     try {
         // Zoek de gebruiker op e-mail
         const user = await usersCollection.findOne({ email });
         if (!user) {
             return res.render('login', { errorMessage: 'Email not found' });
         }
-    
+
         // Vergelijk het wachtwoord
         const match = await bcrypt.compare(password, user.password);
         if (!match) {
             return res.render('login', { errorMessage: 'Invalid password' });
         }
-        
+
         // Sla de gebruikersgegevens op in de sessie
         req.session.userId = user._id;
         req.session.username = user.username;
         req.session.email = user.email;
-    
+
         console.log("Session after login:", req.session);
-    
+
         req.session.save(err => {
             if (err) {
                 console.error("Error saving session:", err);
@@ -538,12 +548,12 @@ app.post('/login', async (req, res) => {
             }
             res.redirect('/');
         });
-    
+
     } catch (err) {
         console.error("Error during login:", err);
         res.status(500).send("Server error");
     }
-});
+}
 
 function header(req, res) {
     res.render('header.ejs');

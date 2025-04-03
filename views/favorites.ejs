@@ -10,7 +10,9 @@
     
     <%- include('header') %>
 
-  <h1>Your're favorite recipes</h1>
+  <section class="favorites-screen-h2">
+      <h2>Your Favorites</h2>
+  </section>
 
     <section class="recipe-grid">
         <% if (recipes && recipes.length > 0) { %>
@@ -22,6 +24,7 @@
               <form action="/toggle-like/<%= recipe._id %>" method="POST" class="like-form">
                 <input type="hidden" name="recipeId" value="<%= recipe._id %>">
                 <button type="submit" class="like-button">
+                  <img src="/images/trash.svg" alt="">
                 </button>
               </form>
               <a href="/recipe/<%= recipe._id %>">
@@ -36,16 +39,17 @@
 
       <style>
       
-  
+      .favorites-screen-h2 {
+        align-items: center;
+    display: flex;
+font-size: 20px;
+    justify-content: center;
+    margin-top: 2em;
+  }
         
-        .recipe-grid-h2{
-         align-items: center;
-         display: flex;  
-         justify-content: center;
+
         
-        }
-        
-        /* Like functie */
+      
         .like-form {
          position: absolute;
          top: 20px;
@@ -53,7 +57,7 @@
          z-index: 10;
         }
         
-        /* Stijl voor de like-knop */
+       
         .like-button {
          background-color: var(--background-recept-cards);
          border: none;
@@ -62,7 +66,7 @@
          transition: transform 0.3s ease, fill 0.3s ease;
         }
         
-        /* Standaard hartje */
+  
         .like-button svg {
          cursor: pointer;
          width: 24px;
@@ -74,21 +78,25 @@
          border-radius: var(--border-radius-medium);
         }
         
-        /* Geanimeerd effect bij klikken */
+    
         .like-button:active svg {
          fill: var(--fill-heart-color-hover);
          transform: scale(1.2);
          transition: 700ms;
         }
-        
-        /* Als recept is geliket */
-        .like-button.liked svg {
-         fill: var(--fill-heart-color-hover);
-         transform: scale(1.1);
-        }
-      
     
-        /* recept api vormgeving */
+
+        form button img {
+  width: 20px;
+  padding: 10px;
+  transition: transform 0.3s ease, width 0.3s ease;
+}
+
+form button img:hover {
+  transform: scale(1.1); 
+  width: 25px; 
+}
+      /* recipe api styling */
         
         
         .recipe-grid {
@@ -106,7 +114,10 @@
          padding: 15px;
          border-radius: 10px;
          box-shadow: var(--box-shadow);
+
          }
+         
+
          
          .recipe h3 {
          margin-top: 20px;
@@ -118,11 +129,11 @@
          font-size: 14px;
          display: -webkit-box;
          -webkit-box-orient: vertical;
-         -webkit-line-clamp: 2; /* Laat alleen maar  regels zien (van chat) */
+         -webkit-line-clamp: 2; 
          overflow: hidden;
          }
          
-         .recipe button {
+         .recipe a button {
          background-color: var(--background-color-button);
          color: var(--text-color-button);
          border: none;
@@ -133,19 +144,31 @@
          margin-top: auto;
          }
          
-         .recipe button:hover {
+         .recipe a button:hover {
          background-color: var(--background-color-button-hover);
          }
          
          .recipe-image {
-           width: 100%;             /* Zorgt ervoor dat de afbeelding de breedte van de container gebruikt */
-           height: 250px;           /* Stel de hoogte in (pas aan naar de gewenste hoogte) */
+           width: 100%;            
+           height: 250px;           
            object-fit: cover;
          border-radius: var(--border-radius-big);
          position: relative; }
          
          
-     
+@media (min-width: 768px) {
+  .recipe-grid {
+    grid-template-columns: repeat(2, 1fr); 
+  }
+}
+
+
+@media (min-width: 1024px) {
+  .recipe-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
         
         
         </style>

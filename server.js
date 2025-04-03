@@ -73,22 +73,22 @@ app.get('/logout', (req, res) => {
     // Verwijder de sessie van de gebruiker
     req.session.destroy((err) => {
         if (err) {
-            return res.status(500).send('Fout bij het uitloggen');
+            return res.status(500).send('Error logging out');
         }
         // Sessie is succesvol verwijderd, stuur door naar de loginpagina
         res.redirect('/login');
-        console.log("Uitgelogd!")
+        console.log("Logged out!")
     });
 });
 
-app.listen(2000, () => console.log("De server draait op host 2000"));
+app.listen(2000, () => console.log("Server running on port 2000"));
 
 async function connectDB() {
     try {
         await client.connect();
-        console.log("Verbonden met MongoDB");
+        console.log("Connected to MongoDB");
     } catch (error) {
-        console.error("MongoDB verbinding mislukt:", error);
+        console.error("MongoDB connection failed:", error);
     }
 }
 
@@ -108,7 +108,7 @@ async function home(req, res) {
                     likedRecipes = user.likes;
                 }
             } catch (userError) {
-                console.error("Fout bij ophalen van gebruiker:", userError);
+                console.error("Error fetching user:", userError);
             }
         }
 
@@ -116,7 +116,7 @@ async function home(req, res) {
         const formattedRecipes = recipes.map(recipe => ({
             _id: recipe._id.toString(), // ObjectId naar string converteren
             name: recipe.name,
-            description: recipe.description || 'Geen beschrijving beschikbaar',
+            description: recipe.description || 'No description available',
             thumbnail_url: recipe.thumbnail_url || '/images/default-recipe.jpg', // Standaardafbeelding als er geen beschikbaar is
             isLiked: likedRecipes.includes(recipe._id.toString()) // Controleer of recept is geliked
         }));
@@ -124,7 +124,7 @@ async function home(req, res) {
         // Render de home.ejs met de recepten
         res.render('home.ejs', { recipes: formattedRecipes });
     } catch (error) {
-        console.error('Fout bij ophalen van recepten uit MongoDB:', error);
+        console.error('Error fetching recipes from MongoDB:', error);
         res.render('home.ejs', { recipes: [] }); // Render een lege lijst bij een fout
     }
 } 
@@ -142,7 +142,7 @@ async function allrecipes(req, res) {
         const servingsFilter = filters.servings; // Aantal porties filter
         const preptimeFilter = filters.preptime; // Bereidingstijd filter
  
-        console.log("Zoekopdracht en filters:", filters);
+        console.log("search and filters:", filters);
 
         // Bouw de zoekopdracht
         let query = {};
@@ -185,7 +185,7 @@ async function allrecipes(req, res) {
                     likedRecipes = user.likes;
                 }
             } catch (userError) {
-                console.error("Fout bij ophalen van gebruiker:", userError);
+                console.error("Error fetching user:", userError);
             }
         }
  
@@ -195,17 +195,17 @@ async function allrecipes(req, res) {
                 ...recipe,
                 isLiked: likedRecipes.includes(recipe._id.toString()) // Controleer of recept is geliked
             })),
-            message: results.length ? "" : "Geen gerechten gevonden.",
+            message: results.length ? "" : "No recipes found",
             selectedFilters: filters // Voeg geselecteerde filters door aan de view
         });
  
     } catch (error) {
-        console.error("Fout bij ophalen van recepten:", error);
+        console.error("Error fetching recipes:", error);
         
         // Render fallback pagina met foutmelding
         res.render('recipes', {
             recipes: [],
-            message: "Er is een fout opgetreden bij het ophalen van de recepten.",
+            message: "An error occurred while fetching the recipes.",
             selectedFilters: req.query
         });
     }
@@ -219,15 +219,15 @@ async function getRecipe(req, res) {
         const recipes = await fetchFromMongo('recipes', { _id: new ObjectId(recipeId) });
 
         if (recipes.length === 0) {
-            return res.status(404).send("Recept niet gevonden");
+            return res.status(404).send("Recipe not found");
         }
  
         const recipe = recipes[0]; // Aangezien we maar één recept ophalen, pakken we het eerste element uit de array
  
         res.render('recipe', { recipe });
     } catch (error) {
-        console.error("Fout bij ophalen van recept:", error);
-        res.status(500).send("Er is een fout opgetreden bij het ophalen van het recept.");
+        console.error("Error fetching recipe:", error);
+        res.status(500).send("An error occurred while fetching the recipe.");
     }
 }
  
@@ -240,7 +240,7 @@ async function favorites(req, res) {
         const user = await usersCollection.findOne({ _id: new ObjectId(req.session.userId) });
  
         if (!user || !user.likes || user.likes.length === 0) {
-            return res.render('favorites', { recipes: [], message: "Je hebt nog geen favorieten." });
+            return res.render('favorites', { recipes: [], message: "You have no favorites yet." });
         }
  
         // Haal de recepten op die geliket zijn
@@ -250,8 +250,8 @@ async function favorites(req, res) {
  
         res.render('favorites', { recipes: favoriteRecipes, message: "" });
     } catch (error) {
-        console.error("Fout bij ophalen van favorieten:", error);
-        res.status(500).send("Er is een fout opgetreden.");
+        console.error("Error fetching favorites:", error);
+        res.status(500).send("An error occurred.");
     }
 }
  
@@ -265,11 +265,11 @@ app.post('/toggle-like/:recipeId', authMiddleware, async (req, res) => {
         
         // Zoek het recept op basis van het recipeId
         const recipe = await recipesCollection.findOne({ _id: new ObjectId(recipeId) });
-        if (!recipe) return res.status(404).send("Recept niet gevonden");
+        if (!recipe) return res.status(404).send("Recipe not found");
  
         // Zoek de gebruiker in de gebruikerscollectie
         const user = await usersCollection.findOne({ _id: new ObjectId(userId) });
-        if (!user) return res.status(404).send("Gebruiker niet gevonden");
+        if (!user) return res.status(404).send("User not found");
  
         // Controleer of het recept al geliked is
         const isLiked = user.likes.includes(recipeId);
@@ -298,8 +298,8 @@ app.post('/toggle-like/:recipeId', authMiddleware, async (req, res) => {
         // Redirect terug naar de vorige pagina
         res.redirect(req.get("Referrer") || "/");
     } catch (error) {
-        console.error("Fout bij het toggelen van like status:", error);
-        res.status(500).send("Er is een serverfout opgetreden");
+        console.error("Error toggling like status:", error);
+        res.status(500).send("A server error occurred");
     }
 });
  
@@ -317,7 +317,7 @@ app.get('/users-who-liked/:recipeId', authMiddleware, async (req, res) => {
       console.log(users);
   
       if (!users.length) {
-        return res.status(404).send("Geen gebruikers gevonden die dit recept hebben geliked");
+        return res.status(404).send("No users found who liked this recipe");
       }
   
       // Stuur de lijst van gebruikers terug
@@ -325,8 +325,8 @@ app.get('/users-who-liked/:recipeId', authMiddleware, async (req, res) => {
         username: user.username,
       })));
     } catch (error) {
-      console.error("Fout bij het vinden van gebruikers die het recept hebben geliked:", error);
-      res.status(500).send("Er is een serverfout opgetreden");
+      console.error("Error finding users who liked the recipe:", error);
+      res.status(500).send("A server error occurred");
       console.log("Ontvangen recipeId:", recipeId);
     }
   });
@@ -340,7 +340,7 @@ async function fetchFromMongo(collectionRecipes, query = {}, options = {}) {
         const results = await collection.find(query, options).toArray();
         return results;
     } catch (error) {
-        console.error('Fout bij ophalen van gegevens uit MongoDB:', error);
+        console.error('Error fetching data from MongoDB:', error);
         throw error; // Gooi de fout opnieuw om deze hogerop te behandelen
     }
 }
@@ -364,7 +364,7 @@ function account(req, res) {
  
 function authMiddleware(req, res, next) {
     if (!req.session || !req.session.userId) {
-        console.log("Geen actieve sessie of niet ingelogd, doorsturen naar login");
+        console.log("No active session or not logged in, redirecting to login");
         return res.redirect('/login');
     }
     next(); // Gebruiker is ingelogd, ga door naar de volgende functie
@@ -384,22 +384,22 @@ app.post('/createAccount', async (req, res) => {
     const errors = [];
  
     if (!validator.isEmail(email)) {
-        errors.push('Ongeldig e-mailadres');
+        errors.push('Invalid email address');
     }
  
     // Valideer wachtwoord
     if (!password || password.length === 0) {
-        errors.push('Wachtwoord mag niet leeg zijn');
+        errors.push('Password cannot be empty');
     } else if (password.length < 8) {
-        errors.push('Wachtwoord moet minimaal 8 tekens lang zijn');
+        errors.push('Password must be at least 8 characters long');
     } else if (!/[A-Z]/.test(password)) {
-        errors.push('Wachtwoord moet minimaal één hoofdletter bevatten');
+        errors.push('Password must contain at least one uppercase letter');
     } else if (!/[0-9]/.test(password)) {
-        errors.push('Wachtwoord moet minimaal één cijfer bevatten');
+        errors.push('Password must contain at least one number');
     }
- 
+
     if (password !== passwordConfirm) {
-        errors.push('Wachtwoorden komen niet overeen');
+        errors.push('Passwords do not match');
     }
  
     // Als er fouten zijn, geef ze terug aan de gebruiker
@@ -422,10 +422,10 @@ app.post('/createAccount', async (req, res) => {
         // Voeg gebruiker toe aan database
         await usersCollection.insertOne({ username, email, password: hashedPassword });
  
-        console.log("Gebruiker aangemaakt:", { username, email });
+        console.log("User created:", { username, email });
         res.redirect('/account');
     } catch (err) {
-        console.error("Fout bij registreren:", err);
+        console.error("Error during registration:", err);
         res.status(500).send("Server error");
     }
 });
@@ -441,11 +441,11 @@ app.post('/login', async (req, res) => {
     const errors = [];
  
     if (!validator.isEmail(email)) {
-        errors.push('Ongeldig e-mailadres');
+        errors.push('Invalid email address');
     }
  
     if (!password || password.length === 0) {
-        errors.push('Wachtwoord mag niet leeg zijn');
+        errors.push('Password cannot be empty');
     }
  
     if (errors.length > 0) {
@@ -456,13 +456,13 @@ app.post('/login', async (req, res) => {
         // Zoek de gebruiker op e-mail
         const user = await usersCollection.findOne({ email });
         if (!user) {
-            return res.render('login', { errorMessage: 'E-mail niet gevonden' });
+            return res.render('login', { errorMessage: 'Email not found' });
         }
     
         // Vergelijk het wachtwoord
         const match = await bcrypt.compare(password, user.password);
         if (!match) {
-            return res.render('login', { errorMessage: 'Ongeldig wachtwoord' });
+            return res.render('login', { errorMessage: 'Invalid password' });
         }
         
         // Sla de gebruikersgegevens op in de sessie
@@ -470,18 +470,18 @@ app.post('/login', async (req, res) => {
         req.session.username = user.username;
         req.session.email = user.email;
     
-        console.log("Sessie na login:", req.session);
+        console.log("Session after login:", req.session);
     
         req.session.save(err => {
             if (err) {
-                console.error("Fout bij opslaan sessie:", err);
-                return res.status(500).send("Sessie kon niet worden opgeslagen.");
+                console.error("Error saving session:", err);
+                return res.status(500).send("Session could not be saved.");
             }
             res.redirect('/');
         });
     
     } catch (err) {
-        console.error("Fout bij inloggen:", err);
+        console.error("Error during login:", err);
         res.status(500).send("Server error");
     }
 });
@@ -492,13 +492,13 @@ function header(req, res) {
  
 // 404-foutafhandelingsmiddleware
 app.use((req, res) => {
-    res.status(404).send("Pagina niet gevonden");
+    res.status(404).send("Page not found");
 });
  
 // 500-foutafhandelingsmiddleware
 app.use((err, req, res) => {
     console.error(err.stack);
-    res.status(500).send("Er is een serverfout opgetreden!");
+    res.status(500).send("A server error has occurred!");
 });
  
  
@@ -513,7 +513,7 @@ app.get('/home', async (req, res) => {
         const servingsFilter = req.query.porties; // Aantal porties filter
         const bereidingstijdFilter = req.query.bereidingstijd; // Bereidingstijd filter
      
-        console.log("Zoekopdracht en filters:", req.query);
+        console.log("Search query and filters:", req.query);
      
         // Bouw de zoekopdracht
         let query = {};
@@ -545,7 +545,7 @@ app.get('/home', async (req, res) => {
         }
      
         // Verifieer de opgestelde query
-        console.log("Opgebouwde MongoDB query:", JSON.stringify(query, null, 2));
+        console.log("Built MongoDB query:", JSON.stringify(query, null, 2));
      
         // Haal de recepten op uit de database op basis van de opgestelde query
         const recipes = await usersCollection.find(query).toArray();
@@ -553,12 +553,12 @@ app.get('/home', async (req, res) => {
         // Render de pagina met de recepten (of een bericht als er geen recepten zijn)
         res.render('recipes', {
             recipes,
-            message: recipes.length ? "" : "Geen gerechten gevonden.",
+            message: recipes.length ? "" : "No recipes found.",
             selectedFilters: req.query // Voeg geselecteerde filters door aan de view
         });
      
     } catch (error) {
-        console.error("Fout bij ophalen van gerechten:", error);
-        res.render('recipes', { recipes: [], message: "Er is een fout opgetreden." });
+        console.error("Error while retrieving recipes:", error);
+        res.render('recipes', { recipes: [], message: "An error occurred." });
     }
     });

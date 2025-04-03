@@ -94,6 +94,14 @@
 
 
 
+  .grid-page h1 {
+    font-size: clamp(2rem, 3vw, 9rem);
+}
+
+.grid-page h2 {
+  font-size: clamp(1rem, 3vw, 5rem);
+}
+
 
 
   @media (prefers-color-scheme: dark) {
@@ -109,7 +117,7 @@
         color: rgb(0, 0, 0); /* Witte tekst in dark mode */
     }
   }
-    
+      
 
 @media (prefers-color-scheme: dark){
   h1{

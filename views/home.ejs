@@ -73,6 +73,10 @@
   </section>
 
 
+  <div class="notification hide">
+    <p>Dit is een notificatie!</p>
+  </div>
+
 
 <style>
    
@@ -85,7 +89,7 @@
 
 
   .grid-page img {
-    width: 30em;
+    width: 50em;
     max-width: 100%;
   }
   
@@ -115,12 +119,12 @@
 
   .grid-page {
     display: grid;
+  
     grid-template-columns: 1fr 1fr;
     align-items: center;
 margin-left: 10em;
 margin-right: 10em;
-margin-top: -2em;
-
+margin-top: -5em;
 
   }
 
@@ -170,6 +174,7 @@ input:focus::placeholder {
   cursor: pointer;
   padding: 10px 15px;
   transition: background 0.3s ease;
+  margin-top: 1em;
 }
 
 .actions #submit-button:hover {
@@ -371,38 +376,6 @@ padding: 40px;
  
 </style>
 <script>
-  
-// Like notification 
-document.querySelectorAll('.like-form').forEach(form => {
-    form.addEventListener('submit', function(e) {
-        e.preventDefault();
-        const recipeName = this.querySelector('input[name="recipeName"]').value;
-        
-        // Toon de notificatie
-        showNotification(recipeName);
-        
-        // Verstuur het formulier na 100ms (zodat de notificatie zichtbaar wordt)
-        setTimeout(() => this.submit(), 100);
-    });
-});
-
-function showNotification(recipeName) {
-    const notification = document.createElement("div");
-    notification.className = "notification";
-    notification.textContent = `"${recipeName}" is toegevoegd aan je favorieten!`;
-    document.body.appendChild(notification);
-    
-    // Laat de notificatie verschijnen
-    setTimeout(() => notification.classList.add("show"), 10);
-    
-    // Verwijder na 3 seconden
-    setTimeout(() => {
-        notification.classList.remove("show");
-        setTimeout(() => notification.remove(), 300);
-    }, 8000);
-}
-
-
 
 document.querySelectorAll(".like-checkbox").forEach(box => 
     box.addEventListener("change", () => {
@@ -412,7 +385,7 @@ document.querySelectorAll(".like-checkbox").forEach(box =>
         }
     })
 );
-// like notification
+// like notification  
 </script>
 </body>
 </html>
